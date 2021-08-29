@@ -1,0 +1,87 @@
+@use '../../styles/abstracts' as *;
+@use '../../styles/utils' as *;
+
+.page {
+  height: 93vh;
+  padding: 3.5% 7.5%;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: $color-primary;
+    margin-right: 3%;
+  }
+}
+
+.responsive-table {
+  li {
+    border-radius: 1rem;
+    padding: 1.5rem 2rem;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 1.5rem;
+  }
+
+  .table-header {
+    background-color: $color-primary;
+    color: white;
+    opacity: 90%;
+    font-size: 1.15rem;
+    text-transform: uppercase;
+    letter-spacing: 0.03rem;
+  }
+
+  .table-row {
+    background-color: #ffffff;
+    box-shadow: 0 0 0.45rem 0 rgba(0, 0, 0, 0.1);
+    transition: all 0.2s;
+    cursor: pointer;
+
+    &:hover {
+      background-color: lightgrey;
+    }
+  }
+
+  .col-1 {
+    flex-basis: 10%;
+  }
+
+  .col-2 {
+    flex-basis: 40%;
+  }
+
+  .col-3 {
+    flex-basis: 25%;
+  }
+
+  .col-4 {
+    flex-basis: 25%;
+  }
+
+  @media all and (max-width: 767px) {
+    .table-header {
+      display: none;
+    }
+    .table-row {
+
+    }
+    li {
+      display: block;
+    }
+    .col {
+      flex-basis: 100%;
+    }
+    .col {
+      display: flex;
+      padding: 10px 0;
+
+      &:before {
+        color: $color-primary;
+        padding-right: 10px;
+        content: attr(data-label);
+        flex-basis: 50%;
+        text-align: right;
+      }
+    }
+  }
+}
