@@ -22,7 +22,7 @@ namespace Talent.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register(string email, string password)
+        public async Task<IActionResult> Register([FromBody] string email, [FromBody] string password)
         {
             var user = new AppUser() { Email = email };
             var result = await _userManager.CreateAsync(user, password);
@@ -37,7 +37,7 @@ namespace Talent.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login(string email, string password)
+        public async Task<IActionResult> Login([FromBody] string email, [FromBody] string password)
         {
             var user = await _userManager.FindByEmailAsync(email);
             if (user != null)
