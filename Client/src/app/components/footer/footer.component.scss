@@ -1,0 +1,20 @@
+@use '../../styles/abstracts' as *;
+@use '../../styles/utils' as *;
+.footer{
+    background-color:$color-secondary;
+    color: #fff;
+    display: flex;
+    justify-content:center;
+    height:7vh;
+
+    &__content{
+        width: $content-width;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        p{
+            text-align: center;
+            font-size: 1.1rem;
+        }
+    }
+}

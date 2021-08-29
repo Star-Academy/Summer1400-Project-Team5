@@ -1,0 +1,85 @@
+@use '../abstracts'as *;
+
+body {
+  font-family: 'IRANSansWeb', Arial, Helvetica, sans-serif;
+  direction: rtl;
+  position: relative;
+}
+
+li {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  cursor: pointer;
+}
+
+a:visited {
+  color: initial;
+}
+
+img {
+  max-width: 100%;
+}
+
+button {
+  border: none;
+  cursor: pointer;
+  outline: none;
+  background-color: transparent;
+  font-family: inherit;
+}
+
+button:active {
+  outline: none;
+}
+
+input:focus,
+select {
+  outline: none;
+}
+
+input {
+  border: none;
+}
+
+// --- PUBLIC CLASSES
+
+.display-none {
+  display: none !important;
+}
+.display-block {
+  display: block !important;
+}
+.display-flex {
+  display: flex !important;
+}
+.display-initial {
+  display: initial !important;
+}
+.rotate-0{
+  transform: rotate(0);
+}
+.rotate-180{
+  transform: rotate(180deg);
+}
+
+// --- CUSTOM SCROLLBAR
+::-webkit-scrollbar {
+  width: 15px;
+}
+
+::-webkit-scrollbar-track {
+  background: black;
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(56, 56, 56);
+  border-radius: 8px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

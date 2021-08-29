@@ -1,0 +1,14 @@
+@use '../../styles/abstracts' as *;
+.btn {
+    border-radius: 1.4rem;
+    padding: 1rem 1.2rem;
+    color: #fff;
+    transition: background-color 0.3s ease-in-out;
+    cursor: pointer;
+  }
+  .btn--primary {
+    background-color: $color-primary;
+    &:hover {
+      background-color: $color-primary-darker;
+    }
+  }
