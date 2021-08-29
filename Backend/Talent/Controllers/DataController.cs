@@ -1,6 +1,8 @@
 using System;
 using Microsoft.AspNetCore.Mvc;
 using Talent.Models;
+using Talent.Services.Interfaces;
+using Talent.Services.Repositories;
 
 namespace Talent.Controllers
 {
@@ -8,9 +10,16 @@ namespace Talent.Controllers
     [Route("data/")]
     public class DataController
     {
+        private IUnitOfWork _unitOfWork;
+
+        public DataController(IUnitOfWork unitOfWork)
+        {
+            _unitOfWork = unitOfWork;
+        }
+
         [HttpPost]
         [Route("connectsql")]
-        public IActionResult ConnectToSql([FromBody] ConnectionString connectionString)
+        public IActionResult ConnectToSql([FromBody] ConnectionString connectionString, [FromBody] string tableName)
         {
             throw new NotImplementedException();
         }
