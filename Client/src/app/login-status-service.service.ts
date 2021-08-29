@@ -7,4 +7,8 @@ export class LoginStatusServiceService {
   isLoggedIn(): boolean {
     return localStorage.getItem("is-logged-in") == "true";
   }
+
+  logout() {
+    localStorage.setItem("is-logged-in", "false");
+  }
 }
