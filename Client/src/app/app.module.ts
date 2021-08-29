@@ -8,6 +8,7 @@ import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { DataListPageComponent } from './pages/data-list-page/data-list-page.component';
+import { PipesListPageComponent } from './pages/pipes-list-page/pipes-list-page.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { DataListPageComponent } from './pages/data-list-page/data-list-page.com
     FooterComponent,
     LoginPageComponent,
     DataListPageComponent,
+    PipesListPageComponent,
   ],
   imports: [BrowserModule, AppRoutingModule],
   providers: [],
