@@ -6,7 +6,7 @@ import { AppComponent } from './app.component';
 import { HomeComponent } from './pages/home/home.component';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { DataListPageComponent } from './data-list-page/data-list-page.component';
+import { DataListPageComponent } from './pages/data-list-page/data-list-page.component';
 
 @NgModule({
   declarations: [AppComponent, HomeComponent, NavbarComponent, FooterComponent, DataListPageComponent],

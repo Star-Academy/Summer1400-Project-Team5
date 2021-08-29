@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {LoginStatusService} from "../../login-status.service";
+import {LoginStatusService} from "../../services/login-status/login-status.service";
 
 @Component({
   selector: 'app-navbar',
