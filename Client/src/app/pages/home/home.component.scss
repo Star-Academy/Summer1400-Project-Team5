@@ -1,135 +1,126 @@
 @use '../../styles/abstracts' as *;
 @use '../../styles/utils' as *;
 
-h2 {
-  color: $color-primary;
-}
-
-p {
-  text-align: justify;
-}
-
-.landing {
-  display: flex;
-  justify-content: center;
-  height: 93vh;
-
-  &__content {
-    display: flex;
-    justify-content: space-between;
-    width: $content-width;
-    align-items: center;
-    gap: 3rem;
-  }
-
-  &__text {
-    flex-basis: 50%;
-
-    h1 {
-      font-size: 4rem;
-      margin-bottom: 1rem;
-      color: $color-primary;
-    }
-
-    p {
-      font-size: 1.5rem;
-      color: $color-secondary;
-      margin-bottom: 1.4rem;
-    }
-  }
-
-  &__button {
-    padding-inline: 2rem;
-    font-size: 1.5rem;
-  }
-
-  &__pic {
-    flex-basis: 50%;
-    display: flex;
-    justify-content: flex-end;
-
-    img {
-      width: 100%;
-      height: 100%;
-    }
-  }
-}
-
-.how-works {
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &__content {
-    width: $content-width;
+h2{
     color: $color-primary;
-
-    h2 {
-      text-align: center;
-      font-size: 4rem;
-      margin-bottom: 4.4rem;
-    }
-  }
-
-  &__items {
-    display: flex;
-    justify-content: space-between;
-    gap: 2rem;
-  }
-
-  &__item {
-    font-size: 2rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-
-    img {
-      width: 22rem;
-      height: 22rem;
-    }
-
-    h4 {
-      margin-bottom: 4rem;
-    }
-  }
 }
-
-.about {
-  height: 93vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-
-  &__content {
-    width: $content-width;
+p{
+    text-align: justify; 
+}
+.landing{
     display: flex;
-    justify-content: space-between;
-  }
-
-  &__text {
-    flex-basis: 40%;
-    display: flex;
-    flex-direction: column;
     justify-content: center;
-  }
-
-  &__pic {
-    flex-basis: 55%;
-
-    img {
-      width: 63rem;
-      height: 30rem;
+    height: 93vh;
+   &__content{
+       display: flex;
+       justify-content: space-between;
+       width: $content-width;
+       align-items: center;
+       gap: 3rem;
+   }
+   &__text{
+       flex-basis: 50%; 
+       h1{
+           font-size: 4rem;
+           margin-bottom: 1rem;
+           color: $color-primary;
+       }
+       p{
+           font-size: 1.5rem;
+           color: $color-secondary;
+           margin-bottom: 1.4rem;
+       }
+   }
+   &__button{
+      button{
+        padding-inline: 2rem;
+        font-size: 1.5rem;
+      }
+   }
+   &__pic {
+      flex-basis:50%;
+      display:flex;
+      justify-content:flex-end;
+    img{
+        width: 100%;
+        height: 100%;
     }
-  }
-
-  h2 {
-    font-size: 4rem;
-    margin-bottom: 2rem;
-  }
-
-  p {
-    color: $color-secondary;
-    font-size: 1.4rem;
-  }
+   }
 }
+.how-works{ 
+    height:100vh;
+    display: flex;
+    justify-content:center;
+    align-items:center;
+
+    &__content{
+        width:$content-width;
+        color: $color-primary;
+
+        h2{
+            text-align:center;
+            font-size: 4rem;
+            margin-bottom: 4.4rem;
+        }
+    }
+   
+    &__items{
+        display: flex;
+        justify-content:space-between;
+        gap: 2rem;
+    }
+    &__item{
+        font-size: 2rem;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        img{
+            width: 22rem;
+            height: 22rem;
+        }
+        h4{
+            margin-bottom: 4rem;
+        }
+    }
+}
+.about{
+    height:93vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    &__content{
+        width: $content-width;
+        display: flex;
+        justify-content: space-between;
+    }
+    &__text{
+        flex-basis: 40%;
+        display: flex;
+        flex-direction: column;
+        justify-content:center;
+    }
+    &__pic{
+        flex-basis: 55%;
+        img{
+            width: 100%;
+            height:100%;
+        }
+    }
+    h2{
+        font-size: 4rem;
+        margin-bottom: 2rem;
+    }
+    p{
+        color: $color-secondary;
+        font-size: 1.4rem;
+    }
+}
+
+@media only screen and (max-width: 74.99rem) {
+    .landing__content,.about__content{
+        padding-inline: 2rem;
+    }
+
+
+}
+
