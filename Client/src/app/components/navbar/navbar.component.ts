@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import {LoginStatusServiceService} from "../../login-status-service.service";
+import {LoginStatusService} from "../../login-status.service";
 
 @Component({
   selector: 'app-navbar',
@@ -7,5 +7,5 @@ import {LoginStatusServiceService} from "../../login-status-service.service";
   styleUrls: ['./navbar.component.scss']
 })
 export class NavbarComponent {
-  constructor(public loginStatusServiceService: LoginStatusServiceService) { }
+  constructor(public loginStatusService: LoginStatusService) { }
 }

@@ -4,12 +4,12 @@
       <p>لوگو</p>
     </div>
     <div class="nav__text">
-      <a *ngIf="loginStatusServiceService.isLoggedIn()" routerLink="">داده‌ها</a>
-      <a *ngIf="loginStatusServiceService.isLoggedIn()" routerLink="">لوله‌ها</a>
+      <a *ngIf="loginStatusService.isLoggedIn()" routerLink="">داده‌ها</a>
+      <a *ngIf="loginStatusService.isLoggedIn()" routerLink="">لوله‌ها</a>
       <a routerLink="">درباره‌ی ما</a>
-      <a *ngIf="!loginStatusServiceService.isLoggedIn()" routerLink="">ورود</a>
-      <a *ngIf="!loginStatusServiceService.isLoggedIn()" routerLink="">ثبت‌نام</a>
-      <a *ngIf="loginStatusServiceService.isLoggedIn()" routerLink="" (click)="loginStatusServiceService.logout()">خروج</a>
+      <a *ngIf="!loginStatusService.isLoggedIn()" routerLink="">ورود</a>
+      <a *ngIf="!loginStatusService.isLoggedIn()" routerLink="">ثبت‌نام</a>
+      <a *ngIf="loginStatusService.isLoggedIn()" routerLink="" (click)="loginStatusService.logout()">خروج</a>
     </div>
   </div>
 </nav>
