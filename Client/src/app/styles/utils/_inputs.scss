@@ -1,0 +1,11 @@
+@use '../../styles/abstracts' as *;
+.inp {
+  border-radius: 0.3rem;
+  padding: 0.5rem 1rem;
+  color: $color-input-fg;
+  background-color: $color-input-bg;
+  &::placeholder {
+    color: $color-input-pl;
+  }
+  height: 2.8rem;
+}
