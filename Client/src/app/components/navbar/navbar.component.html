@@ -5,7 +5,7 @@
     </div>
     <div class="nav__text">
       <a *ngIf="loginStatusService.isLoggedIn()" routerLink="data">داده‌ها</a>
-      <a *ngIf="loginStatusService.isLoggedIn()" routerLink="">لوله‌ها</a>
+      <a *ngIf="loginStatusService.isLoggedIn()" routerLink="pipes">لوله‌ها</a>
       <a routerLink="">درباره‌ی ما</a>
       <a *ngIf="!loginStatusService.isLoggedIn()" routerLink="">ورود</a>
       <a *ngIf="!loginStatusService.isLoggedIn()" routerLink="">ثبت‌نام</a>

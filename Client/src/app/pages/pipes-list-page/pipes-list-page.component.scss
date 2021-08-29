@@ -1,0 +1,15 @@
+@use '../../styles/abstracts' as *;
+@use '../../styles/utils' as *;
+
+.page {
+  height: 93vh;
+  padding: 3.5% 7.5%;
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: $color-primary;
+    margin-right: 3%;
+  }
+}
+
