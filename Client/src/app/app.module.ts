@@ -10,8 +10,9 @@ import {LoginPageComponent} from './pages/login-page/login-page.component';
 import {DataListPageComponent} from './pages/data-list-page/data-list-page.component';
 import {PipesListPageComponent} from './pages/pipes-list-page/pipes-list-page.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { AddDataDialogComponent } from './dialogs/add-data-dialog/add-data-dialog.component';
+import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
+import {AddDataDialogComponent} from './dialogs/add-data-dialog/add-data-dialog.component';
+import {MatDialogModule} from "@angular/material/dialog";
 
 @NgModule({
   declarations: [
@@ -24,9 +25,18 @@ import { AddDataDialogComponent } from './dialogs/add-data-dialog/add-data-dialo
     PipesListPageComponent,
     AddDataDialogComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, BrowserAnimationsModule],
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    BrowserAnimationsModule,
+    MatDialogModule
+  ],
   providers: [],
   bootstrap: [AppComponent],
+  entryComponents: [
+    AddDataDialogComponent
+  ]
 })
 export class AppModule {
 }
