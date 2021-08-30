@@ -17,6 +17,10 @@
       color: $color-primary;
       border-radius: 999rem;
       transition: all 0.2s;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
 
       &:hover {
         background-color: lightgrey;
