@@ -1,9 +1,22 @@
+using System.ComponentModel.DataAnnotations.Schema;
+using System.ComponentModel.DataAnnotations;
+using System.Reflection.Emit;
 using System.Collections.Generic;
 
 namespace Talent.Data.Entities
 {
-    public class PipelineProcess : Process
+    public class PipelineProcess : IProcessor
     {
-        public List<Process> Processes { get; set; }
+        [Key]
+        public int PipelineProcessId { get; set; }
+        public List<Processor> Processes { get; set; }
+
+        [ForeignKey("Pipeline")]
+        public int PipelineId { get; set; }
+        public Pipeline Pipeline { get; set; }
+        public DataSource Process(DataSource source)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }
