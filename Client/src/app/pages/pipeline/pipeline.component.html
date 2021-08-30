@@ -2,18 +2,16 @@
     <div class="pipeline__content">
         <div class="pipeline-top">
             <div class="pipeline-top__right">
-                <h3>پایپ لاین 1</h3>
+                <h3>{{pipe.name}}</h3>
             </div>
             <div class="pipeline-top__center">
                 <p>
                     <span>
-                        <!-- <fa-icon [icon]="faDatabase" size="xs"></fa-icon>  -->
-                        دیتا 
+                        {{pipe.sourceData?.name ?? "مبدا مشخص نشده"}}
                     </span>
                     <span class="pipeline-top__center__arrow">&larr;</span>
                     <span>
-                        <!-- <fa-icon [icon]="faTable" size="xs"></fa-icon> -->
-                         مقصد 
+                         {{pipe.destinationData?.name ?? "مقصد مشخص نشده"}}
                     </span>
                 </p>
             </div>
@@ -27,13 +25,13 @@
             </div>
         </div>
         <div class="pipeline-top__action-details">
-            action details
+
         </div>
         <div class="pipeline-top__actions-list">
-            actions-list
+
         </div>
         <div class="pipeline-top__demo-table">
-            actions-table
+
         </div>
     </div>
 </div>
