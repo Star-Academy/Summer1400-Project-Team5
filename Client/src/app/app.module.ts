@@ -11,9 +11,10 @@ import {DataListPageComponent} from './pages/data-list-page/data-list-page.compo
 import {PipesListPageComponent} from './pages/pipes-list-page/pipes-list-page.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
-import {AddDataDialogComponent} from './dialogs/add-data-dialog/add-data-dialog.component';
+import {AddDataDialogComponent} from './dialogs/data/add-data-dialog/add-data-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
-import { AddPipeDialogComponent } from './dialogs/add-pipe-dialog/add-pipe-dialog.component';
+import { AddPipeDialogComponent } from './dialogs/pipe/add-pipe-dialog/add-pipe-dialog.component';
+import { DataDetailsDialogComponent } from './dialogs/data/data-details-dialog/data-details-dialog.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { AddPipeDialogComponent } from './dialogs/add-pipe-dialog/add-pipe-dialo
     PipesListPageComponent,
     AddDataDialogComponent,
     AddPipeDialogComponent,
+    DataDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,8 @@ import { AddPipeDialogComponent } from './dialogs/add-pipe-dialog/add-pipe-dialo
   bootstrap: [AppComponent],
   entryComponents: [
     AddDataDialogComponent,
-    AddPipeDialogComponent
+    AddPipeDialogComponent,
+    DataDetailsDialogComponent
   ]
 })
 export class AppModule {
