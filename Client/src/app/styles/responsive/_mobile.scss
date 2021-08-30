@@ -8,6 +8,12 @@
          &__logo{
              display: none !important;
          }
+         &__text{
+             a#link-about{
+                 display: none !important;
+             }
+         }
+
      }
     // --- homepage
     .landing,.about,.how-works{

@@ -3,7 +3,6 @@
 
 .nav {
   display: flex;
-  // display: none;
   justify-content: center;
   height: 7vh;
   padding-top: 1rem;
@@ -35,11 +34,22 @@
       transition: background-color .2s ease-in-out,
       color .2s ease-in-out;
 
-      &:hover {
-        display: inline-block;
-        color: $color-white;
-        background-color: $color-primary;
+      @media only screen and (min-width: 48rem) {
+        &:hover {
+          display: inline-block;
+          color: $color-white;
+          background-color: $color-primary;
+        }
       }
+      
+    }
+  }
+}
+
+@media only screen and (max-width: 74.99rem) {
+  .nav{
+    &__content{
+      padding-inline: .5rem;
     }
   }
 }
