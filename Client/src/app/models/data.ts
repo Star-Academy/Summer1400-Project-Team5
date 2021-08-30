@@ -7,9 +7,13 @@ interface DataConfig {
 }
 
 class CSVDataConfig implements DataConfig {
+  fileAddress = "";
 }
 
 class SQLServerDataConfig implements DataConfig {
+  server = "";
+  username = "";
+  password = "";
 }
 
 export default class Data {
