@@ -11,6 +11,7 @@ import {DataListPageComponent} from './pages/data-list-page/data-list-page.compo
 import {PipesListPageComponent} from './pages/pipes-list-page/pipes-list-page.component';
 import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { AddDataDialogComponent } from './dialogs/add-data-dialog/add-data-dialog.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
     LoginPageComponent,
     DataListPageComponent,
     PipesListPageComponent,
+    AddDataDialogComponent,
   ],
   imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, BrowserAnimationsModule],
   providers: [],
