@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faPlusSquare } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-data-list-page',
@@ -6,4 +7,5 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./data-list-page.component.scss', '../../styles/base/responsive_table.scss']
 })
 export class DataListPageComponent {
+  faPlusSquare = faPlusSquare;
 }
