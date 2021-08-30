@@ -1,4 +1,4 @@
-enum DataType {
+export enum DataType {
   csv,
   sqlServer
 }
@@ -30,6 +30,15 @@ export default class Data {
       case DataType.sqlServer:
         this.config = new SQLServerDataConfig();
         break;
+    }
+  }
+
+  getTypeName(): string {
+    switch (this.type) {
+      case DataType.csv:
+        return "CSV";
+      case DataType.sqlServer:
+        return "SQL Server";
     }
   }
 }

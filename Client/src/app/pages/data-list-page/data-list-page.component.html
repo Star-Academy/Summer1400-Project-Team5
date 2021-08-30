@@ -13,20 +13,27 @@
       <div class="col col-2">نام داده</div>
       <div class="col col-3">نوع</div>
     </li>
-    <li class="table-row">
-      <div class="col col-1" data-label="شناسه">۱</div>
-      <div class="col col-2" data-label="نام داده">داده‌ی نخست</div>
-      <div class="col col-3" data-label="نوع">CSV</div>
+
+    <li class="table-row" *ngFor="let data of allData">
+      <div class="col col-1" data-label="شناسه">{{data.id}}</div>
+      <div class="col col-2" data-label="نام داده">{{data.name}}</div>
+      <div class="col col-3" data-label="نوع">{{data.getTypeName()}}</div>
     </li>
-    <li class="table-row">
-      <div class="col col-1" data-label="شناسه">۲</div>
-      <div class="col col-2" data-label="نام داده">داده‌ی دوم</div>
-      <div class="col col-3" data-label="نوع">SQL Server</div>
-    </li>
-    <li class="table-row">
-      <div class="col col-1" data-label="شناسه">۳</div>
-      <div class="col col-2" data-label="نام داده">داده‌ای جدید</div>
-      <div class="col col-3" data-label="نوع">SQL Server</div>
-    </li>
+
+<!--    <li class="table-row">-->
+<!--      <div class="col col-1" data-label="شناسه">۱</div>-->
+<!--      <div class="col col-2" data-label="نام داده">داده‌ی نخست</div>-->
+<!--      <div class="col col-3" data-label="نوع">CSV</div>-->
+<!--    </li>-->
+<!--    <li class="table-row">-->
+<!--      <div class="col col-1" data-label="شناسه">۲</div>-->
+<!--      <div class="col col-2" data-label="نام داده">داده‌ی دوم</div>-->
+<!--      <div class="col col-3" data-label="نوع">SQL Server</div>-->
+<!--    </li>-->
+<!--    <li class="table-row">-->
+<!--      <div class="col col-1" data-label="شناسه">۳</div>-->
+<!--      <div class="col col-2" data-label="نام داده">داده‌ای جدید</div>-->
+<!--      <div class="col col-3" data-label="نوع">SQL Server</div>-->
+<!--    </li>-->
   </ul>
 </section>
