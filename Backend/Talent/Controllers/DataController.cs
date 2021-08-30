@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Net;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Talent.Data.Entities;
 using Talent.Services.Interfaces;
 
 namespace Talent.Controllers
@@ -15,7 +12,7 @@ namespace Talent.Controllers
     [Route("data/")]
     public class DataController : Controller
     {
-        private IUnitOfWork _unitOfWork;
+        private readonly IUnitOfWork _unitOfWork;
 
         public DataController(IUnitOfWork unitOfWork)
         {
@@ -69,10 +66,26 @@ namespace Talent.Controllers
             throw new NotImplementedException();
         }
 
+        [HttpGet]
+        [Route("csv/download/{id:int}")]
+        public IActionResult DownloadCsv(int id)
+        {
+            throw new NotImplementedException();
+        }
+
         [HttpDelete]
         [Route("sql/delete/{id:int}")]
-        public IActionResult DeleteTable(int id)
+        public IActionResult DeleteSql(int id)
         {
+            _unitOfWork.DataSources.Delete(id);
+            throw new NotImplementedException();
+        }
+
+        [HttpDelete]
+        [Route("csv/delete/{id:int}")]
+        public IActionResult DeleteCsv(int id)
+        {
+            _unitOfWork.DataSources.Delete(id);
             throw new NotImplementedException();
         }
     }
