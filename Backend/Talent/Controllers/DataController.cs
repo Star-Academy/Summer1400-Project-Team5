@@ -1,14 +1,14 @@
 using System;
+using System.Net;
 using Microsoft.AspNetCore.Mvc;
-using Talent.Models;
+using Microsoft.Data.SqlClient;
 using Talent.Services.Interfaces;
-using Talent.Services.Repositories;
 
 namespace Talent.Controllers
 {
     [ApiController]
     [Route("data/")]
-    public class DataController
+    public class DataController : Controller
     {
         private IUnitOfWork _unitOfWork;
 
@@ -19,8 +19,18 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Route("connectsql")]
-        public IActionResult ConnectToSql([FromBody] ConnectionString connectionString, [FromBody] string tableName)
+        public IActionResult CreateDatasetFromSql([FromBody] string connectionString, [FromBody] string tableName)
         {
+            try
+            {
+                using var connection = new SqlConnection(connectionString);
+                connection.Open();
+            }
+            catch
+            {
+                return BadRequest("Cannot connect to sql.");
+            }
+
             throw new NotImplementedException();
         }
 
