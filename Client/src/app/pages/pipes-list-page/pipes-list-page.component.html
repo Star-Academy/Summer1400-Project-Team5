@@ -14,23 +14,11 @@
       <div class="col col-3">داده‌ی مبدا</div>
       <div class="col col-4">داده‌ی مقصد</div>
     </li>
-    <li class="table-row">
-      <div class="col col-1" data-label="شناسه">۱</div>
-      <div class="col col-2" data-label="نام لوله">لوله‌ی نخست</div>
-      <div class="col col-3" data-label="داده‌ی مبدا">داده‌ی نخست</div>
-      <div class="col col-4" data-label="داده‌ی مقصد">داده‌ی نخست</div>
-    </li>
-    <li class="table-row">
-      <div class="col col-1" data-label="شناسه">۲</div>
-      <div class="col col-2" data-label="نام لوله">لوله‌ی دوم</div>
-      <div class="col col-3" data-label="داده‌ی مبدا">داده‌ی دوم</div>
-      <div class="col col-4" data-label="داده‌ی مقصد">داده‌ی دوم</div>
-    </li>
-    <li class="table-row">
-      <div class="col col-1" data-label="شناسه">۳</div>
-      <div class="col col-2" data-label="نام لوله">لوله‌ی جدید</div>
-      <div class="col col-3" data-label="داده‌ی مبدا">داده‌ی نخست</div>
-      <div class="col col-4" data-label="داده‌ی مقصد">داده‌ی دوم</div>
+    <li class="table-row" *ngFor="let pipe of pipes">
+      <div class="col col-1" data-label="شناسه">{{pipe.id}}</div>
+      <div class="col col-2" data-label="نام لوله">{{pipe.name}}</div>
+      <div class="col col-3" data-label="داده‌ی مبدا">{{pipe.sourceData?.name ?? "-"}}</div>
+      <div class="col col-4" data-label="داده‌ی مقصد">{{pipe.destinationData?.name ?? "-"}}</div>
     </li>
   </ul>
 </section>
