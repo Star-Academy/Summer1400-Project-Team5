@@ -8,7 +8,7 @@ import {dateInputsHaveChanged} from "@angular/material/datepicker/datepicker-inp
   styleUrls: ['./s-q-l-server-data-details-dialog.component.scss']
 })
 export class SQLServerDataDetailsDialogComponent implements OnInit {
-  @Input() data = new Data(0, "", DataType.csv);
+  @Input() data = new Data(0, "", DataType.sqlServer);
   server = "";
   username = "";
   password = "";
