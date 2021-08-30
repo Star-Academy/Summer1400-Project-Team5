@@ -2,15 +2,20 @@
     <div class="pipeline__content">
         <div class="pipeline-top">
             <div class="pipeline-top__right">
-                <h3>{{pipe.name}}</h3>
+                <h3>
+                    <img src="assets/images/pipeline/pipe.svg" alt="pipeline">
+                    {{pipe.name}}
+                </h3>
             </div>
             <div class="pipeline-top__center">
                 <p>
                     <span>
+                        <fa-icon [icon]="faDatabase" size="xs"></fa-icon>
                         {{pipe.sourceData?.name ?? "مبدا مشخص نشده"}}
                     </span>
                     <span class="pipeline-top__center__arrow">&larr;</span>
                     <span>
+                        <fa-icon [icon]="faTable" size="xs"></fa-icon>
                          {{pipe.destinationData?.name ?? "مقصد مشخص نشده"}}
                     </span>
                 </p>
@@ -24,13 +29,13 @@
                 </button>
             </div>
         </div>
-        <div class="pipeline-top__action-details">
+        <div class="pipeline__action-details">
 
         </div>
-        <div class="pipeline-top__actions-list">
+        <div class="pipeline__actions-list">
 
         </div>
-        <div class="pipeline-top__demo-table">
+        <div class="pipeline__demo-table">
 
         </div>
     </div>

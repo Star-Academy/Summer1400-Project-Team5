@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 
-import { faDatabase, faTable} from '@fortawesome/free-solid-svg-icons';
+import { faChartPie, faTable} from '@fortawesome/free-solid-svg-icons';
 import {ActivatedRoute} from "@angular/router";
 import Pipe from "../../models/pipe";
 
@@ -10,7 +10,7 @@ import Pipe from "../../models/pipe";
   styleUrls: ['./pipeline.component.scss']
 })
 export class PipelineComponent implements OnInit {
-  faDatabase = faDatabase;
+  faDatabase = faChartPie;
   faTable = faTable;
   pipe = new Pipe(1, "لوله‌ی اول");
 

@@ -22,7 +22,15 @@
       align-items: center;
 
       h3 {
-        font-size: 1.9rem;
+        font-size: 2rem;
+        display: flex;
+        align-items: center;
+        img{
+          margin-left: .7rem;
+          vertical-align: middle;
+          width: 1.4rem;
+          filter:$filter-primary ;
+        }
       }
     }
 
@@ -34,7 +42,7 @@
 
     &__center {
       p {
-        font-size: 1.4rem;
+        font-size: 1.35rem;
         color: $color-secondary !important;
         display: flex;
         align-items: center;
@@ -88,9 +96,9 @@
       }
 
       span {
-        width: 19px;
-        height: 19px;
-        background-image: radial-gradient(circle, $color-white 1.9px, transparent 1.91px);
+        width: 24px;
+        height: 24px;
+        background-image: radial-gradient(circle, $color-white 2.4px, transparent 2.41px);
         background-size: 100% 33.33%;
       }
 
