@@ -1,7 +1,12 @@
 using System;
+using System.Collections.Generic;
+using System.Data;
+using System.Linq;
 using System.Net;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Talent.Data.Entities;
 using Talent.Services.Interfaces;
 
 namespace Talent.Controllers
@@ -28,10 +33,26 @@ namespace Talent.Controllers
             }
             catch
             {
-                return BadRequest("Cannot connect to sql.");
+                return BadRequest("Cannot connect to the sql.");
             }
-
             throw new NotImplementedException();
+        }
+
+        [HttpGet]
+        [Route("sql-table-list")]
+        public ActionResult<List<string>> GetListOfTables([FromBody] string connectionString)
+        {
+            try
+            {
+                using var connection = new SqlConnection(connectionString);
+                connection.Open();
+                var schema = connection.GetSchema("Tables");
+                return (from DataRow row in schema.Rows select row[2].ToString()).ToList();
+            }
+            catch
+            {
+                return BadRequest("Cannot connect to the sql.");
+            }
         }
 
         [HttpGet]
