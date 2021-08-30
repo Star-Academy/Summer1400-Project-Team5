@@ -14,7 +14,7 @@
       <div class="col col-3">داده‌ی مبدا</div>
       <div class="col col-4">داده‌ی مقصد</div>
     </li>
-    <li class="table-row" *ngFor="let pipe of pipes">
+    <li class="table-row" *ngFor="let pipe of pipes" (click)="pipeTapped(pipe)">
       <div class="col col-1" data-label="شناسه">{{pipe.id}}</div>
       <div class="col col-2" data-label="نام لوله">{{pipe.name}}</div>
       <div class="col col-3" data-label="داده‌ی مبدا">{{pipe.sourceData?.name ?? "-"}}</div>
