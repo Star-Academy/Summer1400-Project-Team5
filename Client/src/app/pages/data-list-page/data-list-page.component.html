@@ -14,7 +14,7 @@
       <div class="col col-3">نوع</div>
     </li>
 
-    <li class="table-row" *ngFor="let data of allData">
+    <li class="table-row" *ngFor="let data of allData" (click)="dataTapped(data)">
       <div class="col col-1" data-label="شناسه">{{data.id}}</div>
       <div class="col col-2" data-label="نام داده">{{data.name}}</div>
       <div class="col col-3" data-label="نوع">{{data.getTypeName()}}</div>

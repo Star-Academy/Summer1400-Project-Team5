@@ -17,7 +17,7 @@ import { AddPipeDialogComponent } from './dialogs/pipe/add-pipe-dialog/add-pipe-
 import { SQLServerDataDetailsDialogComponent } from './dialogs/data/sql-data-details-dialog/s-q-l-server-data-details-dialog.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
 import {FormsModule} from "@angular/forms";
-import { CsvServerDataDetailsDialogComponent } from './dialogs/data/csv-server-data-details-dialog/csv-server-data-details-dialog.component';
+import { CSVDataDetailsDialogComponent } from './dialogs/data/csv-server-data-details-dialog/c-s-v-data-details-dialog.component';
 
 @NgModule({
   declarations: [
@@ -32,7 +32,7 @@ import { CsvServerDataDetailsDialogComponent } from './dialogs/data/csv-server-d
     AddPipeDialogComponent,
     SQLServerDataDetailsDialogComponent,
     NotFoundComponent,
-    CsvServerDataDetailsDialogComponent,
+    CSVDataDetailsDialogComponent,
   ],
   imports: [
     BrowserModule,

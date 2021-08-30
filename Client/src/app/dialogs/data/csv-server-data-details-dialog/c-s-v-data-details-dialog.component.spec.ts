@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { CsvServerDataDetailsDialogComponent } from './csv-server-data-details-dialog.component';
+import { CSVDataDetailsDialogComponent } from './c-s-v-data-details-dialog.component';
 
 describe('CsvServerDataDetailsDialogComponent', () => {
-  let component: CsvServerDataDetailsDialogComponent;
-  let fixture: ComponentFixture<CsvServerDataDetailsDialogComponent>;
+  let component: CSVDataDetailsDialogComponent;
+  let fixture: ComponentFixture<CSVDataDetailsDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ CsvServerDataDetailsDialogComponent ]
+      declarations: [ CSVDataDetailsDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(CsvServerDataDetailsDialogComponent);
+    fixture = TestBed.createComponent(CSVDataDetailsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
