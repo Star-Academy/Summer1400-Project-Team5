@@ -9,6 +9,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { LoginPageComponent } from './pages/login-page/login-page.component';
 import { DataListPageComponent } from './pages/data-list-page/data-list-page.component';
 import { PipesListPageComponent } from './pages/pipes-list-page/pipes-list-page.component';
+import { FontAwesomeModule } from '@fortawesome/angular-fontawesome';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,7 @@ import { PipesListPageComponent } from './pages/pipes-list-page/pipes-list-page.
     DataListPageComponent,
     PipesListPageComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule],
+  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule],
   providers: [],
   bootstrap: [AppComponent],
 })
