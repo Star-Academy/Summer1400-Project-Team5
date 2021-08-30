@@ -1,6 +1,16 @@
+@use '../../../styles/abstracts' as *;
+@use '../../../styles/utils' as *;
+
 section {
+  color:$color-secondary;
   h1 {
-    margin-bottom: 1rem;
+    display: flex;
+    margin-bottom: 2rem;
+    img{
+      width:1rem;
+      margin-left: .4rem;
+      filter:$filter-secondary;
+    }
   }
 
   input, select {
