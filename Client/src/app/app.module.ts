@@ -15,6 +15,7 @@ import {AddDataDialogComponent} from './dialogs/data/add-data-dialog/add-data-di
 import {MatDialogModule} from "@angular/material/dialog";
 import { AddPipeDialogComponent } from './dialogs/pipe/add-pipe-dialog/add-pipe-dialog.component';
 import { DataDetailsDialogComponent } from './dialogs/data/data-details-dialog/data-details-dialog.component';
+import { NotFoundComponent } from './pages/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { DataDetailsDialogComponent } from './dialogs/data/data-details-dialog/d
     AddDataDialogComponent,
     AddPipeDialogComponent,
     DataDetailsDialogComponent,
+    NotFoundComponent,
   ],
   imports: [
     BrowserModule,
