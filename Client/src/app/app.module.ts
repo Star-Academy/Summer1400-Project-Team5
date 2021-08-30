@@ -13,6 +13,7 @@ import {FontAwesomeModule} from '@fortawesome/angular-fontawesome';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AddDataDialogComponent} from './dialogs/add-data-dialog/add-data-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
+import { AddPipeDialogComponent } from './dialogs/add-pipe-dialog/add-pipe-dialog.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import {MatDialogModule} from "@angular/material/dialog";
     DataListPageComponent,
     PipesListPageComponent,
     AddDataDialogComponent,
+    AddPipeDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -35,7 +37,8 @@ import {MatDialogModule} from "@angular/material/dialog";
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
-    AddDataDialogComponent
+    AddDataDialogComponent,
+    AddPipeDialogComponent
   ]
 })
 export class AppModule {
