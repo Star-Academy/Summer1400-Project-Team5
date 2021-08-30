@@ -6,11 +6,11 @@ export enum DataType {
 interface DataConfig {
 }
 
-class CSVDataConfig implements DataConfig {
+export class CSVDataConfig implements DataConfig {
   fileAddress = "";
 }
 
-class SQLServerDataConfig implements DataConfig {
+export class SQLServerDataConfig implements DataConfig {
   server = "";
   username = "";
   password = "";

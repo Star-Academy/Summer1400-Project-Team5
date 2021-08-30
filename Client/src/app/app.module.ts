@@ -14,8 +14,9 @@ import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {AddDataDialogComponent} from './dialogs/data/add-data-dialog/add-data-dialog.component';
 import {MatDialogModule} from "@angular/material/dialog";
 import { AddPipeDialogComponent } from './dialogs/pipe/add-pipe-dialog/add-pipe-dialog.component';
-import { DataDetailsDialogComponent } from './dialogs/data/data-details-dialog/data-details-dialog.component';
+import { SQLServerDataDetailsDialogComponent } from './dialogs/data/sql-data-details-dialog/s-q-l-server-data-details-dialog.component';
 import { NotFoundComponent } from './pages/not-found/not-found.component';
+import {FormsModule} from "@angular/forms";
 
 @NgModule({
   declarations: [
@@ -28,7 +29,7 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     PipesListPageComponent,
     AddDataDialogComponent,
     AddPipeDialogComponent,
-    DataDetailsDialogComponent,
+    SQLServerDataDetailsDialogComponent,
     NotFoundComponent,
   ],
   imports: [
@@ -36,14 +37,15 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
     AppRoutingModule,
     FontAwesomeModule,
     BrowserAnimationsModule,
-    MatDialogModule
+    MatDialogModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [
     AddDataDialogComponent,
     AddPipeDialogComponent,
-    DataDetailsDialogComponent
+    SQLServerDataDetailsDialogComponent
   ]
 })
 export class AppModule {

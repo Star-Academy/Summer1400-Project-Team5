@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DataDetailsDialogComponent } from './data-details-dialog.component';
+import { SQLServerDataDetailsDialogComponent } from './s-q-l-server-data-details-dialog.component';
 
 describe('DataDetailsDialogComponent', () => {
-  let component: DataDetailsDialogComponent;
-  let fixture: ComponentFixture<DataDetailsDialogComponent>;
+  let component: SQLServerDataDetailsDialogComponent;
+  let fixture: ComponentFixture<SQLServerDataDetailsDialogComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ DataDetailsDialogComponent ]
+      declarations: [ SQLServerDataDetailsDialogComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DataDetailsDialogComponent);
+    fixture = TestBed.createComponent(SQLServerDataDetailsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

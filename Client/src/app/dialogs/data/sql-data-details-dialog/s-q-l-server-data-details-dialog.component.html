@@ -1,0 +1,24 @@
+<section class="login-page__main__form-container">
+  <h1>ویرایش اطلاعات
+  {{data.name}}
+  </h1>
+  <form class="login-form">
+    <label class="login-form__label">
+      <div class="login-form__label__title">آدرس سرور SQL</div>
+      <input class="inp login-form__label__input" type="url" [(ngModel)]="server"/>
+    </label>
+    <label class="login-form__label">
+      <div class="login-form__label__title">نام کاربری SQL</div>
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="username"/>
+    </label>
+    <label class="login-form__label">
+      <div class="login-form__label__title">رمز عبور SQL</div>
+      <input class="inp login-form__label__input" type="password" [(ngModel)]="password"/>
+    </label>
+
+    <div class="login-form__submit">
+      <button class="btn btn--primary btn--capsole btn--wide">ثبت تغییرات</button>
+      <button class="btn btn--secondary btn--capsole btn--wide">حذف داده از لیست</button>
+    </div>
+  </form>
+</section>
