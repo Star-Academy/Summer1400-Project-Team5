@@ -1,6 +1,10 @@
+@use '../../../styles/abstracts' as *;
+@use '../../../styles/utils' as *;
+
 section {
+  color: $color-secondary;
   h1 {
-    margin-bottom: 1rem;
+    margin-bottom: 2rem;
   }
 
   input, select {
