@@ -10,5 +10,13 @@ namespace Talent.Models
         public int SourceId { get; set; }
         public int DestinationId { get; set; }
         public int NumberOfProcesses { get; set; }
+        
+        public PipelineModel(string name, int sourceId, int destinationId)
+        {
+            Name = name;
+            SourceId = sourceId;
+            DestinationId = destinationId;
+            NumberOfProcesses = 0;
+        }
     }
 }

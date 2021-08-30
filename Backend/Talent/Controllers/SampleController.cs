@@ -16,7 +16,7 @@ namespace Talent.Controllers
 
         public async Task<IEnumerable<DataSource>> GetDataSources()
         {
-            return await _unitOfWork.DataSources.GetAll();
+            return await _unitOfWork.DataSources.GetAllAsync();
         }
     }
 }
