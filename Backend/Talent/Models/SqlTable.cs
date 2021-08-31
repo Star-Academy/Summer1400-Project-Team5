@@ -5,41 +5,37 @@ using Microsoft.Data.SqlClient;
 
 namespace Talent.Models
 {
-    public class SqlTable : ITable
+    public class SqlTable
     {
         private List<string> _columnNames;
         private SqlConnection _connection;
         private string _tableName;
 
-        public SqlTable(string connectionString, string tableName)
+        public SqlTable(SqlConnection connection, string tableName)
         {
             _columnNames = new List<string>();
-            try
-            {
-                _connection = new SqlConnection(connectionString);
-                _connection.Open();
-                _tableName = tableName;
-            }
-            catch
-            {
-                throw new Exception("Cannot connect to the database server.");
-            }
-            InitializeColumnNames();
+            _tableName = tableName;
+            _connection = connection;
         }
 
-        private void InitializeColumnNames()
+        public void LoadTableFromExistingOne(SqlConnection oldTableConnection, string oldTableName)
         {
-            var queryString = $"SELECT name FROM sys.columns WHERE object_id = OBJECT_ID('{_tableName}');";
-            var command = new SqlCommand(queryString, _connection);
-            using var reader = command.ExecuteReader();
-            while (reader.Read())
-                _columnNames.Add(reader.GetString("name"));
-            reader.Close();
+            DropTable(_connection, _tableName);
+            var queryString = @$"SELECT * INTO {_connection.Database}.dbo.{_tableName} FROM 
+                                {oldTableConnection.Database}.dbo.{oldTableName}";
+            var sqlCommand = new SqlCommand(queryString, _connection);
+            sqlCommand.ExecuteNonQuery();
         }
 
-        public ITable CloneTable()
+        private void DropTable(SqlConnection tableConnection, string tableName)
         {
-            throw new NotImplementedException();
+            var queryString = "" +
+                              @$"IF OBJECT_ID('{tableConnection.Database}.dbo.{tableName}') IS NOT NULL
+                               BEGIN
+                                  DROP TABLE {tableName};
+                               END;";
+            var sqlCommand = new SqlCommand(queryString, tableConnection);
+            sqlCommand.ExecuteNonQuery();
         }
     }
 }

@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Talent.Models;
 using Talent.Services.Interfaces;
 
 namespace Talent.Controllers
@@ -21,11 +22,11 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Route("connectsql")]
-        public IActionResult CreateDatasetFromSql([FromBody] string connectionString, [FromBody] string tableName)
+        public IActionResult CreateDatasetFromSql([FromBody] ConnectionString connectionString, [FromBody] string tableName)
         {
             try
             {
-                using var connection = new SqlConnection(connectionString);
+                using var connection = new SqlConnection(connectionString.ToString());
                 connection.Open();
             }
             catch

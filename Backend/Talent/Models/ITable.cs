@@ -5,6 +5,6 @@ namespace Talent.Models
 {
     public interface ITable
     {
-        public ITable CloneTable();
+
     }
 }
