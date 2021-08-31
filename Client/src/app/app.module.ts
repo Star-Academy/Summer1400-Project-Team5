@@ -25,6 +25,7 @@ import { EditActionDialogComponent } from './dialogs/pipe/edit-action-dialog/edi
 import { DataTableComponent } from './components/data-table/data-table.component';
 import {MatTableModule} from "@angular/material/table";
 import { ServerRequestDialogComponent } from './dialogs/server-request-dialog/server-request-dialog.component';
+import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 
 @NgModule({
   declarations: [
@@ -54,7 +55,8 @@ import { ServerRequestDialogComponent } from './dialogs/server-request-dialog/se
     BrowserAnimationsModule,
     MatDialogModule,
     FormsModule,
-    MatTableModule
+    MatTableModule,
+    MatProgressSpinnerModule
   ],
   providers: [],
   bootstrap: [AppComponent],
