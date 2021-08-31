@@ -12,7 +12,7 @@ namespace Talent.Models
                 Name = pipelineModel.Name,
                 DestinationId = pipelineModel.DestinationId,
                 SourceId = pipelineModel.SourceId,
-                OwnerId = 
+                //OwnerId = //TODO
             };
         }
         public static PipelineModel GetPipelineModel(Pipeline pipelineModel)
