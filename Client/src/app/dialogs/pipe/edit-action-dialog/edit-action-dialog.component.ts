@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { faCogs } from '@fortawesome/free-solid-svg-icons';
 
 @Component({
   selector: 'app-edit-action-dialog',
@@ -6,6 +7,7 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./edit-action-dialog.component.scss']
 })
 export class EditActionDialogComponent implements OnInit {
+  faCogs = faCogs;
 
   constructor() { }
 
