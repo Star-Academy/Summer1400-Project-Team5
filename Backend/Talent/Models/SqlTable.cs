@@ -5,17 +5,15 @@ using Microsoft.Data.SqlClient;
 
 namespace Talent.Models
 {
-    public class SqlTable
+    public class SqlTable : ITable
     {
-        private List<string> _columnNames;
         private SqlConnection _connection;
         private string _tableName;
 
         public SqlTable(SqlConnection connection, string tableName)
         {
-            _columnNames = new List<string>();
-            _tableName = tableName;
             _connection = connection;
+            _tableName = tableName;
         }
 
         public void LoadTableFromExistingOne(SqlConnection oldTableConnection, string oldTableName)

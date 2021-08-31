@@ -4,6 +4,7 @@ using System.Data;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Services.Interfaces;
 
@@ -14,10 +15,20 @@ namespace Talent.Controllers
     public class DataController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
+        private readonly SqlConnection _serverConnection;
 
-        public DataController(IUnitOfWork unitOfWork)
+        public DataController(IUnitOfWork unitOfWork, SqlConnection serverConnection)
         {
             _unitOfWork = unitOfWork;
+            _serverConnection = serverConnection;
+            try
+            {
+                _serverConnection.Open();
+            }
+            catch
+            {
+                throw new Exception("Cannot connect to the server database.");
+            }
         }
 
         [HttpPost]
@@ -28,28 +39,33 @@ namespace Talent.Controllers
             {
                 using var connection = new SqlConnection(connectionString.ToString());
                 connection.Open();
+                var newTable = new SqlTable(_serverConnection, tableName); //TODO tableName can be changed to a custom name
+                newTable.LoadTableFromExistingOne(connection, tableName);
+                var dataSourceList = _unitOfWork.DataSourcesList.GetAll().Result.First();
+                dataSourceList.DataSources.Add(new DataSource(newTable));
+                _unitOfWork.DataSourcesList.Update(dataSourceList);
+                return Ok();
             }
             catch
             {
-                return BadRequest("Cannot connect to the sql.");
+                return BadRequest("Cannot connect to the database.");
             }
-            throw new NotImplementedException();
         }
 
         [HttpGet]
         [Route("sql-table-list")]
-        public ActionResult<List<string>> GetListOfTables([FromBody] string connectionString)
+        public ActionResult<List<string>> GetListOfTables([FromBody] ConnectionString connectionString)
         {
             try
             {
-                using var connection = new SqlConnection(connectionString);
+                using var connection = new SqlConnection(connectionString.ToString());
                 connection.Open();
                 var schema = connection.GetSchema("Tables");
                 return (from DataRow row in schema.Rows select row[2].ToString()).ToList();
             }
             catch
             {
-                return BadRequest("Cannot connect to the sql.");
+                return BadRequest("Cannot connect to the database.");
             }
         }
 

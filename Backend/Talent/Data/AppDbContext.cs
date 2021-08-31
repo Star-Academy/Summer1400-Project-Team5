@@ -23,5 +23,6 @@ namespace Talent.Data
         public DbSet<Pipeline> Pipelines { get; set; }
         public DbSet<PipelineProcess> PipelineProcesses { get; set; }
         public DbSet<TempDataSource> TempDataSources { get; set; }
+        public DbSet<DataList> DataSourcesList { get; set; }
     }
 }
