@@ -26,6 +26,7 @@ import { DataTableComponent } from './components/data-table/data-table.component
 import {MatTableModule} from "@angular/material/table";
 import { ServerRequestDialogComponent } from './dialogs/server-request-dialog/server-request-dialog.component';
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {HttpClientModule} from "@angular/common/http";
 
 @NgModule({
   declarations: [
@@ -56,7 +57,8 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     MatDialogModule,
     FormsModule,
     MatTableModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent],

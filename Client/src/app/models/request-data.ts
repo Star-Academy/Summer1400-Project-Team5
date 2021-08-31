@@ -9,10 +9,12 @@ export default class RequestData {
   endpoint: string;
   method: RequestMethod;
   body: any;
+  callback: any | null;
 
-  constructor(endpoint: string, method: RequestMethod, body: any) {
+  constructor(endpoint: string, method: RequestMethod, body: any, callback: any | null) {
     this.endpoint = endpoint;
     this.method = method;
     this.body = body;
+    this.callback = callback
   }
 }
