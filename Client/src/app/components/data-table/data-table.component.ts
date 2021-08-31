@@ -10,6 +10,20 @@ export class DataTableComponent implements OnInit {
   dataSource = [
     {position: 1, name: "سلام"},
     {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
+    {position: 2, name: "خدا حافظ"},
   ]
 
   displayedColumns = ["position", "name"];
