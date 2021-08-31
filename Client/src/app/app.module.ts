@@ -24,6 +24,7 @@ import { EditActionDialogComponent } from './dialogs/pipe/edit-action-dialog/edi
 import { DataTableComponent } from './components/data-table/data-table.component';
 import { ServerRequestDialogComponent } from './dialogs/server-request-dialog/server-request-dialog.component';
 import { MaterialModule } from './material/material.module';
+import { HttpClientModule } from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -46,7 +47,16 @@ import { MaterialModule } from './material/material.module';
     DataTableComponent,
     ServerRequestDialogComponent,
   ],
-  imports: [BrowserModule, AppRoutingModule, FontAwesomeModule, BrowserAnimationsModule, FormsModule, MaterialModule],
+
+  imports: [
+    BrowserModule,
+    AppRoutingModule,
+    FontAwesomeModule,
+    BrowserAnimationsModule,
+    FormsModule,
+    MaterialModule,
+    HttpClientModule,
+  ],
   providers: [],
   bootstrap: [AppComponent],
   entryComponents: [

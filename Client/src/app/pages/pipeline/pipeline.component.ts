@@ -33,7 +33,9 @@ export class PipelineComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
-    dialogConfig.data = new RequestData("run-pipe", RequestMethod.GET, {}); // TODO: This should be changed, obviously
+    dialogConfig.data = new RequestData("run-pipe", RequestMethod.GET, {}, () => {
+      console.log("callback!")
+    }); // TODO: This should be changed, obviously
     this.dialog.open(ServerRequestDialogComponent, dialogConfig);
   }
 }
