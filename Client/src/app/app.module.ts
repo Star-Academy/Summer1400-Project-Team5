@@ -22,7 +22,8 @@ import { CSVDataDetailsDialogComponent } from './dialogs/data/csv-server-data-de
 import { ActionsListComponent } from './components/actions-list/actions-list.component';
 import { ActionItemComponent } from './components/action-item/action-item.component';
 import { EditActionDialogComponent } from './dialogs/pipe/edit-action-dialog/edit-action-dialog.component';
-import { DataTableComponent } from './data-table/data-table.component';
+import { DataTableComponent } from './components/data-table/data-table.component';
+import {MatTableModule} from "@angular/material/table";
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { DataTableComponent } from './data-table/data-table.component';
     FontAwesomeModule,
     BrowserAnimationsModule,
     MatDialogModule,
-    FormsModule
+    FormsModule,
+    MatTableModule
   ],
   providers: [],
   bootstrap: [AppComponent],
