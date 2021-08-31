@@ -21,6 +21,7 @@ import {FormsModule} from "@angular/forms";
 import { CSVDataDetailsDialogComponent } from './dialogs/data/csv-server-data-details-dialog/c-s-v-data-details-dialog.component';
 import { ActionsListComponent } from './components/actions-list/actions-list.component';
 import { ActionItemComponent } from './components/action-item/action-item.component';
+import { EditActionDialogComponent } from './dialogs/pipe/edit-action-dialog/edit-action-dialog.component';
 
 @NgModule({
   declarations: [
@@ -39,6 +40,7 @@ import { ActionItemComponent } from './components/action-item/action-item.compon
     PipelineComponent,
     ActionsListComponent,
     ActionItemComponent,
+    EditActionDialogComponent,
   ],
   imports: [
     BrowserModule,
