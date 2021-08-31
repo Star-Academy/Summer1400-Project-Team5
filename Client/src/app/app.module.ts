@@ -19,7 +19,8 @@ import { NotFoundComponent } from './pages/not-found/not-found.component';
 import { PipelineComponent } from './pages/pipeline/pipeline.component';
 import {FormsModule} from "@angular/forms";
 import { CSVDataDetailsDialogComponent } from './dialogs/data/csv-server-data-details-dialog/c-s-v-data-details-dialog.component';
-import { ActionsListComponent } from './actions-list/actions-list.component';
+import { ActionsListComponent } from './components/actions-list/actions-list.component';
+import { ActionItemComponent } from './components/action-item/action-item.component';
 
 @NgModule({
   declarations: [
@@ -37,6 +38,7 @@ import { ActionsListComponent } from './actions-list/actions-list.component';
     CSVDataDetailsDialogComponent,
     PipelineComponent,
     ActionsListComponent,
+    ActionItemComponent,
   ],
   imports: [
     BrowserModule,
