@@ -6,7 +6,7 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 @Component({
   selector: 'app-csv-server-data-details-dialog',
   templateUrl: './c-s-v-data-details-dialog.component.html',
-  styleUrls: ['./c-s-v-data-details-dialog.component.scss']
+  styleUrls: ['./c-s-v-data-details-dialog.component.scss', '../../../styles/base/dialogs.scss']
 })
 export class CSVDataDetailsDialogComponent implements OnInit {
   fileAddress = "";

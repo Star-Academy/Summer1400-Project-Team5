@@ -6,7 +6,7 @@ import {MAT_DIALOG_DATA} from "@angular/material/dialog";
 @Component({
   selector: 'app-data-details-dialog',
   templateUrl: './s-q-l-server-data-details-dialog.component.html',
-  styleUrls: ['./s-q-l-server-data-details-dialog.component.scss']
+  styleUrls: ['./s-q-l-server-data-details-dialog.component.scss', '../../../styles/base/dialogs.scss']
 })
 export class SQLServerDataDetailsDialogComponent implements OnInit {
   server = "";
