@@ -84,5 +84,15 @@ namespace Talent.Controllers
         {
             return _userManager.GetUserId(User);
         }
+
+        [HttpPost]
+        [Route("[controller]/actions/{pipelineId:int}")]
+        public async Task<IActionResult> Processes(int pipelineId, [FromBody] IList<ProcessModel> processModels)
+        {
+            var pipelineProcess = await _unitOfWork.PipelineProcesses.GetAsync(p => p.PipelineId == pipelineId);
+            var processors = await _unitOfWork.Processes
+                .GetAllAsync(p => p.PipelineProcessId == pipelineProcess.PipelineProcessId);
+            _unitOfWork.Processes.DeleteRange(processors);
+        }
     }
 }
