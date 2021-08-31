@@ -41,9 +41,7 @@ namespace Talent.Controllers
                 connection.Open();
                 var newTable = new SqlTable(_serverConnection, tableName); //TODO tableName can be changed to a custom name
                 newTable.LoadTableFromExistingOne(connection, tableName);
-                var dataSourceList = _unitOfWork.DataSourcesList.GetAll().Result.First();
-                dataSourceList.DataSources.Add(new DataSource(newTable));
-                _unitOfWork.DataSourcesList.Update(dataSourceList);
+                _unitOfWork.DataSources.Insert(new DataSource(newTable));
                 return Ok();
             }
             catch

@@ -16,7 +16,6 @@ namespace Talent.Services.Repositories
         private IGenericRepository<Pipeline> _pipelines;
         private IGenericRepository<PipelineProcess> _pipelineProcesses;
         private IGenericRepository<TempDataSource> _tempDataSources;
-        private IGenericRepository<DataList> _dataSourcesList;
 
         private readonly AppDbContext _dbContext;
         public UnitOfWork(AppDbContext dbContext)
@@ -33,8 +32,6 @@ namespace Talent.Services.Repositories
         public IGenericRepository<PipelineProcess> PipelineProcesses => _pipelineProcesses ??= new GenericRepository<PipelineProcess>(_dbContext);
 
         public IGenericRepository<TempDataSource> TempDataSources => _tempDataSources ??= new GenericRepository<TempDataSource>(_dbContext);
-
-        public IGenericRepository<DataList> DataSourcesList => _dataSourcesList ??= new GenericRepository<DataList>(_dbContext);
 
         public void Dispose()
         {
