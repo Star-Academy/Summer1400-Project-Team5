@@ -7,11 +7,24 @@ namespace Talent.Models
     {
         public static Pipeline GetPipeline(PipelineModel pipelineModel)
         {
-            throw new NotImplementedException();
+            return new Pipeline()
+            {
+                Name = pipelineModel.Name,
+                DestinationId = pipelineModel.DestinationId,
+                SourceId = pipelineModel.SourceId,
+                OwnerId = 
+            };
         }
         public static PipelineModel GetPipelineModel(Pipeline pipelineModel)
         {
-            throw new NotImplementedException();
+            return new PipelineModel()
+            {
+                Name = pipelineModel.Name,
+                Processors = pipelineModel.Process.Processes,
+                DestinationId = pipelineModel.DestinationId,
+                SourceId = pipelineModel.SourceId,
+                NumberOfProcesses = pipelineModel.Process.Processes.Count
+            };
         }
     }
 }

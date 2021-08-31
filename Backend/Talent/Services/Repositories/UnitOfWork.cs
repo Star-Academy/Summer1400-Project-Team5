@@ -13,8 +13,10 @@ namespace Talent.Services.Repositories
         private IGenericRepository<PipelineProcess> _pipelineProcesses;
         private IGenericRepository<Processor> _processes;
         private IGenericRepository<TempDataSource> _tempDataSources;
-
+        private IGenericRepository<GroupByColumn> _groupByColumns;
+        
         private readonly AppDbContext _dbContext;
+        
         public UnitOfWork(AppDbContext dbContext)
         {
             _dbContext = dbContext;
@@ -26,6 +28,9 @@ namespace Talent.Services.Repositories
         public IGenericRepository<PipelineProcess> PipelineProcesses => _pipelineProcesses ??= new GenericRepository<PipelineProcess>(_dbContext);
 
         public IGenericRepository<TempDataSource> TempDataSources => _tempDataSources ??= new GenericRepository<TempDataSource>(_dbContext);
+
+        public IGenericRepository<GroupByColumn> GroupByColumns =>
+            _groupByColumns ??= new GenericRepository<GroupByColumn>(_dbContext);
 
 
         public void Dispose()

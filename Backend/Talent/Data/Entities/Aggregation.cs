@@ -1,13 +1,17 @@
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using Talent.Models;
 
 namespace Talent.Data.Entities
 {
-    public class Aggregation
+    public class Aggregation : Processor
     {
-        [Key]
-        public int AggregationKey { get; set; }
-
         public AggregationMethod Method { get; set; }
+        public List<GroupByColumn> Columns { get; set; }
+        public string AggregationColumn { get; set; }
+        public override DataSource Process(DataSource source)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

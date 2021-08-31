@@ -87,12 +87,58 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Route("[controller]/actions/{pipelineId:int}")]
-        public async Task<IActionResult> Processes(int pipelineId, [FromBody] IList<ProcessModel> processModels)
+        public async Task<IActionResult> Processes(int pipelineId, [FromBody] List<AggregationModel> aggregations, 
+            [FromBody] List<FilterModel> filters, [FromBody] List<JoinModel> joins)
         {
             var pipelineProcess = await _unitOfWork.PipelineProcesses.GetAsync(p => p.PipelineId == pipelineId);
             var processors = await _unitOfWork.Processes
                 .GetAllAsync(p => p.PipelineProcessId == pipelineProcess.PipelineProcessId);
             _unitOfWork.Processes.DeleteRange(processors);
+
+
+            foreach (var aggregationModel in aggregations)
+            {
+                Processor aggregate = new Aggregation()
+                {
+                    Method = aggregationModel.Method,
+                    AggregationColumn = aggregationModel.AggregateColumn,
+                };
+                await _unitOfWork.Processes.InsertAsync(aggregate);
+                foreach (var groupColumn in aggregationModel.GroupColumns)
+                {
+                    await _unitOfWork.GroupByColumns.InsertAsync(new GroupByColumn()
+                    {
+                        AggregationId = aggregate.ProcessId,
+                        ColumnName = groupColumn
+                    });
+                }
+            }
+            
+            foreach (var joinModel in joins)
+            {
+                await _unitOfWork.Processes.InsertAsync(new Join()
+                {
+                    Index = joinModel.Index, 
+                    ProcessType = joinModel.ProcessType,
+                    PipelineProcessId = pipelineProcess.PipelineProcessId,
+                    JoinMethod = joinModel.JoinMethod,
+                    AddSourceId = joinModel.AddSourceId,
+                    SourceKey = joinModel.SourceKey,
+                    AddSourceKey = joinModel.AddSourceKey
+                });
+            }
+            
+            foreach (var filterModel in filters)
+            {
+                await _unitOfWork.Processes.InsertAsync(new Filter()
+                {
+                    Index = filterModel.Index,
+                    ProcessType = filterModel.ProcessType,
+                    PipelineProcessId = pipelineProcess.PipelineProcessId
+                });
+                //TODO: add Tree
+            }
+            
         }
     }
 }

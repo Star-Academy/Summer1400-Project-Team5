@@ -12,6 +12,7 @@ namespace Talent.Services.Interfaces
         public IGenericRepository<PipelineProcess> PipelineProcesses { get; }
         public IGenericRepository<TempDataSource> TempDataSources { get; }
 
+        public IGenericRepository<GroupByColumn> GroupByColumns { get; }
         public Task Save();
     }
 }
