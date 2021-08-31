@@ -24,6 +24,7 @@ import { ActionItemComponent } from './components/action-item/action-item.compon
 import { EditActionDialogComponent } from './dialogs/pipe/edit-action-dialog/edit-action-dialog.component';
 import { DataTableComponent } from './components/data-table/data-table.component';
 import {MatTableModule} from "@angular/material/table";
+import { ServerRequestDialogComponent } from './dialogs/server-request-dialog/server-request-dialog.component';
 
 @NgModule({
   declarations: [
@@ -44,6 +45,7 @@ import {MatTableModule} from "@angular/material/table";
     ActionItemComponent,
     EditActionDialogComponent,
     DataTableComponent,
+    ServerRequestDialogComponent,
   ],
   imports: [
     BrowserModule,
@@ -60,7 +62,8 @@ import {MatTableModule} from "@angular/material/table";
     AddDataDialogComponent,
     AddPipeDialogComponent,
     SQLServerDataDetailsDialogComponent,
-    EditActionDialogComponent
+    EditActionDialogComponent,
+    ServerRequestDialogComponent
   ]
 })
 export class AppModule {
