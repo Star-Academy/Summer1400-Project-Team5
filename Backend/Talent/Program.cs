@@ -6,27 +6,41 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using Talent.Models;
+using Talent.Models.JsonSettings;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
 namespace Talent
 {
+
+  
     public class Program
     {
+
+        class A
+        {
+            public string name;
+        }
+
+        class B
+        {
+            public string name;
+            public List<A> _list = new();
+        }
         public static void Main(string[] args)
         {
-            BooleanPhraseModel booleanPhraseModel = new BooleanPhraseModel();
-            BooleanExpressionModel<int> expressionModel = new BooleanExpressionModel<int>("ali",123);
-            BooleanExpressionModel<string> expressionModel1 = new BooleanExpressionModel<string>("mmd","123");
-            booleanPhraseModel.OperatorType = BooleanOperator.AND;
-            expressionModel.OperatorType = BooleanOperator.OR;
-            expressionModel1.OperatorType = BooleanOperator.AND;
-            booleanPhraseModel.Children.Add(expressionModel);
-            booleanPhraseModel.Children.Add(expressionModel1);
-            var serialize = JsonSerializer.Serialize(booleanPhraseModel);
-            Console.WriteLine(serialize);
-            
-            // CreateHostBuilder(args).Build().Run();
+            CreateHostBuilder(args).Build().Run();
+        }
+
+        private static BooleanPhraseModel BooleanPhraseModel(string a)
+        {
+            BooleanPhraseModel booleanPhrase = new BooleanPhraseModel();
+            booleanPhrase.OperatorType = BooleanOperator.AND;
+            var bool1 = new BooleanExpressionModel("name", a);
+            booleanPhrase.Children.AddRange(new[] {bool1});
+            return booleanPhrase;
         }
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>

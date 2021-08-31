@@ -8,7 +8,6 @@ using Microsoft.AspNetCore.Mvc;
 using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Services.Interfaces;
-using Talent.Services.Repositories;
 
 namespace Talent.Controllers
 {
@@ -93,6 +92,7 @@ namespace Talent.Controllers
             var processors = await _unitOfWork.Processes
                 .GetAllAsync(p => p.PipelineProcessId == pipelineProcess.PipelineProcessId);
             _unitOfWork.Processes.DeleteRange(processors);
+            throw new Exception();
         }
     }
 }
