@@ -55,7 +55,8 @@ import { EditActionDialogComponent } from './dialogs/pipe/edit-action-dialog/edi
   entryComponents: [
     AddDataDialogComponent,
     AddPipeDialogComponent,
-    SQLServerDataDetailsDialogComponent
+    SQLServerDataDetailsDialogComponent,
+    EditActionDialogComponent
   ]
 })
 export class AppModule {
