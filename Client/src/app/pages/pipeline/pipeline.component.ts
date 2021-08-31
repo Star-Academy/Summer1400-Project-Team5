@@ -1,8 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 
-import { faChartPie, faTable} from '@fortawesome/free-solid-svg-icons';
+import {faChartPie, faTable} from '@fortawesome/free-solid-svg-icons';
 import {ActivatedRoute} from "@angular/router";
 import Pipe from "../../models/pipe";
+import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
+import {ServerRequestDialogComponent} from "../../dialogs/server-request-dialog/server-request-dialog.component";
+import RequestData, {RequestMethod} from "../../models/request-data";
 
 @Component({
   selector: 'app-pipeline',
@@ -14,7 +17,7 @@ export class PipelineComponent implements OnInit {
   faTable = faTable;
   pipe = new Pipe(1, "لوله‌ی اول");
 
-  constructor(private route: ActivatedRoute) { }
+  constructor(private route: ActivatedRoute, private dialog: MatDialog) { }
 
   async loadPipe(id: number): Promise<Pipe> {
     return Promise.resolve(new Pipe(2, "لوله‌ی دوم"));
@@ -26,4 +29,11 @@ export class PipelineComponent implements OnInit {
     });
   }
 
+  runPipeTapped(): void {
+    const dialogConfig = new MatDialogConfig();
+    dialogConfig.autoFocus = true;
+    dialogConfig.disableClose = true;
+    dialogConfig.data = new RequestData("run-pipe", RequestMethod.GET, {}); // TODO: This should be changed, obviously
+    this.dialog.open(ServerRequestDialogComponent, dialogConfig);
+  }
 }
