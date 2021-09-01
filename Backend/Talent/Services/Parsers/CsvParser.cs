@@ -59,7 +59,9 @@ namespace Talent.Services.Parsers
 
         private void AddNewRecordToTable(Table table, CsvReader csvReader)
         {
-            
+            var newRow = _sqlMiddleware.CreateTableRow(csvReader);
+            table.ExecutionManager.ConnectionContext.ExecuteNonQuery(
+                _sqlMiddleware.GetAddRowQueryString(table, newRow));
         }
     }
 }
