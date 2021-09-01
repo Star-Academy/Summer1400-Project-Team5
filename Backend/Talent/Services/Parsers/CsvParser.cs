@@ -2,11 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using LumenWorks.Framework.IO.Csv;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Smo;
 using Talent.Models;
-using Talent.Services.Converters;
 using Talent.Services.Interfaces;
 
 namespace Talent.Services.Parsers
@@ -62,7 +59,7 @@ namespace Talent.Services.Parsers
 
         private void AddNewRecordToTable(Table table, CsvReader csvReader)
         {
-
+            
         }
     }
 }
