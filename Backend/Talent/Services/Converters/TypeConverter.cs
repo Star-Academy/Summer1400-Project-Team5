@@ -1,7 +1,7 @@
 using System;
 using System.ComponentModel;
 
-namespace Talent.Services.Converter
+namespace Talent.Services.Converters
 {
     public class TypeConverter
     {
