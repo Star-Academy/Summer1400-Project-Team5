@@ -40,9 +40,6 @@ namespace Talent.Controllers
             {
                 using var connection = new SqlConnection(connectionString.ToString());
                 connection.Open();
-                var newTable = new SqlTable(_serverConnection, tableName); //TODO tableName can be changed to a custom name
-                newTable.LoadTableFromExistingOne(connection, tableName);
-                _unitOfWork.DataSources.Insert(new DataSource(newTable));
                 return Ok();
             }
             catch

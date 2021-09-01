@@ -1,12 +1,13 @@
+using Microsoft.SqlServer.Management.Smo;
 using Talent.Models;
 
 namespace Talent.Data.Entities
 {
     public class DataSource
     {
-        public ITable dataSource { get; set; }
+        public Table dataSource { get; set; }
 
-        public DataSource(ITable dataSource)
+        public DataSource(Table dataSource)
         {
             this.dataSource = dataSource;
         }

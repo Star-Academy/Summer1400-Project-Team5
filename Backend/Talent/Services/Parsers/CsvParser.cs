@@ -1,16 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using LumenWorks.Framework.IO.Csv;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Data.SqlClient;
-using Talent.Models;
+using Microsoft.SqlServer.Management.Smo;
 using Talent.Services.Interfaces;
 
-namespace Talent.Services
+namespace Talent.Services.Parsers
 {
-    public class CsvParser : IFileParser
+    public class CsvParser : IParser
     {
         private IFormFile _formFile;
         private bool _hasHeader;
@@ -25,13 +24,13 @@ namespace Talent.Services
             _delimiter = delimiter;
         }
 
-        public ITable ConvertToTable(SqlConnection connectionString, string tableName)
+        public Table ConvertToTable(SqlConnection connectionString, string tableName)
         {
-            ITable resultTable = new SqlTable(connectionString, tableName);
             using (var csvReader = new CsvReader(new StreamReader(_formFile.OpenReadStream()), _hasHeader))
             {
-                var fieldCount = csvReader.FieldCount;
                 var headers = ExtractHeaders(csvReader);
+                csvReader.ReadNextRecord();
+
                 while (csvReader.ReadNextRecord())
                 {
 
