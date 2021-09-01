@@ -1,4 +1,3 @@
-using Microsoft.Data.SqlClient;
 using Microsoft.SqlServer.Management.Smo;
 using Talent.Services.Interfaces;
 
@@ -13,7 +12,7 @@ namespace Talent.Services.Parsers
             _oldTable = oldTable;
         }
 
-        public Table ConvertToTable(SqlConnection connectionString, string tableName)
+        public Table ConvertToTable(Database database)
         {
             throw new System.NotImplementedException();
         }

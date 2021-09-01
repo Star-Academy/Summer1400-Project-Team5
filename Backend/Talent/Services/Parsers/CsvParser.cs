@@ -24,7 +24,7 @@ namespace Talent.Services.Parsers
             _delimiter = delimiter;
         }
 
-        public Table ConvertToTable(SqlConnection connectionString, string tableName)
+        public Table ConvertToTable(Database database)
         {
             using (var csvReader = new CsvReader(new StreamReader(_formFile.OpenReadStream()), _hasHeader))
             {
