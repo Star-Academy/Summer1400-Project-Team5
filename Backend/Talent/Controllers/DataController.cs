@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Talent.Data.Entities;
@@ -48,6 +49,13 @@ namespace Talent.Controllers
             {
                 return BadRequest("Cannot connect to the database.");
             }
+        }
+
+        [HttpPost]
+        [Route("uploadcsv")]
+        public IActionResult CreateDatabaseFromCsv([FromBody] IFormFile csvFile, [FromBody] bool hasHeader, [FromBody] char separator)
+        {
+            throw new NotImplementedException();
         }
 
         [HttpGet]
