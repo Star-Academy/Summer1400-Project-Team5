@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,6 +10,7 @@ using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using Talent.Models;
+using Talent.Models.Boolean;
 using Talent.Models.JsonSettings;
 using JsonSerializer = System.Text.Json.JsonSerializer;
 
@@ -21,14 +23,9 @@ namespace Talent
 
         class A
         {
-            public string name;
+            public int balance;
         }
-
-        class B
-        {
-            public string name;
-            public List<A> _list = new();
-        }
+        
         public static void Main(string[] args)
         {
             CreateHostBuilder(args).Build().Run();

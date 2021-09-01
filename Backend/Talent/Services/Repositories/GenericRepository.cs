@@ -9,7 +9,7 @@ using Talent.Services.Interfaces;
 
 namespace Talent.Services.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class 
     {
         private readonly AppDbContext _dbContext;
         public readonly DbSet<T> _dbSet;

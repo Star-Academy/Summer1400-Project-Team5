@@ -1,4 +1,4 @@
-namespace Talent.Models
+namespace Talent.Models.Boolean
 {
     public interface IChekable
     {

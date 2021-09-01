@@ -1,11 +1,10 @@
-using System;
 using Talent.Data.Entities;
 
-namespace Talent.Models
+namespace Talent.Models.Convertors
 {
-    public static class PipelineAdapter
+    public static class PipelineConvertor
     {
-        public static Pipeline GetPipeline(PipelineModel pipelineModel)
+        public static Pipeline ConvertPipeline(PipelineModel pipelineModel)
         {
             return new Pipeline()
             {
@@ -15,7 +14,7 @@ namespace Talent.Models
                 //OwnerId = //TODO
             };
         }
-        public static PipelineModel GetPipelineModel(Pipeline pipelineModel)
+        public static PipelineModel ConvertPipelineModel(Pipeline pipelineModel)
         {
             return new PipelineModel()
             {

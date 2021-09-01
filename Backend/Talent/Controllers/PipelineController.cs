@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Talent.Data.Entities;
 using Talent.Models;
+using Talent.Models.Convertors;
 using Talent.Services.Interfaces;
 
 namespace Talent.Controllers
@@ -29,7 +30,7 @@ namespace Talent.Controllers
         {
             string userId = _userManager.GetUserId(User);
             var listPipelines = await _unitOfWork.Pipelines.GetAllAsync(p => p.OwnerId == userId);
-            var listPipelineModels = listPipelines.Select(PipelineAdapter.GetPipelineModel).ToList();
+            var listPipelineModels = listPipelines.Select(PipelineConvertor.ConvertPipelineModel).ToList();
             return Ok(listPipelineModels);
         }
 
@@ -75,7 +76,7 @@ namespace Talent.Controllers
             string userId = GetUserId();
             var pipeline = await _unitOfWork.Pipelines
                 .GetAsync(p => p.OwnerId == userId && p.PipelineId == pipelineId);
-            PipelineModel pipelineModel = PipelineAdapter.GetPipelineModel(pipeline);
+            PipelineModel pipelineModel = PipelineConvertor.ConvertPipelineModel(pipeline);
             return pipelineModel;
         }
 
@@ -137,6 +138,7 @@ namespace Talent.Controllers
                 //TODO: add Tree
             }
 
+            throw new NotImplementedException();
         }
     }
 }
