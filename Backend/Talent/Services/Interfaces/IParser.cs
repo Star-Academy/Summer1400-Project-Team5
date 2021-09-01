@@ -4,6 +4,6 @@ namespace Talent.Services.Interfaces
 {
     public interface IParser
     {
-        public Table ConvertToTable(Database database);
+        public Table ConvertToTable(Database database, string tableName);
     }
 }

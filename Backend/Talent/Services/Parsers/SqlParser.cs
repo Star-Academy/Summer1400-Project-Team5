@@ -12,7 +12,7 @@ namespace Talent.Services.Parsers
             _oldTable = oldTable;
         }
 
-        public Table ConvertToTable(Database database)
+        public Table ConvertToTable(Database database, string tableName)
         {
             throw new System.NotImplementedException();
         }
