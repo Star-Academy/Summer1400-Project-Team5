@@ -32,6 +32,26 @@ namespace Talent.Models
                 CheckConnection(connection);
             }
         }
+        
+        public SqlDataReader ExecuteReader(SqlConnection connection, string queryString)
+        {
+            CheckConnection(connection);
+            try
+            {
+                connection.Open();
+                var command = new SqlCommand(queryString, connection);
+                return command.ExecuteReader();
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw new Exception("Cannot open sql connection.");
+            }
+            // finally
+            // {
+            //     CheckConnection(connection);
+            // }
+        }
 
         private void CheckConnection(SqlConnection connection)
         {
