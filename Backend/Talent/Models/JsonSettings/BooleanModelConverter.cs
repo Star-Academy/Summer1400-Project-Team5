@@ -18,10 +18,7 @@ namespace Talent.Models.JsonSettings
         {
             throw new NotImplementedException("this function is never going to br called. (CanWrite field is false)");
         }
-        
-        
-        
-        
+
         public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue,
             JsonSerializer serializer)
         {

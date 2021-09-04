@@ -1,3 +1,4 @@
+using System.Threading;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -43,6 +44,35 @@ namespace Talent.Controllers
         {
             var pipelineModel = await GetPipelineModel(pipelineId);
             return pipelineModel == null ? NotFound("There is no pipeline with this id") : Ok(pipelineModel);
+        }
+
+
+        [Route("[controller]/kill/{pipelineId:int}")]
+        [HttpPost]
+        public void KillPipeline(int pipelineId)
+        {
+            CancelPipelineProcess(pipelineId);
+            DeleteProcessInfo(pipelineId);
+        }
+        
+        [Route("[controller]/status/{pipelineId:int}")]
+        [HttpPost]
+        public IActionResult PipelineStatus(int pipelineId)
+        {
+            var stat = GetProcessInfoModel(pipelineId);
+            return Ok(stat);
+        }
+
+        private ProcessInfoModel GetProcessInfoModel(int pipelineId)
+        {
+            var processInfo = _unitOfWork.ProcessInfos[pipelineId];
+            var stat = new ProcessInfoModel(processInfo);
+            return stat;
+        }
+
+        private void CancelPipelineProcess(int pipelineId)
+        {
+            _unitOfWork.ProcessInfos[pipelineId].CancellationTokenSource.Cancel();
         }
 
 
@@ -141,7 +171,40 @@ namespace Talent.Controllers
                 //TODO: add Tree
             }
 
-            throw new NotImplementedException();
+            var pipeline = await _unitOfWork.Pipelines.GetAsync(p => p.PipelineId == pipelineId);
+            pipeline.RunDemo();
+
+            return Ok(pipeline.Destination.OverView());
+        }
+
+        public async Task<IActionResult> Run(int pipelineId)
+        {
+            var pipeline = await _unitOfWork.Pipelines.GetAsync(p => p.PipelineId == pipelineId);
+            RunPipelineAsync(pipeline);
+            return Ok();
+        }
+
+        private async Task RunPipelineAsync(Pipeline pipeline)
+        {
+            await Task.Run(async () =>
+            {
+                int pipelineId = pipeline.PipelineId;
+                var processInfo = CreateProcessInfo(pipelineId);
+                await pipeline.Run(processInfo);
+                DeleteProcessInfo(pipelineId);
+            });
+        }
+
+        private void DeleteProcessInfo(int pipelineId)
+        {
+            _unitOfWork.ProcessInfos.Remove(pipelineId);
+        }
+
+        private ProcessInfo CreateProcessInfo(int pipelineId)
+        {
+            var processInfo = new ProcessInfo();
+            _unitOfWork.ProcessInfos[pipelineId] = processInfo;
+            return processInfo;
         }
 
         public async Task CreateYamlFile(int pipelineId)

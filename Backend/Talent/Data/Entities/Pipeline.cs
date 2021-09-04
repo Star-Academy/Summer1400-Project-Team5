@@ -22,7 +22,6 @@ namespace Talent.Data.Entities
         [ForeignKey("Owner")] public string OwnerId { get; set; }
         
         public PipelineProcess Process { get; set; }
-
         
     }
 }

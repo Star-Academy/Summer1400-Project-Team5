@@ -1,5 +1,5 @@
 namespace Talent.Data.Entities
 {
-    public class TempDataSource
+    public class TempDataSource : DataSource
     {}
 }
