@@ -1,9 +1,11 @@
+using System.ComponentModel.DataAnnotations;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authorization;
 using System.Threading.Tasks;
 using Talent.Data.Entities;
 using Talent.Logic;
-using Microsoft.AspNetCore.Authorization;
+using Talent.Models;
 
 namespace Talent.Controllers
 {
@@ -22,37 +24,48 @@ namespace Talent.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> Register([FromBody] string email, [FromBody] string password)
+        [Route("{controller}/{action}")]
+        public async Task<IActionResult> Register([FromBody] UserModel userModel)
         {
-            var user = new AppUser() { Email = email };
-            var result = await _userManager.CreateAsync(user, password);
-            if (result.Succeeded) 
+            if (ModelState.IsValid)
             {
-                return Ok(new {Token = _tokenGenerator.CreateToken(user)});
+                var user = new AppUser() { Email = userModel.Email };
+                var result = await _userManager.CreateAsync(user, userModel.Password);
+                if (result.Succeeded)
+                {
+                    return Ok(new { Token = _tokenGenerator.CreateToken(user) });
+                }
+                else
+                {
+                    return BadRequest(new { Error = result.Errors });
+                }
             }
-            else 
-            {
-                return BadRequest(new { Error = result.Errors});
-            }
+            return BadRequest(new { Error = "value cannot be null"});
         }
 
         [HttpPost]
-        public async Task<IActionResult> Login([FromBody] string email, [FromBody] string password)
+        [Route("{controller}/{action}")]
+        public async Task<IActionResult> Login([FromBody] UserModel userModel)
         {
-            var user = await _userManager.FindByEmailAsync(email);
-            if (user != null)
+            if (ModelState.IsValid)
             {
-                var result = await _signInManager.PasswordSignInAsync(user, password, false, false);
-                if (result.Succeeded)
+                var user = await _userManager.FindByEmailAsync(userModel.Email);
+                if (user != null)
                 {
-                    return Ok(new {Token = _tokenGenerator.CreateToken(user)});
+                    var result = await _signInManager.PasswordSignInAsync(user, userModel.Password, false, false);
+                    if (result.Succeeded)
+                    {
+                        return Ok(new { Token = _tokenGenerator.CreateToken(user) });
+                    }
                 }
+                return BadRequest(new { Error = "username or password invalid" });
             }
-            return BadRequest(new { Error = "username or password invalid"});
+            return BadRequest(new { Error = "value cannot be null" });
         }
 
         [HttpPost]
         [Authorize]
+        [Route("{controller}/{action}")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();
