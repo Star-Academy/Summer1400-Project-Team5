@@ -17,4 +17,13 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="5.6.3" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Compile Remove="Services\SqlMiddleware.cs" />
+    <Compile Remove="Services\Converters\SqlEntityMapper.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="Services\Converters" />
+  </ItemGroup>
+
 </Project>
