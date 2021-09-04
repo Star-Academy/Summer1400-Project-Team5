@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using Talent.Data.Entities;
-using Talent.Models.ProcessInfo;
+using Talent.Models;
 
 namespace Talent.Services.Interfaces
 {

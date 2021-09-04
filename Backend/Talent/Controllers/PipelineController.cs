@@ -9,7 +9,6 @@ using Microsoft.AspNetCore.Mvc;
 using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Models.Convertors;
-using Talent.Models.ProcessInfo;
 using Talent.Services.Interfaces;
 
 namespace Talent.Controllers
@@ -42,6 +41,35 @@ namespace Talent.Controllers
         {
             var pipelineModel = await GetPipelineModel(pipelineId);
             return pipelineModel == null ? NotFound("There is no pipeline with this id") : Ok(pipelineModel);
+        }
+
+
+        [Route("[controller]/kill/{pipelineId:int}")]
+        [HttpPost]
+        public void KillPipeline(int pipelineId)
+        {
+            CancelPipelineProcess(pipelineId);
+            DeleteProcessInfo(pipelineId);
+        }
+        
+        [Route("[controller]/status/{pipelineId:int}")]
+        [HttpPost]
+        public IActionResult PipelineStatus(int pipelineId)
+        {
+            var stat = GetProcessInfoModel(pipelineId);
+            return Ok(stat);
+        }
+
+        private ProcessInfoModel GetProcessInfoModel(int pipelineId)
+        {
+            var processInfo = _unitOfWork.ProcessInfos[pipelineId];
+            var stat = new ProcessInfoModel(processInfo);
+            return stat;
+        }
+
+        private void CancelPipelineProcess(int pipelineId)
+        {
+            _unitOfWork.ProcessInfos[pipelineId].CancellationTokenSource.Cancel();
         }
 
 

@@ -2,7 +2,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using System.Reflection.Emit;
 using System.Collections.Generic;
-using Talent.Models.ProcessInfo;
+using Talent.Models;
+
 
 namespace Talent.Data.Entities
 {

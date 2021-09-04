@@ -1,6 +1,6 @@
 using System.Threading;
 
-namespace Talent.Models.ProcessInfo
+namespace Talent.Models
 {
     public class ProcessInfo
     {

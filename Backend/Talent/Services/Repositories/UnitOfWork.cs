@@ -5,7 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Threading;
 using System.Threading.Tasks;
-using Talent.Models.ProcessInfo;
+using Talent.Models;
 
 namespace Talent.Services.Repositories
 {
