@@ -9,6 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Models.Convertors;
+using Talent.Models.ProcessInfo;
 using Talent.Services.Interfaces;
 
 namespace Talent.Controllers
@@ -148,11 +149,31 @@ namespace Talent.Controllers
         public async Task<IActionResult> Run(int pipelineId)
         {
             var pipeline = await _unitOfWork.Pipelines.GetAsync(p => p.PipelineId == pipelineId);
-            
-            var tokenSource = new CancellationTokenSource();
-            var task = pipeline.Run(tokenSource.Token);
-            task.Start();
-            tokenSource.Cancel();
+            RunPipelineAsync(pipeline);
+            return Ok();
+        }
+
+        private async Task RunPipelineAsync(Pipeline pipeline)
+        {
+            await Task.Run(async () =>
+            {
+                int pipelineId = pipeline.PipelineId;
+                var processInfo = CreateProcessInfo(pipelineId);
+                await pipeline.Run(processInfo);
+                DeleteProcessInfo(pipelineId);
+            });
+        }
+
+        private void DeleteProcessInfo(int pipelineId)
+        {
+            _unitOfWork.ProcessInfos.Remove(pipelineId);
+        }
+
+        private ProcessInfo CreateProcessInfo(int pipelineId)
+        {
+            var processInfo = new ProcessInfo();
+            _unitOfWork.ProcessInfos[pipelineId] = processInfo;
+            return processInfo;
         }
     }
 }

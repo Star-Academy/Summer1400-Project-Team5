@@ -2,23 +2,28 @@
 using Talent.Data.Entities;
 using Talent.Services.Interfaces;
 using System;
+using System.Collections.Generic;
+using System.Threading;
 using System.Threading.Tasks;
+using Talent.Models.ProcessInfo;
 
 namespace Talent.Services.Repositories
 {
     public class UnitOfWork : IUnitOfWork
     {
+        private Dictionary<int, ProcessInfo> _processInfos;
         private IGenericRepository<DataSource> _dataSources;
         private IGenericRepository<Pipeline> _pipelines;
         private IGenericRepository<PipelineProcess> _pipelineProcesses;
         private IGenericRepository<Processor> _processes;
         private IGenericRepository<TempDataSource> _tempDataSources;
         private IGenericRepository<GroupByColumn> _groupByColumns;
-        
+    
         private readonly AppDbContext _dbContext;
         
         public UnitOfWork(AppDbContext dbContext)
         {
+            
             _dbContext = dbContext;
         }
 
@@ -28,6 +33,9 @@ namespace Talent.Services.Repositories
         public IGenericRepository<PipelineProcess> PipelineProcesses => _pipelineProcesses ??= new GenericRepository<PipelineProcess>(_dbContext);
 
         public IGenericRepository<TempDataSource> TempDataSources => _tempDataSources ??= new GenericRepository<TempDataSource>(_dbContext);
+
+        public Dictionary<int, ProcessInfo> ProcessInfos => _processInfos ??= new Dictionary<int, ProcessInfo>();
+
 
         public IGenericRepository<GroupByColumn> GroupByColumns =>
             _groupByColumns ??= new GenericRepository<GroupByColumn>(_dbContext);

@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Talent.Models.ProcessInfo;
 
 namespace Talent.Data.Entities
 {
@@ -29,16 +30,16 @@ namespace Talent.Data.Entities
         public void RunDemo()
         {
             var demo = Source.CloneDemo();
-            Destination = Process.Process(demo);
+            Destination = Process.Process(demo); //ToDo overwrite
         }
 
-        public Task Run(CancellationToken token)
+        public async Task Run(ProcessInfo processInfo)
         {
-            return Task.Run(() => 
+            await Task.Run(() => 
             {
                 var clone = Source.Clone();
-                Destination = Process.Process(clone);
-            }, token);
+                Destination = Process.Process(clone,processInfo); //ToDo overwrite handel exception
+            }, processInfo.CancellationToken);
         }
     }
 }
