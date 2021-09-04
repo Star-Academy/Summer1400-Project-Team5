@@ -1,67 +1,116 @@
-using System;
 using System.Collections.Generic;
+using System.Data;
 using System.IO;
-using LumenWorks.Framework.IO.Csv;
-using Microsoft.SqlServer.Management.Smo;
+using Microsoft.Data.SqlClient;
 using Talent.Models;
 using Talent.Services.Interfaces;
 
 namespace Talent.Services.Parsers
 {
-    public class CsvParser : IParser
+    public class CsvParser : ICsvParser
     {
-        private readonly CsvFile _csvFile;
-        private readonly SqlMiddleware _sqlMiddleware;
+        private readonly ISqlHandler _sqlHandler;
 
-        private const string DefaultColumnName = "field";
-        private readonly DataType _defaultDataType = DataType.Int;
-
-        public CsvParser(CsvFile csvFile, SqlMiddleware sqlMiddleware)
+        public CsvParser(ISqlHandler sqlHandler)
         {
-            _csvFile = csvFile;
-            _sqlMiddleware = sqlMiddleware;
+            _sqlHandler = sqlHandler;
         }
 
-        public Table ConvertToTable(Database database, string tableName)
+        public void ConvertCsvToSql(SqlConnection connection, string tableName, CsvFile csvFile)
         {
-            var newTable = new Table(database, tableName);
-            using (var csvReader = new CsvReader(new StreamReader(_csvFile.FormFile.OpenReadStream()), _csvFile.HasHeader))
+            var dataTable = ConvertCsvToDataTable(csvFile);
+            dataTable.TableName = tableName;
+            ConvertDataTableToSql(connection, dataTable);
+
+        }
+
+        private void ConvertDataTableToSql(SqlConnection connection, DataTable dataTable)
+        {
+            if (!_sqlHandler.IsOpen(connection))
             {
-                InitializeTable(newTable, csvReader);
-                while (csvReader.ReadNextRecord())
-                    AddNewRecordToTable(newTable, csvReader);
+                connection.Open();
             }
-            newTable.Alter();
-            return newTable;
+            _sqlHandler.DropTableIfExists(connection, dataTable.TableName);
+            var query = CreateTable(dataTable.TableName, dataTable);
+            var sqlCommand = new SqlCommand(query, connection);
+            sqlCommand.ExecuteNonQuery();
+            using var sqlBulkCopy = new SqlBulkCopy(connection);
+            sqlBulkCopy.DestinationTableName = dataTable.TableName;
+            sqlBulkCopy.WriteToServer(dataTable);
         }
 
-        private string[] ExtractHeaders(CsvReader csvReader)
+        private DataTable ConvertCsvToDataTable(CsvFile csvFile)
         {
-            if (_csvFile.HasHeader)
-                return csvReader.GetFieldHeaders();
+            var dataTable = new DataTable();
+            using var streamReader = new StreamReader(csvFile.FormFile.OpenReadStream());
+            var firstRow = streamReader.ReadLine().Split(csvFile.Delimiter);
+            var headers = ExtractHeaders(firstRow, csvFile.HasHeader);
+            AddColumns(dataTable, headers);
+            while (!streamReader.EndOfStream)
+            {
+                var rows = streamReader.ReadLine().Split(csvFile.Delimiter);
+                AddRows(dataTable, rows, firstRow.Length);
+            }
+            return dataTable;
+        }
+        
+        private string[] ExtractHeaders(string[] firstRow, bool hasHeader)
+        {
             var headers = new List<string>();
-            for (var i = 0; i < csvReader.FieldCount; i++)
-                headers.Add($"{DefaultColumnName}-{i}");
+            if (hasHeader)
+            {
+                return firstRow;
+            }
+            for (var i = 0; i < firstRow.Length; i++)
+            {
+                headers.Add($"field-{i}");
+            }
             return headers.ToArray();
         }
 
-        private void InitializeTable(Table table, CsvReader csvReader)
+        private void AddColumns(DataTable dataTable, string[] headers)
         {
-            var headers = ExtractHeaders(csvReader);
-            var isFileEmpty = !csvReader.ReadNextRecord();
-            for (var i = 0; i < csvReader.FieldCount; i++)
+            foreach (var header in headers)
             {
-                Column newColumn;
-                newColumn = isFileEmpty ? new Column(table, headers[i], _defaultDataType) : _sqlMiddleware.GetColumnByInstance(table, headers[i], csvReader[i]);
-                table.Columns.Add(newColumn);
+                dataTable.Columns.Add(header);
             }
         }
 
-        private void AddNewRecordToTable(Table table, CsvReader csvReader)
+        private void AddRows(DataTable dataTable, string[] rows, int rowLength)
         {
-            var newRow = _sqlMiddleware.CreateTableRow(csvReader);
-            table.ExecutionManager.ConnectionContext.ExecuteNonQuery(
-                _sqlMiddleware.GetAddRowQueryString(table, newRow));
+            var dataRow = dataTable.NewRow();
+            for (var i = 0; i < rowLength; i++)
+            {
+                dataRow[i] = rows[i];
+            }
+            dataTable.Rows.Add(dataRow);
+        }
+
+        private string CreateTable(string tableName, DataTable table)
+        {
+            var query = "CREATE TABLE " + tableName + "(";
+            for (var i = 0; i < table.Columns.Count; i++)
+            {
+                query += "\n [" + table.Columns[i].ColumnName + "] ";
+                var columnType = table.Columns[i].DataType.ToString();
+                query += columnType switch
+                {
+                    "System.Int32" => " int ",
+                    "System.Int64" => " bigint ",
+                    "System.Int16" => " smallint",
+                    "System.Byte" => " tinyint",
+                    "System.Decimal" => " decimal ",
+                    "System.DateTime" => " datetime ",
+                    _ =>
+                        $" nvarchar({(table.Columns[i].MaxLength == -1 ? "max" : table.Columns[i].MaxLength.ToString())}) "
+                };
+                if (table.Columns[i].AutoIncrement)
+                    query += " IDENTITY(" + table.Columns[i].AutoIncrementSeed + "," + table.Columns[i].AutoIncrementStep + ") ";
+                if (!table.Columns[i].AllowDBNull)
+                    query += " NOT NULL ";
+                query += ",";
+            }
+            return query.Substring(0,query.Length-1) + "\n)";
         }
     }
 }

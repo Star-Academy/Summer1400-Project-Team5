@@ -58,5 +58,25 @@ namespace Talent.Models.DatabaseModels
                 return "FLOAT";
             return $"VARCHAR({VarCharSize})";
         }
+
+        protected override void OnTableNewRow(DataTableNewRowEventArgs e)
+        {
+            base.OnTableNewRow(e);
+            var newRow = e.Row;
+            ExecuteNonQuery(GetInsertQueryString(newRow));
+        }
+
+        private string GetInsertQueryString(DataRow row)
+        {
+            return $"INSERT INTO {TableName} {GetColumnListString()} VALUES {GetValuesListString(row)};"
+        }
+
+        private string GetValuesListString(DataRow row)
+        {
+            var resultString = "";
+            foreach (DataColumn column in Columns)
+                resultString += row[column.ColumnName] + ", ";
+            return $"({resultString})"
+        }
     }
 }

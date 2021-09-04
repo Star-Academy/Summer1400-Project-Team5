@@ -1,38 +1,26 @@
-using Microsoft.SqlServer.Management.Smo;
+using Microsoft.Data.SqlClient;
 using Talent.Services.Interfaces;
 
 namespace Talent.Services.Parsers
 {
-    public class SqlParser : IParser
+    public class SqlParser : ISqlParser
     {
-        private readonly Table _oldTable;
-        private readonly SqlMiddleware _sqlMiddleware;
+        private readonly ISqlHandler _sqlHandler;
 
-        public SqlParser(Table oldTable, SqlMiddleware sqlMiddleware)
+        public SqlParser(ISqlHandler sqlHandler)
         {
-            _oldTable = oldTable;
-            _sqlMiddleware = sqlMiddleware;
+            _sqlHandler = sqlHandler;
         }
-
-        public Table ConvertToTable(Database database, string tableName)
+        public void CloneTable(SqlConnection srcConnection, SqlConnection destConnection, string srcName, string destName)
         {
-            var table = new Table(database, tableName);
-            InitializeTable(table);
-            return table;
-        }
-
-        private void InitializeTable(Table table)
-        {
-            foreach (Column column in _oldTable.Columns)
+            if (!_sqlHandler.IsOpen(destConnection))
             {
-                AddTableColumn(table, column);
+                destConnection.Open();
             }
-        }
-
-        private void AddTableColumn(Table table, Column column)
-        {
-            var newColumn = _sqlMiddleware.GetColumnByInstance(table, column.Name, column.DataType.ToString());
-            table.Columns.Add(newColumn);
+            _sqlHandler.DropTableIfExists(destConnection, destName);
+            var query = $"SELECT * INTO {destConnection.Database}.dbo.{destName} FROM {srcConnection.Database}.dbo.{srcName}";
+            var sqlCommand = new SqlCommand(query, destConnection);
+            sqlCommand.ExecuteNonQuery();
         }
     }
 }
