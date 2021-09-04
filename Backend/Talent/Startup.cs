@@ -43,7 +43,7 @@ namespace Talent
 
             }).AddEntityFrameworkStores<AppDbContext>();
 
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
