@@ -9,7 +9,6 @@ namespace Talent.Models.Boolean
     {
         public BooleanOperator OperatorType { get; set; }
        
-        [JsonConverter(typeof(BooleanModelConverter))]
         public List<BooleanModel> Children { get; set; }
 
         public BooleanPhraseModel()

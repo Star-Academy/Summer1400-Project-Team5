@@ -1,3 +1,6 @@
+using System.Threading.Tasks;
+using System.Threading;
+using System.Diagnostics;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -22,6 +25,20 @@ namespace Talent.Data.Entities
         [ForeignKey("Owner")] public string OwnerId { get; set; }
         
         public PipelineProcess Process { get; set; }
-        
+
+        public void RunDemo()
+        {
+            var demo = Source.CloneDemo();
+            Destination = Process.Process(demo);
+        }
+
+        public Task Run(CancellationToken token)
+        {
+            return Task.Run(() => 
+            {
+                var clone = Source.Clone();
+                Destination = Process.Process(clone);
+            }, token);
+        }
     }
 }

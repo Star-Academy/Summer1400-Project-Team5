@@ -1,7 +1,9 @@
+using Talent.Models.Boolean;
+
 namespace Talent.Models
 {
     public class FilterModel : ProcessModel
     {
-        public object Tree { get; set; }
+        public BooleanPhraseModel Filter { get; set; }
     }
 }

@@ -1,3 +1,4 @@
+using System.Threading;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -138,7 +139,20 @@ namespace Talent.Controllers
                 //TODO: add Tree
             }
 
-            throw new NotImplementedException();
+            var pipeline = await _unitOfWork.Pipelines.GetAsync(p => p.PipelineId == pipelineId);
+            pipeline.RunDemo();
+
+            return Ok(pipeline.Destination.OverView());
+        }
+
+        public async Task<IActionResult> Run(int pipelineId)
+        {
+            var pipeline = await _unitOfWork.Pipelines.GetAsync(p => p.PipelineId == pipelineId);
+            
+            var tokenSource = new CancellationTokenSource();
+            var task = pipeline.Run(tokenSource.Token);
+            task.Start();
+            tokenSource.Cancel();
         }
     }
 }
