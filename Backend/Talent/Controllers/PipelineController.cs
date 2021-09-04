@@ -209,7 +209,7 @@ namespace Talent.Controllers
 
         public async Task CreateYamlFile(int pipelineId)
         {
-            string userId = GetUserId();
+            var userId = GetUserId();
             var pipeline = await _unitOfWork.Pipelines
                 .GetAsync(p => p.OwnerId == userId && p.PipelineId == pipelineId);
             
@@ -250,9 +250,9 @@ namespace Talent.Controllers
             details.Add("Process", process);
 
             rootMappingNode.Add("Pipeline", details);
-            
-            using (TextWriter writer = System.IO.File.CreateText("C:\\temp\\test.yaml"))
-                stream.Save(writer, false);
+
+            //await using TextWriter writer = System.IO.File.CreateText("C:\\temp\\test.yaml");
+            //stream.Save(writer, false);
             
         }
     }
