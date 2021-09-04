@@ -1,9 +1,11 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Talent.Data;
 using Talent.Data.Entities;
 using Talent.Services.Interfaces;
@@ -26,9 +28,14 @@ namespace Talent
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options => 
             {
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("localConnection")
+                string dbId = Environment.GetEnvironmentVariable("DB_ID");
+                string dbPs = Environment.GetEnvironmentVariable("DB_PS");
+                string connectionString = string.Format(
+                    Configuration.GetConnectionString("localConnection"),
+                    dbId, dbPs
                 );
+
+                options.UseSqlServer(connectionString);
             });
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
