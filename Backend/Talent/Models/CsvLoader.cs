@@ -4,7 +4,7 @@ using Talent.Services.Interfaces;
 
 namespace Talent.Models
 {
-    public class CsvLoader
+    public class CsvLoader : ICsvLoader
     {
         private readonly ISqlHandler _sqlHandler;
 
