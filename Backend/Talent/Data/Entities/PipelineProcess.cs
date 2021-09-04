@@ -7,6 +7,7 @@ namespace Talent.Data.Entities
 {
     public class PipelineProcess : IProcessor
     {
+        
         [Key]
         public int PipelineProcessId { get; set; }
         public List<Processor> Processes { get; set; }
@@ -18,5 +19,15 @@ namespace Talent.Data.Entities
         {
             throw new System.NotImplementedException();
         }
+        
+        public override string ToString()
+        {
+            foreach (var processor in Processes)
+            {
+                processor.
+            }
+        }
     }
+    
+    
 }

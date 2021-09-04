@@ -16,5 +16,13 @@ namespace Talent.Data.Entities
         {
             throw new System.NotImplementedException();
         }
+        
+        public override string ToString()
+        {
+            string answer = base.ToString();
+            answer += "\n";
+            answer += SourceKey;
+            return answer;
+        }
     }
 }

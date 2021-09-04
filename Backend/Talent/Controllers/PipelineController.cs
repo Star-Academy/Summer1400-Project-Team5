@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
@@ -9,6 +10,8 @@ using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Models.Convertors;
 using Talent.Services.Interfaces;
+using YamlDotNet.Core.Events;
+using YamlDotNet.RepresentationModel;
 
 namespace Talent.Controllers
 {
@@ -139,6 +142,55 @@ namespace Talent.Controllers
             }
 
             throw new NotImplementedException();
+        }
+
+        public async Task CreateYamlFile(int pipelineId)
+        {
+            string userId = GetUserId();
+            var pipeline = await _unitOfWork.Pipelines
+                .GetAsync(p => p.OwnerId == userId && p.PipelineId == pipelineId);
+            
+            const string initialContent = "---\nversion: 1\n...";
+
+            var stringReader = new StringReader(initialContent);
+            var stream = new YamlStream();
+            stream.Load(stringReader);
+            
+            var rootMappingNode = (YamlMappingNode)stream.Documents[0].RootNode;
+            var details = new YamlMappingNode();
+            details.Add("Name", pipeline.Name);
+            details.Add("OwnerId", pipeline.OwnerId);
+            details.Add("Destination", pipeline.DestinationId.ToString());
+            details.Add("PipelineId", pipeline.PipelineId.ToString());
+            details.Add("SourceId", pipeline.SourceId.ToString());
+            var process = new YamlMappingNode();
+            var allProcesses = new YamlMappingNode();
+            var processes = pipeline.Process.Processes;
+            foreach (var processor in processes)
+            {
+                var thisProcessor = new YamlMappingNode();
+                thisProcessor.Add("Index", processor.Index.ToString());
+                thisProcessor.Add("ProcessType", processor.ProcessType.ToString());
+                thisProcessor.Add("ProcessId", processor.ProcessId.ToString());
+                thisProcessor.Add("PipelineProcessId", processor.PipelineProcessId.ToString());
+                
+                var pipelineProcess = new YamlMappingNode();
+                pipelineProcess.Add("PipelineId" ,processor.PipelineProcess.PipelineId.ToString());
+                pipelineProcess.Add("PipelineProcessId" ,processor.PipelineProcess.PipelineProcessId.ToString());
+                thisProcessor.Add("PipelineProcess", pipelineProcess);
+                
+                allProcesses.Add(processor.ProcessId.ToString(), thisProcessor);
+            }
+            process.Add("Processes", allProcesses);
+            process.Add("PipelineId", pipeline.Process.PipelineId.ToString());
+            process.Add("PipelineProcessId", pipeline.Process.PipelineProcessId.ToString());
+            details.Add("Process", process);
+
+            rootMappingNode.Add("Pipeline", details);
+            
+            using (TextWriter writer = System.IO.File.CreateText("C:\\temp\\test.yaml"))
+                stream.Save(writer, false);
+            
         }
     }
 }

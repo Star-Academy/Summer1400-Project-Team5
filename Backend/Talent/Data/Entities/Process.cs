@@ -16,5 +16,10 @@ namespace Talent.Data.Entities
         public PipelineProcess PipelineProcess { get; set; }
 
         public abstract DataSource Process(DataSource source);
+        
+        public override string ToString()
+        {
+            //index process type
+        }
     }
 }
