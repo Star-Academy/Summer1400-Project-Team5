@@ -29,7 +29,7 @@ namespace Talent.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new AppUser() { Email = userModel.Email };
+                var user = new AppUser() { Email = userModel.Email, UserName = userModel.Email };
                 var result = await _userManager.CreateAsync(user, userModel.Password);
                 if (result.Succeeded)
                 {
@@ -40,7 +40,7 @@ namespace Talent.Controllers
                     return BadRequest(new { Error = result.Errors });
                 }
             }
-            return BadRequest(new { Error = "value cannot be null"});
+            return BadRequest(new { Error = "value cannot be null" });
         }
 
         [HttpPost]
