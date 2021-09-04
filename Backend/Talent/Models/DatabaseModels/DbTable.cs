@@ -68,7 +68,7 @@ namespace Talent.Models.DatabaseModels
 
         private string GetInsertQueryString(DataRow row)
         {
-            return $"INSERT INTO {TableName} {GetColumnListString()} VALUES {GetValuesListString(row)};"
+            return $"INSERT INTO {TableName} {GetColumnListString()} VALUES {GetValuesListString(row)};";
         }
 
         private string GetValuesListString(DataRow row)
@@ -76,7 +76,7 @@ namespace Talent.Models.DatabaseModels
             var resultString = "";
             foreach (DataColumn column in Columns)
                 resultString += row[column.ColumnName] + ", ";
-            return $"({resultString})"
+            return $"({resultString})";
         }
     }
 }
