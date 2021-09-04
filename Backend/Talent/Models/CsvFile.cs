@@ -4,15 +4,9 @@ namespace Talent.Models
 {
     public class CsvFile
     {
-        public IFormFile FormFile { get; }
-        public bool HasHeader { get; }
-        public char Delimiter { get; }
-
-        public CsvFile(IFormFile formFile, bool hasHeader, char delimiter)
-        {
-            FormFile = formFile;
-            HasHeader = hasHeader;
-            Delimiter = delimiter;
-        }
+        public IFormFile FormFile { get; set; }
+        public bool HasHeader { get; set; }
+        public char Delimiter { get; set; }
+        
     }
 }
