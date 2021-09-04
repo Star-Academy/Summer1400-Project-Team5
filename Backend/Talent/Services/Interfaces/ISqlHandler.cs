@@ -6,5 +6,6 @@ namespace Talent.Services.Interfaces
     {
         void DropTableIfExists(SqlConnection connection, string tableName);
         bool IsOpen(SqlConnection connection);
+        int ExecuteNonQuery(SqlConnection connection, string queryString);
     }
 }
