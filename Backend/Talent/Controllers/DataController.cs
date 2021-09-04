@@ -17,11 +17,15 @@ namespace Talent.Controllers
     {
         private readonly IUnitOfWork _unitOfWork;
         private readonly SqlConnection _serverConnection;
+        private readonly ISqlParser _sqlParser;
+        private readonly ICsvParser _csvParser;
 
-        public DataController(IUnitOfWork unitOfWork, SqlConnection serverConnection)
+        public DataController(IUnitOfWork unitOfWork, SqlConnection serverConnection, ISqlParser sqlParser, ICsvParser csvParser)
         {
             _unitOfWork = unitOfWork;
             _serverConnection = serverConnection;
+            _sqlParser = sqlParser;
+            _csvParser = csvParser;
             try
             {
                 _serverConnection.Open();
@@ -40,6 +44,9 @@ namespace Talent.Controllers
             {
                 using var connection = new SqlConnection(connectionString.ToString());
                 connection.Open();
+                var newDataSource = _sqlParser.CloneTable(connection,
+                    _serverConnection, tableName, tableName); // destName can be changed
+                _unitOfWork.DataSources.Insert(newDataSource);
                 return Ok();
             }
             catch

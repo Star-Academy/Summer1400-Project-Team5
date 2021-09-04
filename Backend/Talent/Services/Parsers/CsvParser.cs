@@ -1,5 +1,6 @@
 using System.Data;
 using Microsoft.Data.SqlClient;
+using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Services.Interfaces;
 
@@ -18,11 +19,12 @@ namespace Talent.Services.Parsers
             _sqlTable = sqlTable;
         }
 
-        public void ConvertCsvToSql(SqlConnection connection, string tableName, CsvFile csvFile)
+        public DataSource ConvertCsvToSql(SqlConnection connection, string tableName, CsvFile csvFile)
         {
             var dataTable = _csvToTable.ConvertCsvToDataTable(csvFile);
             dataTable.TableName = tableName;
             ConvertDataTableToSql(connection, dataTable);
+            return new DataSource(connection, tableName, (SqlHandler) _sqlHandler);
         }
 
         private void ConvertDataTableToSql(SqlConnection connection, DataTable dataTable)

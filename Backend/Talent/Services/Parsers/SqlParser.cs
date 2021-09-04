@@ -1,4 +1,6 @@
 using Microsoft.Data.SqlClient;
+using Talent.Data.Entities;
+using Talent.Models;
 using Talent.Services.Interfaces;
 
 namespace Talent.Services.Parsers
@@ -11,7 +13,7 @@ namespace Talent.Services.Parsers
         {
             _sqlHandler = sqlHandler;
         }
-        public void CloneTable(SqlConnection srcConnection, SqlConnection destConnection, string srcName, string destName)
+        public DataSource CloneTable(SqlConnection srcConnection, SqlConnection destConnection, string srcName, string destName)
         {
             if (!_sqlHandler.IsOpen(destConnection))
             {
@@ -21,6 +23,7 @@ namespace Talent.Services.Parsers
             var query = $"SELECT * INTO {destConnection.Database}.dbo.{destName} FROM {srcConnection.Database}.dbo.{srcName}";
             var sqlCommand = new SqlCommand(query, destConnection);
             sqlCommand.ExecuteNonQuery();
+            return new DataSource(destConnection, destName, (SqlHandler) _sqlHandler);
         }
     }
 }
