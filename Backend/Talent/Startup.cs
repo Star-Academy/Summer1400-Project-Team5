@@ -10,6 +10,7 @@ using Talent.Data;
 using Talent.Data.Entities;
 using Talent.Services.Interfaces;
 using Talent.Services.Repositories;
+using Talent.Logic;
 
 namespace Talent
 {
@@ -44,6 +45,7 @@ namespace Talent
             }).AddEntityFrameworkStores<AppDbContext>();
 
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+            services.AddScoped<TokenGenerator, TokenGenerator>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -62,7 +64,7 @@ namespace Talent
 
             app.UseCors(options => 
             {
-                options.AllowAnyOrigin();
+                options.AllowAnyOrigin().AllowAnyHeader();
             });
             app.UseEndpoints(endpoints =>
             {
