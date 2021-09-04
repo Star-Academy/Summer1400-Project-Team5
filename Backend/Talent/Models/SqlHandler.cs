@@ -1,18 +1,13 @@
 ﻿using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
+using Talent.Data.Entities;
 using Talent.Services.Interfaces;
 
 namespace Talent.Models
 {
     public class SqlHandler : ISqlHandler
     {
-        public void DropTableIfExists(SqlConnection connection, string tableName)
-        {
-            var queryString = $"DROP TABLE IF EXISTS {tableName}";
-            ExecuteNonQuery(connection, queryString);
-        }
-
         public bool IsOpen(SqlConnection connection)
         {
             return connection.State == ConnectionState.Open;
@@ -41,6 +36,22 @@ namespace Talent.Models
         {
             if (connection.State == ConnectionState.Open)
                 connection.Close();
+        }
+
+        public void DropTableIfExists(SqlConnection connection, string tableName)
+        {
+            var queryString = $"DROP TABLE IF EXISTS {tableName}";
+            ExecuteNonQuery(connection, queryString);
+        }
+
+        public void CopyTable(SqlConnection sourceConnection,
+            SqlConnection destinationConnection,
+            string sourceTableName,
+            string destinationTableName)
+        {
+            ExecuteNonQuery(sourceConnection,
+                $"SELECT * INTO {destinationConnection}.dbo.{destinationTableName} " +
+                            $"FROM {sourceConnection}.dbo.{sourceTableName}");
         }
     }
 }
