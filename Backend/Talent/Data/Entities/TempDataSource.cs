@@ -10,7 +10,7 @@ namespace Talent.Data.Entities
         public string tableName { get; set; }
         [NotMapped] private SqlHandler _sqlHandler;
 
-        public TempDataSource(SqlHandler sqlHandler, SqlConnection sqlConnection, string tableName)
+        public TempDataSource(SqlConnection sqlConnection, string tableName, SqlHandler sqlHandler)
         {
             _sqlHandler = sqlHandler;
             this.sqlConnection = sqlConnection;

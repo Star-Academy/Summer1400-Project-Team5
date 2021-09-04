@@ -22,8 +22,9 @@ namespace Talent.Models
                 var command = new SqlCommand(queryString, connection);
                 return command.ExecuteNonQuery();
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 throw new Exception("Cannot open sql connection.");
             }
             finally
@@ -50,8 +51,8 @@ namespace Talent.Models
             string destinationTableName)
         {
             ExecuteNonQuery(sourceConnection,
-                $"SELECT * INTO {destinationConnection}.dbo.{destinationTableName} " +
-                            $"FROM {sourceConnection}.dbo.{sourceTableName}");
+                $"SELECT * INTO {destinationConnection.Database}.dbo.{destinationTableName} " +
+                            $"FROM {sourceConnection.Database}.dbo.{sourceTableName}");
         }
     }
 }
