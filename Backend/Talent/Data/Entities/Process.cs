@@ -17,9 +17,6 @@ namespace Talent.Data.Entities
 
         public abstract DataSource Process(DataSource source);
         
-        public override string ToString()
-        {
-            //index process type
-        }
+
     }
 }

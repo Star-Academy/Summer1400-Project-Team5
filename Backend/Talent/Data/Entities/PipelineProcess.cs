@@ -40,13 +40,6 @@ namespace Talent.Data.Entities
             return result;
         }
         
-        public override string ToString()
-        {
-            foreach (var processor in Processes)
-            {
-                processor.
-            }
-        }
     }
     
     
