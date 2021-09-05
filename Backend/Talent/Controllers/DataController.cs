@@ -125,18 +125,18 @@ namespace Talent.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("csv/download")]
-        public IActionResult DownloadCsv(CsvConnection csvConnection)
+        public IActionResult DownloadCsv([FromBody] CsvConnection csvConnection)
         {
             try
             {
-                var datasource = _unitOfWork.DataSources.Get(d => d.TableName == csvConnection.TableName);
-                var fileContent = _csvDownloader.DownloadCsv(datasource.Result.SqlConnection, csvConnection.TableName, csvConnection.CsvFile);
-                return File(Encoding.ASCII.GetBytes(fileContent), "text/csv", "data.csv");
+                var fileContent = _csvDownloader.DownloadCsv(_serverConnection, csvConnection.TableName, csvConnection.CsvFile);
+                return File(Encoding.ASCII.GetBytes(fileContent), "text/csv", $"{csvConnection.TableName}.csv");
             }
-            catch
+            catch(Exception e)
             {
+                Console.WriteLine(e);
                 return BadRequest("Download failed. Cannot connect to the database.");
             }
         }

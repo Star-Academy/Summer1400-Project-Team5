@@ -39,7 +39,7 @@ namespace Talent.Models
             return result.ToString();
         }
 
-        private string WriteHeaders(SqlDataReader dataReader, char delimiter)
+        private string WriteHeaders(SqlDataReader dataReader, string delimiter)
         {
             var output = new object[dataReader.FieldCount];
             for (var i = 0; i < dataReader.FieldCount; i++)

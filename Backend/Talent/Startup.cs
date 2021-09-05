@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.OpenApi.Models;
 using Talent.Data;
 using Talent.Data.Entities;
 using Talent.Models;
@@ -28,6 +29,10 @@ namespace Talent
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = "WebApplication2", Version = "v1" });
+            });
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options => 
             {
@@ -44,8 +49,8 @@ namespace Talent
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ISqlTable, SqlTable>();
             services.AddSingleton<ICsvToTable, CsvToTable>();
-            services.AddSingleton(typeof(SqlConnection),
-             new SqlConnection(Configuration.GetConnectionString("testConnection")));
+            services.AddSingleton(typeof(SqlConnection), 
+                new SqlConnection(Configuration.GetConnectionString("testConnection")));
             services.AddSingleton<ISqlHandler, SqlHandler>();
             services.AddSingleton<ICsvParser, CsvParser>();
             services.AddSingleton<ISqlParser, SqlParser>();
@@ -57,6 +62,8 @@ namespace Talent
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();
+                app.UseSwagger();
+                app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication2 v1"));
             }
 
             app.UseHttpsRedirection();
