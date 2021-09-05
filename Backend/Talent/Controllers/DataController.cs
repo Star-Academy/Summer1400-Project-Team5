@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Models.DatabaseModels;
 using Talent.Services.Interfaces;
@@ -28,14 +29,22 @@ namespace Talent.Controllers
             _sqlParser = sqlParser;
             _csvParser = csvParser;
             _csvDownloader = csvDownloader;
+            CloseConnection();
             try
             {
                 _serverConnection.Open();
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 throw new Exception("Cannot connect to the server database.");
             }
+        }
+
+        private void CloseConnection()
+        {
+            if (_serverConnection.State == ConnectionState.Open)
+                _serverConnection.Close();
         }
 
         [HttpPost]
@@ -44,10 +53,11 @@ namespace Talent.Controllers
         {
             try
             {
-                using var connection = new SqlConnection(tableConnection.connectionString.ToString());
-                connection.Open();
+                using var connection = new SqlConnection(tableConnection.ConnectionString.ToString());
+                if (connection.State == ConnectionState.Closed)
+                    connection.Open();
                 var newDataSource = _sqlParser.CloneTable(connection,
-                    _serverConnection, tableConnection.tableName, tableConnection.tableName + "CLONED"); // destName can be changed
+                    _serverConnection, tableConnection.SourceTable, tableConnection.DestTable);
                 _unitOfWork.DataSources.Insert(newDataSource);
                 return Ok();
             }
@@ -76,18 +86,28 @@ namespace Talent.Controllers
 
         [HttpGet]
         [Route("sql-table-list")]
-        public ActionResult<List<string>> GetListOfTables([FromBody] ConnectionString connectionString)
+        public ActionResult GetListOfTables([FromBody] ConnectionString connectionString)
         {
+            using var connection = new SqlConnection(connectionString.ToString());
             try
             {
-                using var connection = new SqlConnection(connectionString.ToString());
                 connection.Open();
                 var schema = connection.GetSchema("Tables");
-                return (from DataRow row in schema.Rows select row[2].ToString()).ToList();
+                var result = new List<string>();
+                foreach (DataRow row in schema.Rows)
+                {
+                    result.Add(row[2].ToString());
+                    Console.WriteLine(row[2].ToString());
+                }
+                return Ok(result);
             }
             catch
             {
                 return BadRequest("Cannot connect to the database.");
+            }
+            finally
+            {
+                connection.Close();
             }
         }
 

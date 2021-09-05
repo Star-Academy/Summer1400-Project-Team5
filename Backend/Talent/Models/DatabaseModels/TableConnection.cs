@@ -2,13 +2,15 @@ namespace Talent.Models.DatabaseModels
 {
     public class TableConnection
     {
-        public ConnectionString connectionString { get; }
-        public string tableName { get; }
+        public ConnectionString ConnectionString { get; }
+        public string SourceTable { get; }
+        public string DestTable { get; }
 
-        public TableConnection(ConnectionString connectionString, string tableName)
+        public TableConnection(ConnectionString connectionString, string sourceTable, string destTable)
         {
-            this.connectionString = connectionString;
-            this.tableName = tableName;
+            ConnectionString = connectionString;
+            SourceTable = sourceTable;
+            DestTable = destTable;
         }
     }
 }
