@@ -1,4 +1,3 @@
-using System;
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Data.SqlClient;
 using Talent.Models;
@@ -22,30 +21,19 @@ namespace Talent.Data.Entities
             _sqlHandler = sqlHandler;
         }
 
-        private int ExecuteNonQuery(string queryString)
+        public int ExecuteNonQuery(string queryString)
         {
-            CheckConnection();
-            try
-            {
-                sqlConnection.Open();
-                var command = new SqlCommand(queryString, sqlConnection);
-                var result = command.ExecuteNonQuery();
-                return result;
-            }
-            catch
-            {
-                throw new Exception("Cannot open DataSource connection.");
-            }
-            finally
-            {
-                CheckConnection();
-            }
+            return _sqlHandler.ExecuteNonQuery(sqlConnection, queryString);
         }
 
-        private void CheckConnection()
+        public void CloseConnection()
         {
-            if (_sqlHandler.IsOpen(sqlConnection))
-                sqlConnection.Close();
+            _sqlHandler.CloseConnection(sqlConnection);
+        }
+
+        public void DropTable()
+        {
+            _sqlHandler.DropTableIfExists(sqlConnection, tableName);
         }
 
         public TempDataSource CloneTable()

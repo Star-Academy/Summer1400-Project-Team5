@@ -14,6 +14,6 @@ namespace Talent.Services.Interfaces
             string sourceTableName,
             string destinationTableName);
 
-
+        void CloseConnection(SqlConnection connection);
     }
 }

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Data;
 using Microsoft.Data.SqlClient;
-using Talent.Data.Entities;
 using Talent.Services.Interfaces;
 
 namespace Talent.Models
@@ -15,7 +14,7 @@ namespace Talent.Models
 
         public int ExecuteNonQuery(SqlConnection connection, string queryString)
         {
-            CheckConnection(connection);
+            CloseConnection(connection);
             try
             {
                 connection.Open();
@@ -30,13 +29,13 @@ namespace Talent.Models
             }
             finally
             {
-                CheckConnection(connection);
+                CloseConnection(connection);
             }
         }
         
         public SqlDataReader ExecuteReader(SqlConnection connection, string queryString)
         {
-            CheckConnection(connection);
+            CloseConnection(connection);
             try
             {
                 connection.Open();
@@ -48,15 +47,11 @@ namespace Talent.Models
                 Console.WriteLine(e.Message);
                 throw new Exception("Cannot open sql connection.");
             }
-            // finally
-            // {
-            //     CheckConnection(connection);
-            // }
         }
 
-        private void CheckConnection(SqlConnection connection)
+        public void CloseConnection(SqlConnection connection)
         {
-            if (connection.State == ConnectionState.Open)
+            if (IsOpen(connection))
                 connection.Close();
         }
 

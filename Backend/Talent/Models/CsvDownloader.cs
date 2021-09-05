@@ -4,15 +4,15 @@ using Talent.Services.Interfaces;
 
 namespace Talent.Models
 {
-    public class CsvLoader : ICsvLoader
+    public class CsvDownloader : ICsvDownloader
     {
         private readonly ISqlHandler _sqlHandler;
 
-        public CsvLoader(ISqlHandler sqlHandler)
+        public CsvDownloader(ISqlHandler sqlHandler)
         {
             _sqlHandler = sqlHandler;
         }
-        public void LoadCsv(SqlConnection connection, string tableName, CsvFile csvFile)
+        public void DownloadCsv(SqlConnection connection, string tableName, CsvFile csvFile)
         {
             var query = $"Select * from {tableName}";
             var dataReader = _sqlHandler.ExecuteReader(connection, query);
@@ -20,10 +20,7 @@ namespace Talent.Models
             WriteToFile(dataReader, streamWriter, csvFile);
             streamWriter.Close();
             dataReader.Close();
-            if (_sqlHandler.IsOpen(connection))
-            {
-                connection.Close();
-            }
+            _sqlHandler.CloseConnection(connection);
         }
 
         private void WriteToFile(SqlDataReader dataReader, StreamWriter streamWriter, CsvFile csvFile)
