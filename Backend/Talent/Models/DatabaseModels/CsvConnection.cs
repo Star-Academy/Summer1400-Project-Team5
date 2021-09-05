@@ -2,7 +2,7 @@ namespace Talent.Models.DatabaseModels
 {
     public class CsvConnection
     {
-        public CsvFile csvFile { get; set; }
-        public string tableName { get; set; }
+        public CsvFile CsvFile { get; set; }
+        public string TableName { get; set; }
     }
 }

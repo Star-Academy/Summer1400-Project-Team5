@@ -63,7 +63,7 @@ namespace Talent.Controllers
         {
             try
             {
-                var newDataSource = _csvParser.ConvertCsvToSql(_serverConnection, csvConnection.tableName, csvConnection.csvFile);
+                var newDataSource = _csvParser.ConvertCsvToSql(_serverConnection, csvConnection.TableName, csvConnection.CsvFile);
                 _unitOfWork.DataSources.Insert(newDataSource);
                 return Ok();
             }
@@ -106,13 +106,12 @@ namespace Talent.Controllers
 
         [HttpGet]
         [Route("csv/download")]
-        public IActionResult DownloadCsv(ConnectionString connectionString, string tableName, CsvFile destinationFile)
+        public IActionResult DownloadCsv(CsvConnection csvConnection)
         {
             try
             {
-                using var connection = new SqlConnection(connectionString.ToString());
-                connection.Open();
-                _csvDownloader.DownloadCsv(connection, tableName, destinationFile);
+                var datasource = _unitOfWork.DataSources.Get(d => d.tableName == csvConnection.TableName);
+                _csvDownloader.DownloadCsv(datasource.Result.sqlConnection, csvConnection.TableName, csvConnection.CsvFile);
                 return Ok();
                 // todo should return file
             }
