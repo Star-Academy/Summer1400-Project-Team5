@@ -29,10 +29,9 @@ namespace Talent.Controllers
             _sqlParser = sqlParser;
             _csvParser = csvParser;
             _csvDownloader = csvDownloader;
-            CloseConnection();
             try
             {
-                _serverConnection.Open();
+                OpenConnection(_serverConnection);
             }
             catch (Exception e)
             {
@@ -41,10 +40,10 @@ namespace Talent.Controllers
             }
         }
 
-        private void CloseConnection()
+        private void OpenConnection(SqlConnection connection)
         {
-            if (_serverConnection.State == ConnectionState.Open)
-                _serverConnection.Close();
+            if (connection.State != ConnectionState.Open)
+                connection.Open();
         }
 
         [HttpPost]
@@ -91,18 +90,13 @@ namespace Talent.Controllers
             using var connection = new SqlConnection(connectionString.ToString());
             try
             {
-                connection.Open();
+                OpenConnection(connection);
                 var schema = connection.GetSchema("Tables");
-                var result = new List<string>();
-                foreach (DataRow row in schema.Rows)
-                {
-                    result.Add(row[2].ToString());
-                    Console.WriteLine(row[2].ToString());
-                }
-                return Ok(result);
+                return Ok(Json((from DataRow row in schema.Rows select row[2].ToString()).ToArray()));
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return BadRequest("Cannot connect to the database.");
             }
             finally
