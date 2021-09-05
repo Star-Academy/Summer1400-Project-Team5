@@ -2,10 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Services.Interfaces;
 
@@ -19,13 +17,15 @@ namespace Talent.Controllers
         private readonly SqlConnection _serverConnection;
         private readonly ISqlParser _sqlParser;
         private readonly ICsvParser _csvParser;
+        private readonly ICsvDownloader _csvDownloader;
 
-        public DataController(IUnitOfWork unitOfWork, SqlConnection serverConnection, ISqlParser sqlParser, ICsvParser csvParser)
+        public DataController(IUnitOfWork unitOfWork, SqlConnection serverConnection, ISqlParser sqlParser, ICsvParser csvParser, ICsvDownloader csvDownloader)
         {
             _unitOfWork = unitOfWork;
             _serverConnection = serverConnection;
             _sqlParser = sqlParser;
             _csvParser = csvParser;
+            _csvDownloader = csvDownloader;
             try
             {
                 _serverConnection.Open();
@@ -56,10 +56,21 @@ namespace Talent.Controllers
         }
 
         [HttpPost]
-        [Route("uploadcsv")]
-        public IActionResult CreateDatabaseFromCsv([FromBody] IFormFile csvFile, [FromBody] bool hasHeader, [FromBody] char separator)
+        [Route("uploadCsv")]
+        public IActionResult CreateDatabaseFromCsv([FromBody] ConnectionString connectionString, [FromBody] string tableName, [FromBody] CsvFile csvFile)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using var connection = new SqlConnection(connectionString.ToString());
+                connection.Open();
+                var newDataSource = _csvParser.ConvertCsvToSql(connection, tableName, csvFile);
+                _unitOfWork.DataSources.Insert(newDataSource);
+                return Ok();
+            }
+            catch
+            {
+                return BadRequest("Cannot connect to the database.");
+            }
         }
 
         [HttpGet]
@@ -94,26 +105,31 @@ namespace Talent.Controllers
         }
 
         [HttpGet]
-        [Route("csv/download/{id:int}")]
-        public IActionResult DownloadCsv(int id)
+        [Route("csv/download")]
+        public IActionResult DownloadCsv(ConnectionString connectionString, string tableName, CsvFile destinationFile)
         {
-            throw new NotImplementedException();
+            try
+            {
+                using var connection = new SqlConnection(connectionString.ToString());
+                connection.Open();
+                _csvDownloader.DownloadCsv(connection, tableName, destinationFile);
+                return Ok();
+                // todo should return file
+            }
+            catch
+            {
+                return BadRequest("Download failed. Cannot connect to the database.");
+            }
         }
 
         [HttpDelete]
         [Route("sql/delete/{id:int}")]
-        public IActionResult DeleteSql(int id)
+        public IActionResult DeleteSql(int id, string tableName)
         {
+            var datasource = _unitOfWork.DataSources.Get(d => d.tableName == tableName);
+            datasource.Result.DropTable();
             _unitOfWork.DataSources.Delete(id);
-            throw new NotImplementedException();
-        }
-
-        [HttpDelete]
-        [Route("csv/delete/{id:int}")]
-        public IActionResult DeleteCsv(int id)
-        {
-            _unitOfWork.DataSources.Delete(id);
-            throw new NotImplementedException();
+            return Ok();
         }
     }
 }
