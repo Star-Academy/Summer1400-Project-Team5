@@ -64,7 +64,7 @@ namespace Talent.Controllers
             try
             {
                 var newDataSource = _csvParser.ConvertCsvToSql(_serverConnection, csvConnection.TableName, csvConnection.CsvFile);
-                _unitOfWork.DataSources.Insert(newDataSource);
+                // _unitOfWork.DataSources.Insert(newDataSource);
                 return Ok();
             }
             catch
@@ -110,8 +110,8 @@ namespace Talent.Controllers
         {
             try
             {
-                var datasource = _unitOfWork.DataSources.Get(d => d.tableName == csvConnection.TableName);
-                _csvDownloader.DownloadCsv(datasource.Result.sqlConnection, csvConnection.TableName, csvConnection.CsvFile);
+                var datasource = _unitOfWork.DataSources.Get(d => d.TableName == csvConnection.TableName);
+                _csvDownloader.DownloadCsv(datasource.Result.SqlConnection, csvConnection.TableName, csvConnection.CsvFile);
                 return Ok();
                 // todo should return file
             }
@@ -125,7 +125,7 @@ namespace Talent.Controllers
         [Route("sql/delete/{id:int}")]
         public IActionResult DeleteSql(int id, string tableName)
         {
-            var datasource = _unitOfWork.DataSources.Get(d => d.tableName == tableName);
+            var datasource = _unitOfWork.DataSources.Get(d => d.TableName == tableName);
             datasource.Result.DropTable();
             _unitOfWork.DataSources.Delete(id);
             return Ok();

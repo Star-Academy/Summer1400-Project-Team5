@@ -6,9 +6,14 @@ namespace Talent.Data.Entities
 {
     public class TempDataSource
     {
-        public SqlConnection sqlConnection { get; set; }
+        public int Id { get; set; }
         public string tableName { get; set; }
+        [NotMapped] public SqlConnection sqlConnection { get; set; }
         [NotMapped] private ISqlHandler _sqlHandler;
+
+        public TempDataSource()
+        {
+        }
 
         public TempDataSource(SqlConnection sqlConnection, string tableName, ISqlHandler sqlHandler)
         {
