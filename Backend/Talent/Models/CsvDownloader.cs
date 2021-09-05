@@ -1,4 +1,4 @@
-﻿using System.IO;
+﻿using System.Text;
 using Microsoft.Data.SqlClient;
 using Talent.Services.Interfaces;
 
@@ -12,39 +12,41 @@ namespace Talent.Models
         {
             _sqlHandler = sqlHandler;
         }
-        public void DownloadCsv(SqlConnection connection, string tableName, CsvFile csvFile)
+        public string DownloadCsv(SqlConnection connection, string tableName, CsvFile csvFile)
         {
             var query = $"Select * from {tableName}";
             var dataReader = _sqlHandler.ExecuteReader(connection, query);
-            var streamWriter = new StreamWriter(csvFile.FilePath);
-            WriteToFile(dataReader, streamWriter, csvFile);
-            streamWriter.Close();
+            var csvString = WriteToFile(dataReader, csvFile);
             dataReader.Close();
             _sqlHandler.CloseConnection(connection);
+            return csvString;
         }
 
-        private void WriteToFile(SqlDataReader dataReader, StreamWriter streamWriter, CsvFile csvFile)
+        private string WriteToFile(SqlDataReader dataReader, CsvFile csvFile)
         {
             var output = new object[dataReader.FieldCount];
+            var result = new StringBuilder();
             if (csvFile.HasHeader)
             {
-                WriteHeaders(dataReader, streamWriter, csvFile.Delimiter);
+                result.Append(WriteHeaders(dataReader, csvFile.Delimiter));
             }
             while (dataReader.Read())
             {
                 dataReader.GetValues(output);
-                streamWriter.WriteLine(string.Join(csvFile.Delimiter, output));
+                result.Append(string.Join(csvFile.Delimiter, output));
+                result.Append('\n');
             }
+            return result.ToString();
         }
 
-        private void WriteHeaders(SqlDataReader dataReader, StreamWriter streamWriter, char delimiter)
+        private string WriteHeaders(SqlDataReader dataReader, char delimiter)
         {
             var output = new object[dataReader.FieldCount];
             for (var i = 0; i < dataReader.FieldCount; i++)
             {
                 output[i] = dataReader.GetName(i);
             }
-            streamWriter.WriteLine(string.Join(delimiter, output));
+            return string.Join(delimiter, output) + '\n';
         }
     }
 }

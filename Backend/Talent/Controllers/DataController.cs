@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
+using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Talent.Models;
@@ -111,9 +112,8 @@ namespace Talent.Controllers
             try
             {
                 var datasource = _unitOfWork.DataSources.Get(d => d.TableName == csvConnection.TableName);
-                _csvDownloader.DownloadCsv(datasource.Result.SqlConnection, csvConnection.TableName, csvConnection.CsvFile);
-                return Ok();
-                // todo should return file
+                var fileContent = _csvDownloader.DownloadCsv(datasource.Result.SqlConnection, csvConnection.TableName, csvConnection.CsvFile);
+                return File(Encoding.ASCII.GetBytes(fileContent), "text/csv", "data.csv");
             }
             catch
             {

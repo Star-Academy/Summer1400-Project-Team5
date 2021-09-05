@@ -5,6 +5,6 @@ namespace Talent.Services.Interfaces
 {
     public interface ICsvDownloader
     {
-        void DownloadCsv(SqlConnection connection, string tableName, CsvFile csvFile);
+        string DownloadCsv(SqlConnection connection, string tableName, CsvFile csvFile);
     }
 }
