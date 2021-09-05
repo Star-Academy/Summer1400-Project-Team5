@@ -24,7 +24,7 @@ namespace Talent.Services.Parsers
             var dataTable = _csvToTable.ConvertCsvToDataTable(csvFile);
             dataTable.TableName = tableName;
             ConvertDataTableToSql(connection, dataTable);
-            return new DataSource(connection, tableName, (SqlHandler) _sqlHandler);
+            return new DataSource(connection, tableName, _sqlHandler);
         }
 
         private void ConvertDataTableToSql(SqlConnection connection, DataTable dataTable)

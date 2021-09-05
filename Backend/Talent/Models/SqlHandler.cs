@@ -20,12 +20,13 @@ namespace Talent.Models
             {
                 connection.Open();
                 var command = new SqlCommand(queryString, connection);
-                return command.ExecuteNonQuery();
+                var result = command.ExecuteNonQuery();
+                return result;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                throw new Exception("Cannot open sql connection.");
+                throw new Exception("Cannot open sql connection in ExecuteNonQuery method.");
             }
             finally
             {

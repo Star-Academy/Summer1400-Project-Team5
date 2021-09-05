@@ -8,5 +8,12 @@ namespace Talent.Services.Interfaces
         bool IsOpen(SqlConnection connection);
         int ExecuteNonQuery(SqlConnection connection, string queryString);
         SqlDataReader ExecuteReader(SqlConnection connection, string queryString);
+
+        public void CopyTable(SqlConnection sourceConnection,
+            SqlConnection destinationConnection,
+            string sourceTableName,
+            string destinationTableName);
+
+
     }
 }

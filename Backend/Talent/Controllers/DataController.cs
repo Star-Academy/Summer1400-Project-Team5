@@ -38,26 +38,27 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Route("connectsql")]
-        public IActionResult CreateDatasetFromSql([FromBody] ConnectionString connectionString, [FromBody] string tableName)
+        public IActionResult CreateDatasetFromSql([FromBody] TableConnection tableConnection)
         {
             try
             {
-                using var connection = new SqlConnection(connectionString.ToString());
+                using var connection = new SqlConnection(tableConnection.connectionString.ToString());
                 connection.Open();
                 var newDataSource = _sqlParser.CloneTable(connection,
-                    _serverConnection, tableName, tableName); // destName can be changed
+                    _serverConnection, tableConnection.tableName, tableConnection.tableName + "CLONED"); // destName can be changed
                 _unitOfWork.DataSources.Insert(newDataSource);
                 return Ok();
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return BadRequest("Cannot connect to the database.");
             }
         }
 
         [HttpPost]
         [Route("uploadcsv")]
-        public IActionResult CreateDatabaseFromCsv([FromBody] IFormFile csvFile, [FromBody] bool hasHeader, [FromBody] char separator)
+        public IActionResult CreateDatabaseFromCsv([FromBody] IFormFile csvFile, [FromQuery] bool hasHeader, [FromQuery] char separator)
         {
             throw new NotImplementedException();
         }

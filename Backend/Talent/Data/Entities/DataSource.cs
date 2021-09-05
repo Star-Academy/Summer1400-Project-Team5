@@ -1,8 +1,6 @@
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Data;
 using Microsoft.Data.SqlClient;
-using Microsoft.SqlServer.Management.Smo;
 using Talent.Models;
 using Talent.Services.Interfaces;
 
@@ -12,12 +10,12 @@ namespace Talent.Data.Entities
     {
         public SqlConnection sqlConnection { get; set; }
         public string tableName { get; set; }
-        [NotMapped] private SqlHandler _sqlHandler;
+        [NotMapped] private ISqlHandler _sqlHandler;
 
         [NotMapped] private const string ClonedTableSuffix = "CLONED";
         [NotMapped] private const string TemporaryTableSuffix = "TEMPORARY";
 
-        public DataSource(SqlConnection sqlConnection, string tableName, SqlHandler sqlHandler)
+        public DataSource(SqlConnection sqlConnection, string tableName, ISqlHandler sqlHandler)
         {
             this.sqlConnection = sqlConnection;
             this.tableName = tableName;

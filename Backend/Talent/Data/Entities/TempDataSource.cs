@@ -1,6 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Microsoft.Data.SqlClient;
-using Talent.Models;
+using Talent.Services.Interfaces;
 
 namespace Talent.Data.Entities
 {
@@ -8,9 +8,9 @@ namespace Talent.Data.Entities
     {
         public SqlConnection sqlConnection { get; set; }
         public string tableName { get; set; }
-        [NotMapped] private SqlHandler _sqlHandler;
+        [NotMapped] private ISqlHandler _sqlHandler;
 
-        public TempDataSource(SqlConnection sqlConnection, string tableName, SqlHandler sqlHandler)
+        public TempDataSource(SqlConnection sqlConnection, string tableName, ISqlHandler sqlHandler)
         {
             _sqlHandler = sqlHandler;
             this.sqlConnection = sqlConnection;
