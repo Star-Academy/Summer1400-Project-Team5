@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
+using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -27,7 +28,7 @@ namespace Talent.Controllers
             _sqlParser = sqlParser;
             _csvParser = csvParser;
             _csvDownloader = csvDownloader;
-            CloseConnection();
+            CloseConnection(_serverConnection);
             try
             {
                 _serverConnection.Open();
@@ -39,21 +40,21 @@ namespace Talent.Controllers
             }
         }
 
-        private void CloseConnection()
+        private void CloseConnection(SqlConnection connection)
         {
-            if (_serverConnection.State == ConnectionState.Open)
-                _serverConnection.Close();
+            if (connection.State == ConnectionState.Open)
+                connection.Close();
         }
 
         [HttpPost]
         [Route("connectsql")]
         public IActionResult CreateDatasetFromSql([FromBody] TableConnection tableConnection)
         {
+            using var connection = new SqlConnection(tableConnection.ConnectionString.ToString());
             try
             {
-                using var connection = new SqlConnection(tableConnection.ConnectionString.ToString());
-                if (connection.State == ConnectionState.Closed)
-                    connection.Open();
+                CloseConnection(connection);
+                connection.Open();
                 var newDataSource = _sqlParser.CloneTable(connection,
                     _serverConnection, tableConnection.SourceTable, tableConnection.DestTable);
                 _unitOfWork.DataSources.Insert(newDataSource);
@@ -63,6 +64,10 @@ namespace Talent.Controllers
             {
                 Console.WriteLine(e.Message);
                 return BadRequest("Cannot connect to the database.");
+            }
+            finally
+            {
+                CloseConnection(connection);
             }
         }
 
@@ -82,22 +87,18 @@ namespace Talent.Controllers
             }
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("sql-table-list")]
         public ActionResult GetListOfTables([FromBody] ConnectionString connectionString)
         {
             using var connection = new SqlConnection(connectionString.ToString());
             try
             {
+                CloseConnection(connection);
                 connection.Open();
                 var schema = connection.GetSchema("Tables");
-                var result = new List<string>();
-                foreach (DataRow row in schema.Rows)
-                {
-                    result.Add(row[2].ToString());
-                    Console.WriteLine(row[2].ToString());
-                }
-                return Ok(result);
+                var result = (from DataRow row in schema.Rows select row[2].ToString()).ToList();
+                return Ok(Json(result));
             }
             catch
             {
