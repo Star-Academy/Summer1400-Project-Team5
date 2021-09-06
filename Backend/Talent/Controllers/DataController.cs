@@ -1,11 +1,9 @@
 using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Models.DatabaseModels;
 using Talent.Services.Interfaces;
@@ -125,7 +123,7 @@ namespace Talent.Controllers
             throw new NotImplementedException();
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("csv/download")]
         public IActionResult DownloadCsv([FromBody] CsvConnection csvConnection)
         {
@@ -134,10 +132,9 @@ namespace Talent.Controllers
                 var fileContent = _csvDownloader.DownloadCsv(_serverConnection, csvConnection.TableName, csvConnection.CsvFile);
                 return File(Encoding.ASCII.GetBytes(fileContent), "text/csv", $"{csvConnection.TableName}.csv");
             }
-            catch(Exception e)
+            catch
             {
-                Console.WriteLine(e);
-                return BadRequest("Download failed. Cannot connect to the database.");
+                return BadRequest("Download failed.");
             }
         }
 
