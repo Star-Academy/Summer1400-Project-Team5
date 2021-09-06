@@ -26,7 +26,7 @@ namespace Talent.Models.DatabaseModels
                 query += ",";
             }
 
-            return query;
+            return query.Substring(0,query.Length-1) + "\n)";
         }
 
         private string GetTypeInSql(DataTable table, string columnType, int columnNumber)
