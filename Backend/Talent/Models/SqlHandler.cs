@@ -22,7 +22,17 @@ namespace Talent.Models
         public void CloseConnection()
         {
             if (IsOpen())
+            {
                 Connection.Close();
+            }
+        }
+
+        public void OpenConnection()
+        {
+            if (!IsOpen())
+            {
+                Connection.Open();
+            }
         }
 
         public int ExecuteNonQuery(string queryString)
@@ -60,10 +70,6 @@ namespace Talent.Models
             {
                 Console.WriteLine(e.Message);
                 throw new Exception("Cannot open sql connection.");
-            }
-            finally
-            {
-                CloseConnection();
             }
         }
 

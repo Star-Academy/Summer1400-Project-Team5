@@ -18,6 +18,7 @@ namespace Talent.Models
             var dataReader = _sqlHandler.ExecuteReader(query);
             var csvString = WriteToFile(dataReader, csvFile);
             dataReader.Close();
+            _sqlHandler.CloseConnection();
             return csvString;
         }
 

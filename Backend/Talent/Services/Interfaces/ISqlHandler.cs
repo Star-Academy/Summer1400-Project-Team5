@@ -13,10 +13,9 @@ namespace Talent.Services.Interfaces
         int ExecuteNonQuery(string queryString);
 
         SqlDataReader ExecuteReader(string queryString);
+        
+        void CopyTable(string sourceDatabaseName, string destinationDatabaseName, string sourceTableName, string destinationTableName);
 
-        public void CopyTable(string sourceDatabaseName,
-            string destinationDatabaseName,
-            string sourceTableName,
-            string destinationTableName);
+        void OpenConnection();
     }
 }
