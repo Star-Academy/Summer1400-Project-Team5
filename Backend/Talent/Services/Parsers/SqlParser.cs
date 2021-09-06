@@ -14,11 +14,11 @@ namespace Talent.Services.Parsers
         {
             _sqlHandler = sqlHandler;
         }
-        public DataSource CloneTable(SqlConnection srcConnection, SqlConnection destConnection, string srcName, string destName)
+        public DataSource CloneTable(string srcDatabaseName, string destDatabaseName, string srcName, string destName)
         {
-            _sqlHandler.DropTableIfExists(destConnection, destName);
-            _sqlHandler.CopyTable(srcConnection, destConnection, srcName, destName);
-            return new DataSource(destConnection, destName, _sqlHandler);
+            _sqlHandler.DropTableIfExists(destName);
+            _sqlHandler.CopyTable(srcDatabaseName, destDatabaseName, srcName, destName);
+            return new DataSource(destName, destDatabaseName);
         }
     }
 }

@@ -5,6 +5,6 @@ namespace Talent.Services.Interfaces
 {
     public interface ISqlParser
     {
-        DataSource CloneTable(SqlConnection srcConnection, SqlConnection destConnection, string srcName, string destName);
+        DataSource CloneTable(string srcDatabaseName, string destDatabaseName, string srcName, string destName);
     }
 }

@@ -4,16 +4,19 @@ namespace Talent.Services.Interfaces
 {
     public interface ISqlHandler
     {
-        void DropTableIfExists(SqlConnection connection, string tableName);
-        bool IsOpen(SqlConnection connection);
-        int ExecuteNonQuery(SqlConnection connection, string queryString);
-        SqlDataReader ExecuteReader(SqlConnection connection, string queryString);
+        void CloseConnection();
 
-        public void CopyTable(SqlConnection sourceConnection,
-            SqlConnection destinationConnection,
+        void DropTableIfExists(string tableName);
+
+        bool IsOpen();
+
+        int ExecuteNonQuery(string queryString);
+
+        SqlDataReader ExecuteReader(string queryString);
+
+        public void CopyTable(string sourceDatabaseName,
+            string destinationDatabaseName,
             string sourceTableName,
             string destinationTableName);
-
-        void CloseConnection(SqlConnection connection);
     }
 }

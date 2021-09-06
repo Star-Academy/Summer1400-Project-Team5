@@ -7,24 +7,17 @@ namespace Talent.Data.Entities
     public class TempDataSource
     {
         public int Id { get; set; }
-        public string tableName { get; set; }
-        [NotMapped] public SqlConnection sqlConnection { get; set; }
-        [NotMapped] private ISqlHandler _sqlHandler;
+        public string TableName { get; set; }
+        public string DatabaseName { get; set; }
 
         public TempDataSource()
         {
         }
 
-        public TempDataSource(SqlConnection sqlConnection, string tableName, ISqlHandler sqlHandler)
+        public TempDataSource(string tableName, string databaseName)
         {
-            _sqlHandler = sqlHandler;
-            this.sqlConnection = sqlConnection;
-            this.tableName = tableName;
-        }
-
-        public void ExecuteNonQuery(string queryString)
-        {
-            _sqlHandler.ExecuteNonQuery(sqlConnection, queryString);
+            TableName = tableName;
+            DatabaseName = databaseName;
         }
     }
 }

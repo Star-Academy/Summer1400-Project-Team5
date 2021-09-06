@@ -6,6 +6,6 @@ namespace Talent.Services.Interfaces
 {
     public interface ICsvParser
     {
-        DataSource ConvertCsvToSql(SqlConnection connection, string tableName, CsvFile csvFile);
+        DataSource ConvertCsvToSql(string tableName, CsvFile csvFile);
     }
 }

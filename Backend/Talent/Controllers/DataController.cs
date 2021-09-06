@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Models.DatabaseModels;
 using Talent.Services.Interfaces;
+using Talent.Services.Repositories;
 
 namespace Talent.Controllers
 {
@@ -16,28 +19,18 @@ namespace Talent.Controllers
     public class DataController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly SqlConnection _serverConnection;
+        private readonly SqlHandler _sqlHandler;
         private readonly ISqlParser _sqlParser;
         private readonly ICsvParser _csvParser;
         private readonly ICsvDownloader _csvDownloader;
 
-        public DataController(IUnitOfWork unitOfWork, SqlConnection serverConnection, ISqlParser sqlParser, ICsvParser csvParser, ICsvDownloader csvDownloader)
+        public DataController(IUnitOfWork unitOfWork, SqlHandler sqlHandler, ISqlParser sqlParser, ICsvParser csvParser, ICsvDownloader csvDownloader)
         {
             _unitOfWork = unitOfWork;
-            _serverConnection = serverConnection;
+            _sqlHandler = sqlHandler;
             _sqlParser = sqlParser;
             _csvParser = csvParser;
             _csvDownloader = csvDownloader;
-            CloseConnection(_serverConnection);
-            try
-            {
-                _serverConnection.Open();
-            }
-            catch (Exception e)
-            {
-                Console.WriteLine(e.Message);
-                throw new Exception("Cannot connect to the server database.");
-            }
         }
 
         private void CloseConnection(SqlConnection connection)
@@ -55,8 +48,8 @@ namespace Talent.Controllers
             {
                 CloseConnection(connection);
                 connection.Open();
-                var newDataSource = _sqlParser.CloneTable(connection,
-                    _serverConnection, tableConnection.SourceTable, tableConnection.DestTable);
+                var newDataSource = _sqlParser.CloneTable(connection.Database,
+                    _sqlHandler.Connection.Database, tableConnection.SourceTable, tableConnection.DestTable);
                 _unitOfWork.DataSources.Insert(newDataSource);
                 return Ok();
             }
@@ -73,13 +66,15 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Route("uploadCsv")]
-        public IActionResult CreateDatabaseFromCsv([FromBody] CsvConnection csvConnection)
+        public IActionResult CreateDatabaseFromCsv()
         {
             try
             {
-                var newDataSource = _csvParser.ConvertCsvToSql(_serverConnection, csvConnection.TableName, csvConnection.CsvFile);
+                var file = Request.Form.Files[0];
+                // var newDataSource = _csvParser.ConvertCsvToSql(_serverConnection, csvConnection.TableName, csvConnection.CsvFile);
                 // _unitOfWork.DataSources.Insert(newDataSource);
-                return Ok();
+                // Console.WriteLine(file.Name + " " + file.ContentType + " " + Request.);
+                return Ok(Json(file));
             }
             catch
             {
@@ -100,8 +95,9 @@ namespace Talent.Controllers
                 var result = (from DataRow row in schema.Rows select row[2].ToString()).ToList();
                 return Ok(Json(result));
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e.Message);
                 return BadRequest("Cannot connect to the database.");
             }
             finally
@@ -130,7 +126,7 @@ namespace Talent.Controllers
         {
             try
             {
-                var fileContent = _csvDownloader.DownloadCsv(_serverConnection, csvConnection.TableName, csvConnection.CsvFile);
+                var fileContent = _csvDownloader.DownloadCsv(csvConnection.TableName, csvConnection.CsvFile);
                 return File(Encoding.ASCII.GetBytes(fileContent), "text/csv", $"{csvConnection.TableName}.csv");
             }
             catch
@@ -144,7 +140,7 @@ namespace Talent.Controllers
         public IActionResult DeleteSql(int id, string tableName)
         {
             var datasource = _unitOfWork.DataSources.Get(d => d.TableName == tableName);
-            datasource.Result.DropTable();
+            _sqlHandler.DropTableIfExists(datasource.Result.TableName);
             _unitOfWork.DataSources.Delete(id);
             return Ok();
         }

@@ -7,18 +7,31 @@ namespace Talent.Models
 {
     public class SqlHandler : ISqlHandler
     {
-        public bool IsOpen(SqlConnection connection)
+        public SqlConnection Connection { get; }
+
+        public SqlHandler(SqlConnection sqlConnection)
         {
-            return connection.State == ConnectionState.Open;
+            Connection = sqlConnection;
         }
 
-        public int ExecuteNonQuery(SqlConnection connection, string queryString)
+        public bool IsOpen()
         {
-            CloseConnection(connection);
+            return Connection.State == ConnectionState.Open;
+        }
+
+        public void CloseConnection()
+        {
+            if (IsOpen())
+                Connection.Close();
+        }
+
+        public int ExecuteNonQuery(string queryString)
+        {
+            CloseConnection();
             try
             {
-                connection.Open();
-                var command = new SqlCommand(queryString, connection);
+                Connection.Open();
+                var command = new SqlCommand(queryString, Connection);
                 var result = command.ExecuteNonQuery();
                 return result;
             }
@@ -29,46 +42,44 @@ namespace Talent.Models
             }
             finally
             {
-                CloseConnection(connection);
+                CloseConnection();
             }
         }
-        
-        public SqlDataReader ExecuteReader(SqlConnection connection, string queryString)
+
+        public SqlDataReader ExecuteReader(string queryString)
         {
-            CloseConnection(connection);
+            CloseConnection();
             try
             {
-                connection.Open();
-                var command = new SqlCommand(queryString, connection);
-                return command.ExecuteReader();
+                Connection.Open();
+                var command = new SqlCommand(queryString, Connection);
+                var result = command.ExecuteReader();
+                return result;
             }
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
                 throw new Exception("Cannot open sql connection.");
             }
+            finally
+            {
+                CloseConnection();
+            }
         }
 
-        public void CloseConnection(SqlConnection connection)
-        {
-            if (IsOpen(connection))
-                connection.Close();
-        }
-
-        public void DropTableIfExists(SqlConnection connection, string tableName)
+        public void DropTableIfExists(string tableName)
         {
             var queryString = $"DROP TABLE IF EXISTS {tableName}";
-            ExecuteNonQuery(connection, queryString);
+            ExecuteNonQuery(queryString);
         }
 
-        public void CopyTable(SqlConnection sourceConnection,
-            SqlConnection destinationConnection,
+        public void CopyTable(string sourceDatabaseName,
+            string destinationDatabaseName,
             string sourceTableName,
             string destinationTableName)
         {
-            ExecuteNonQuery(sourceConnection,
-                $"SELECT * INTO {destinationConnection.Database}.dbo.{destinationTableName} " +
-                            $"FROM {sourceConnection.Database}.dbo.{sourceTableName}");
+            ExecuteNonQuery($"SELECT * INTO {destinationDatabaseName}.dbo.{destinationTableName} " +
+                            $"FROM {sourceDatabaseName}.dbo.{sourceTableName}");
         }
     }
 }

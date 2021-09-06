@@ -11,56 +11,38 @@ namespace Talent.Data.Entities
     {
         [Key] public int Id { get; set; }
         public string TableName { get; set; }
-        [NotMapped] private ISqlHandler _sqlHandler;
-        [NotMapped] public SqlConnection SqlConnection { get; set; }
+        public string DatabaseName { get; set; }
 
         [NotMapped] private const string ClonedTableSuffix = "CLONED";
         [NotMapped] private const string TemporaryTableSuffix = "TEMPORARY";
 
         public DataSource()
         {
-            SqlConnection = Startup.ServerConnection;
         }
 
-        public DataSource(SqlConnection sqlConnection, string tableName, ISqlHandler sqlHandler)
+        public DataSource(string tableName, string databaseName)
         {
-            SqlConnection = sqlConnection;
             TableName = tableName;
-            _sqlHandler = sqlHandler;
+            DatabaseName = databaseName;
         }
 
-        public int ExecuteNonQuery(string queryString)
+        public TempDataSource CloneTable(ISqlHandler sqlHandler)
         {
-            return _sqlHandler.ExecuteNonQuery(SqlConnection, queryString);
-        }
-
-        public void CloseConnection()
-        {
-            _sqlHandler.CloseConnection(SqlConnection);
-        }
-
-        public void DropTable()
-        {
-            _sqlHandler.DropTableIfExists(SqlConnection, TableName);
-        }
-
-        public TempDataSource CloneTable()
-        {
-            var clonedTableName = TableName + ClonedTableSuffix;
-            var resultTable = new TempDataSource(SqlConnection, clonedTableName, _sqlHandler);
-            _sqlHandler.DropTableIfExists(SqlConnection, clonedTableName);
-            _sqlHandler.CopyTable(SqlConnection, SqlConnection, TableName, clonedTableName);
+            var clonedTableName = "##" + TableName + ClonedTableSuffix;
+            var resultTable = new TempDataSource(clonedTableName, DatabaseName);
+            sqlHandler.DropTableIfExists(clonedTableName);
+            sqlHandler.CopyTable(DatabaseName, DatabaseName, TableName, clonedTableName);
             return resultTable;
         }
 
-        public TempDataSource CloneTable(int rowCount)
+        public TempDataSource CloneTable(int rowCount, ISqlHandler sqlHandler)
         {
             var clonedTableName = "##" + TableName + TemporaryTableSuffix;
-            var resultTable = new TempDataSource(SqlConnection, clonedTableName, _sqlHandler);
-            _sqlHandler.DropTableIfExists(SqlConnection, clonedTableName);
-            _sqlHandler.ExecuteNonQuery(SqlConnection, $"SELECT TOP({rowCount}) * INTO" +
-                                                       $" {SqlConnection.Database}.dbo.{clonedTableName} " +
-                                                       $"FROM {SqlConnection.Database}.dbo.{TableName}");
+            var resultTable = new TempDataSource(clonedTableName, DatabaseName);
+            sqlHandler.DropTableIfExists(clonedTableName);
+            sqlHandler.ExecuteNonQuery($"SELECT TOP({rowCount}) * INTO" +
+                                                       $" {DatabaseName}.dbo.{clonedTableName} " +
+                                                       $"FROM {DatabaseName}.dbo.{TableName}");
             return resultTable;
         }
     }

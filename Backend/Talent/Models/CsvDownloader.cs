@@ -12,13 +12,12 @@ namespace Talent.Models
         {
             _sqlHandler = sqlHandler;
         }
-        public string DownloadCsv(SqlConnection connection, string tableName, CsvFile csvFile)
+        public string DownloadCsv(string tableName, CsvFile csvFile)
         {
             var query = $"Select * from {tableName}";
-            var dataReader = _sqlHandler.ExecuteReader(connection, query);
+            var dataReader = _sqlHandler.ExecuteReader(query);
             var csvString = WriteToFile(dataReader, csvFile);
             dataReader.Close();
-            _sqlHandler.CloseConnection(connection);
             return csvString;
         }
 

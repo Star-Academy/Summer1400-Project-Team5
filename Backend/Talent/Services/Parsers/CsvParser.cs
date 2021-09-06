@@ -8,31 +8,31 @@ namespace Talent.Services.Parsers
 {
     public class CsvParser : ICsvParser
     {
-        private readonly ISqlHandler _sqlHandler;
+        private readonly SqlHandler _sqlHandler;
         private readonly ICsvToTable _csvToTable;
         private readonly ISqlTable _sqlTable;
 
-        public CsvParser(ISqlHandler sqlHandler, ICsvToTable csvToTable, ISqlTable sqlTable)
+        public CsvParser(SqlHandler sqlHandler, ICsvToTable csvToTable, ISqlTable sqlTable)
         {
             _sqlHandler = sqlHandler;
             _csvToTable = csvToTable;
             _sqlTable = sqlTable;
         }
 
-        public DataSource ConvertCsvToSql(SqlConnection connection, string tableName, CsvFile csvFile)
+        public DataSource ConvertCsvToSql(string tableName, CsvFile csvFile)
         {
             var dataTable = _csvToTable.ConvertCsvToDataTable(csvFile);
             dataTable.TableName = tableName;
-            ConvertDataTableToSql(connection, dataTable);
-            return new DataSource(connection, tableName, _sqlHandler);
+            ConvertDataTableToSql(dataTable);
+            return new DataSource(tableName, _sqlHandler.Connection.Database);
         }
 
-        private void ConvertDataTableToSql(SqlConnection connection, DataTable dataTable)
+        private void ConvertDataTableToSql(DataTable dataTable)
         {
-            _sqlHandler.DropTableIfExists(connection, dataTable.TableName);
+            _sqlHandler.DropTableIfExists(dataTable.TableName);
             var query = _sqlTable.GetCreatTableQuery(dataTable);
-            _sqlHandler.ExecuteNonQuery(connection, query);
-            using var sqlBulkCopy = new SqlBulkCopy(connection);
+            _sqlHandler.ExecuteNonQuery(query);
+            using var sqlBulkCopy = new SqlBulkCopy(_sqlHandler.Connection);
             sqlBulkCopy.DestinationTableName = dataTable.TableName;
             sqlBulkCopy.WriteToServer(dataTable);
         }

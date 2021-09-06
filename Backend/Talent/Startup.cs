@@ -19,7 +19,6 @@ namespace Talent
 {
     public class Startup
     {
-        public static SqlConnection ServerConnection;
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
@@ -47,12 +46,13 @@ namespace Talent
 
             }).AddEntityFrameworkStores<AppDbContext>();
 
-            ServerConnection = new SqlConnection(Configuration.GetConnectionString("testConnection"));
+            var singletonSqlHandler =
+                new SqlHandler(new SqlConnection(Configuration.GetConnectionString("testConnection")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ISqlTable, SqlTable>();
             services.AddSingleton<ICsvToTable, CsvToTable>();
-            services.AddSingleton(typeof(SqlConnection), ServerConnection);
-            services.AddSingleton<ISqlHandler, SqlHandler>();
+            services.AddSingleton(typeof(ISqlHandler), singletonSqlHandler);
+            services.AddSingleton(typeof(SqlHandler), singletonSqlHandler);
             services.AddSingleton<ICsvParser, CsvParser>();
             services.AddSingleton<ISqlParser, SqlParser>();
             services.AddSingleton<ICsvDownloader, CsvDownloader>();
