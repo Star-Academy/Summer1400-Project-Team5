@@ -17,10 +17,9 @@ namespace Talent.Data.Entities
         [NotMapped] private const string ClonedTableSuffix = "CLONED";
         [NotMapped] private const string TemporaryTableSuffix = "TEMPORARY";
 
-        public DataSource(ISqlHandler sqlHandler, SqlConnection sqlConnection)
+        public DataSource()
         {
-            _sqlHandler = sqlHandler;
-            SqlConnection = sqlConnection;
+            SqlConnection = Startup.ServerConnection;
         }
 
         public DataSource(SqlConnection sqlConnection, string tableName, ISqlHandler sqlHandler)
