@@ -55,6 +55,14 @@ namespace Talent.Models
                 connection.Close();
         }
 
+        public void OpenConnection(SqlConnection connection)
+        {
+            if (!IsOpen(connection))
+            {
+                connection.Open();
+            }
+        }
+
         public void DropTableIfExists(SqlConnection connection, string tableName)
         {
             var queryString = $"DROP TABLE IF EXISTS {tableName}";

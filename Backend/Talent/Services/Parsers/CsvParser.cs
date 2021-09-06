@@ -32,9 +32,11 @@ namespace Talent.Services.Parsers
             _sqlHandler.DropTableIfExists(connection, dataTable.TableName);
             var query = _sqlTable.GetCreatTableQuery(dataTable);
             _sqlHandler.ExecuteNonQuery(connection, query);
+            _sqlHandler.OpenConnection(connection);
             using var sqlBulkCopy = new SqlBulkCopy(connection);
             sqlBulkCopy.DestinationTableName = dataTable.TableName;
             sqlBulkCopy.WriteToServer(dataTable);
+            _sqlHandler.CloseConnection(connection);
         }
     }
 }

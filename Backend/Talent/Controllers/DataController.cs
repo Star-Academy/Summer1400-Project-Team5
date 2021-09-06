@@ -1,10 +1,10 @@
 using System;
-using System.Collections.Generic;
 using System.Data;
 using System.Linq;
 using System.Text;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
+using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Models.DatabaseModels;
 using Talent.Services.Interfaces;
@@ -73,16 +73,24 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Route("uploadCsv")]
-        public IActionResult CreateDatabaseFromCsv([FromBody] CsvConnection csvConnection)
+        public IActionResult CreateDatabaseFromCsv([FromQuery] string delimiter, [FromQuery] bool hasHeader, [FromQuery] string tableName)
         {
             try
             {
-                var newDataSource = _csvParser.ConvertCsvToSql(_serverConnection, csvConnection.TableName, csvConnection.CsvFile);
-                // _unitOfWork.DataSources.Insert(newDataSource);
-                return Ok();
+                var file = Request.Form.Files[0];
+                var csvFile = new CsvFile()
+                {
+                    FormFile = file,
+                    Delimiter = delimiter,
+                    HasHeader = hasHeader
+                };
+                var newDataSource = _csvParser.ConvertCsvToSql(_serverConnection, tableName, csvFile);
+                _unitOfWork.DataSources.Insert(newDataSource);
+                return Ok("upload successful.");
             }
-            catch
+            catch (Exception e)
             {
+                Console.WriteLine(e);
                 return BadRequest("Cannot connect to the database.");
             }
         }
@@ -114,7 +122,12 @@ namespace Talent.Controllers
         [Route("sql")]
         public IActionResult GetSqlList()
         {
-            throw new NotImplementedException();
+            _unitOfWork.DataSources.Insert(new DataSource(_serverConnection, "Scores", new SqlHandler()));
+         
+            _unitOfWork.Save();
+            var dataSources = _unitOfWork.DataSources.GetAll().Result;
+            Console.WriteLine(dataSources.Count);
+            return Ok(dataSources);
         }
 
         [HttpGet]
@@ -141,9 +154,10 @@ namespace Talent.Controllers
 
         [HttpDelete]
         [Route("sql/delete/{id:int}")]
-        public IActionResult DeleteSql(int id, string tableName)
+        public IActionResult DeleteSql(int id)
         {
-            var datasource = _unitOfWork.DataSources.Get(d => d.TableName == tableName);
+            var datasource = _unitOfWork.DataSources.Get(d => d.Id == id);
+            Console.WriteLine(datasource.Result.SqlConnection);
             datasource.Result.DropTable();
             _unitOfWork.DataSources.Delete(id);
             return Ok();
