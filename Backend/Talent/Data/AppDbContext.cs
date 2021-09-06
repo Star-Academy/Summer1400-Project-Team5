@@ -1,18 +1,24 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Data.SqlClient;
 using Talent.Data.Entities;
 
 namespace Talent.Data
 {
     public class AppDbContext : IdentityDbContext<AppUser, IdentityRole, string>
     {
-        public AppDbContext(DbContextOptions options) : base(options)
-        { }
+        private readonly SqlConnection _serverConnection;
+        public AppDbContext(DbContextOptions options, SqlConnection serverConnection) : base(options)
+        {
+            _serverConnection = serverConnection;
+        }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<DataSource>().Property(ds => ds.SqlConnection)
+                .HasDefaultValue(_serverConnection);
         }
 
         public DbSet<Aggregate> Aggregates { get; set; }
