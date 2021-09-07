@@ -2,6 +2,7 @@ using System;
 using System.Data;
 using System.Linq;
 using System.Text;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
@@ -40,16 +41,16 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Route("connectsql")]
-        public IActionResult CreateDatasetFromSql([FromBody] TableConnection tableConnection)
+        public async Task<IActionResult> CreateDatasetFromSql([FromBody] TableConnection tableConnection)
         {
-            using var connection = new SqlConnection(tableConnection.ConnectionString.ToString());
+            await using var connection = new SqlConnection(tableConnection.ConnectionString.ToString());
             try
             {
                 CloseConnection(connection);
                 connection.Open();
                 var newDataSource = _sqlParser.CloneTable(connection.Database,
                     _sqlHandler.Connection.Database, tableConnection.SourceTable, tableConnection.DestTable);
-                _unitOfWork.DataSources.Insert(newDataSource);
+                await _unitOfWork.DataSources.Insert(newDataSource);
                 return Ok();
             }
             catch (Exception e)
@@ -65,7 +66,7 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Route("uploadCsv")]
-        public IActionResult CreateDatabaseFromCsv([FromQuery] string delimiter, [FromQuery] bool hasHeader, [FromQuery] string tableName)
+        public async Task<IActionResult> CreateDatabaseFromCsv([FromQuery] string delimiter, [FromQuery] bool hasHeader, [FromQuery] string tableName)
         {
             try
             {
@@ -77,7 +78,7 @@ namespace Talent.Controllers
                     HasHeader = hasHeader
                 };
                 var newDataSource = _csvParser.ConvertCsvToSql(tableName, csvFile);
-                _unitOfWork.DataSources.Insert(newDataSource);
+                await _unitOfWork.DataSources.Insert(newDataSource);
                 return Ok("upload successful.");
             }
             catch (Exception e)
@@ -113,10 +114,10 @@ namespace Talent.Controllers
 
         [HttpGet]
         [Route("sql")]
-        public IActionResult GetSqlList()
+        public async Task<OkObjectResult> GetSqlList()
         {
-            _unitOfWork.DataSources.Insert(new DataSource("Scores", "blah blah"));
-            _unitOfWork.Save();
+            await _unitOfWork.DataSources.Insert(new DataSource("Scores", "blah blah"));
+            await _unitOfWork.Save();
             var dataSources = _unitOfWork.DataSources.GetAll().Result;
             Console.WriteLine(dataSources.Count);
             return Ok(dataSources);
@@ -146,11 +147,12 @@ namespace Talent.Controllers
 
         [HttpDelete]
         [Route("sql/delete/{id:int}")]
-        public IActionResult DeleteSql(int id)
+        public async Task<IActionResult> DeleteSql(int id)
         {
             var datasource = _unitOfWork.DataSources.Get(d => d.Id == id);
             _sqlHandler.DropTableIfExists(datasource.Result.TableName);
-            _unitOfWork.DataSources.Delete(id);
+            await _unitOfWork.DataSources.Delete(id);
+            await _unitOfWork.Save();
             return Ok();
         }
     }
