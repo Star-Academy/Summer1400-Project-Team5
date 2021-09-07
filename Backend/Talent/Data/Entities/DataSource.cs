@@ -1,8 +1,5 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.Data.SqlClient;
-using Talent.Models;
-using Talent.Models.DatabaseModels;
 using Talent.Services.Interfaces;
 
 namespace Talent.Data.Entities

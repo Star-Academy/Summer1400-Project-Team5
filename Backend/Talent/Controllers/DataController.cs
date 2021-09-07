@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
-using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Models.DatabaseModels;
 using Talent.Services.Interfaces;
@@ -40,7 +39,7 @@ namespace Talent.Controllers
         }
 
         [HttpPost]
-        [Route("connectsql")]
+        [Route("connectSql")]
         public async Task<IActionResult> CreateDatasetFromSql([FromBody] TableConnection tableConnection)
         {
             await using var connection = new SqlConnection(tableConnection.ConnectionString.ToString());

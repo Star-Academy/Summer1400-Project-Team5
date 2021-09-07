@@ -1,7 +1,4 @@
-using System;
-using Microsoft.Data.SqlClient;
 using Talent.Data.Entities;
-using Talent.Models;
 using Talent.Services.Interfaces;
 
 namespace Talent.Services.Parsers

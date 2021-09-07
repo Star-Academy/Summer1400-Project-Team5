@@ -1,6 +1,3 @@
-using System.ComponentModel.DataAnnotations.Schema;
-using Microsoft.Data.SqlClient;
-using Talent.Services.Interfaces;
 
 namespace Talent.Data.Entities
 {

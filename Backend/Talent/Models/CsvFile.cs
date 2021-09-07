@@ -7,7 +7,5 @@ namespace Talent.Models
         public IFormFile FormFile { get; set; }
         public bool HasHeader { get; set; }
         public string Delimiter { get; set; }
-        public string FilePath { get; set; }
-        
     }
 }

@@ -1,5 +1,4 @@
-﻿using Microsoft.Data.SqlClient;
-using Talent.Data.Entities;
+﻿using Talent.Data.Entities;
 using Talent.Models;
 
 namespace Talent.Services.Interfaces
