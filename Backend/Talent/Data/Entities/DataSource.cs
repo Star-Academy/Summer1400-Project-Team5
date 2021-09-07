@@ -25,7 +25,7 @@ namespace Talent.Data.Entities
 
         public TempDataSource CloneTable(ISqlHandler sqlHandler)
         {
-            var clonedTableName = "##" + TableName + ClonedTableSuffix;
+            var clonedTableName = TableName + ClonedTableSuffix;
             var resultTable = new TempDataSource(clonedTableName, DatabaseName);
             sqlHandler.DropTableIfExists(clonedTableName);
             sqlHandler.CopyTable(DatabaseName, DatabaseName, TableName, clonedTableName);
@@ -34,7 +34,7 @@ namespace Talent.Data.Entities
 
         public TempDataSource CloneTable(int rowCount, ISqlHandler sqlHandler)
         {
-            var clonedTableName = "##" + TableName + TemporaryTableSuffix;
+            var clonedTableName = TableName + TemporaryTableSuffix;
             var resultTable = new TempDataSource(clonedTableName, DatabaseName);
             sqlHandler.DropTableIfExists(clonedTableName);
             sqlHandler.ExecuteNonQuery($"SELECT TOP({rowCount}) * INTO" +

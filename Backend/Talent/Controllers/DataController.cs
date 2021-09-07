@@ -51,6 +51,8 @@ namespace Talent.Controllers
                     _sqlHandler.Connection.Database, tableConnection.SourceTable, tableConnection.DestTable);
                 await _unitOfWork.DataSources.Insert(newDataSource);
                 await _unitOfWork.Save();
+                await _unitOfWork.TempDataSources.Insert(newDataSource.CloneTable(_sqlHandler));
+                await _unitOfWork.Save();
                 return Ok();
             }
             catch (Exception e)
@@ -114,10 +116,18 @@ namespace Talent.Controllers
         }
 
         [HttpGet]
-        [Route("datasource-list")]
+        [Route("dataSource-list")]
         public OkObjectResult GetListOfDataSources()
         {
             var dataSources = _unitOfWork.DataSources.GetAll().Result;
+            return Ok(dataSources);
+        }
+
+        [HttpGet]
+        [Route("tempDatasource-list")]
+        public OkObjectResult GetListOfTempDataSources()
+        {
+            var dataSources = _unitOfWork.TempDataSources.GetAll().Result;
             return Ok(dataSources);
         }
 
