@@ -90,7 +90,7 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Route("sql-table-list")]
-        public ActionResult GetListOfTables([FromBody] ConnectionString connectionString)
+        public ActionResult GetListOfTablesInDb([FromBody] ConnectionString connectionString)
         {
             using var connection = new SqlConnection(connectionString.ToString());
             try
@@ -114,7 +114,7 @@ namespace Talent.Controllers
 
         [HttpGet]
         [Route("datasource-list")]
-        public OkObjectResult GetSqlList()
+        public OkObjectResult GetListOfDataSources()
         {
             var dataSources = _unitOfWork.DataSources.GetAll().Result;
             return Ok(dataSources);
