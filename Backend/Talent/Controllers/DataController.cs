@@ -50,6 +50,7 @@ namespace Talent.Controllers
                 var newDataSource = _sqlParser.CloneTable(connection.Database,
                     _sqlHandler.Connection.Database, tableConnection.SourceTable, tableConnection.DestTable);
                 await _unitOfWork.DataSources.Insert(newDataSource);
+                await _unitOfWork.Save();
                 return Ok();
             }
             catch (Exception e)
@@ -78,6 +79,7 @@ namespace Talent.Controllers
                 };
                 var newDataSource = _csvParser.ConvertCsvToSql(tableName, csvFile);
                 await _unitOfWork.DataSources.Insert(newDataSource);
+                await _unitOfWork.Save();
                 return Ok("upload successful.");
             }
             catch (Exception e)
