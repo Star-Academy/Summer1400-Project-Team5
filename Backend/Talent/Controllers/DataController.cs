@@ -124,9 +124,16 @@ namespace Talent.Controllers
         [Route("sql/dataSource/{id:int}")]
         public IActionResult GetDataSourceTablePreview(int id, [FromQuery] int rowCount)
         {
-            // var dataSource = _unitOfWork.DataSources.Get(d => d.Id == id).Result;
-            Console.WriteLine(rowCount);
-            return Ok();
+            var dataSource = _unitOfWork.DataSources.Get(d => d.Id == id).Result;
+            return Ok(rowCount == 0 ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName) : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
+        }
+
+        [HttpGet]
+        [Route("sql/tempDataSource/{id:int}")]
+        public IActionResult GetTempTablePreview(int id, [FromQuery] int rowCount)
+        {
+            var dataSource = _unitOfWork.DataSources.Get(d => d.Id == id).Result;
+            return Ok(rowCount == 0 ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName) : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
         }
 
         [HttpGet]
