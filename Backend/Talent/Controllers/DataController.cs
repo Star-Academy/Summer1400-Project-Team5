@@ -51,8 +51,6 @@ namespace Talent.Controllers
                     _sqlHandler.Connection.Database, tableConnection.SourceTable, tableConnection.DestTable);
                 await _unitOfWork.DataSources.Insert(newDataSource);
                 await _unitOfWork.Save();
-                await _unitOfWork.TempDataSources.Insert(newDataSource.CloneTable(_sqlHandler));
-                await _unitOfWork.Save();
                 return Ok();
             }
             catch (Exception e)

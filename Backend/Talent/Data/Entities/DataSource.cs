@@ -10,8 +10,8 @@ namespace Talent.Data.Entities
         public string TableName { get; set; }
         public string DatabaseName { get; set; }
 
-        [NotMapped] private const string ClonedTableSuffix = "CLONED";
-        [NotMapped] private const string TemporaryTableSuffix = "TEMPORARY";
+        [NotMapped] private const string ClonedTableSuffix = "Cloned1";
+        [NotMapped] private const string TemporaryTableSuffix = "Temporary1";
 
         public DataSource()
         {
