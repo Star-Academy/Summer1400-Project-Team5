@@ -125,16 +125,33 @@ namespace Talent.Controllers
         [Route("sql/dataSource/{id:int}")]
         public IActionResult GetDataSourceTablePreview(int id, [FromQuery] int rowCount)
         {
-            var dataSource = _unitOfWork.DataSources.Get(d => d.Id == id).Result;
-            return Ok(rowCount == 0 ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName) : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
+            try
+            {
+                var dataSource = _unitOfWork.DataSources.Get(d => d.Id == id).Result; 
+                return Ok(rowCount == 0 ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName) : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest("error occurred.");
+            }
         }
 
         [HttpGet]
         [Route("sql/tempDataSource/{id:int}")]
         public IActionResult GetTempTablePreview(int id, [FromQuery] int rowCount)
         {
-            var dataSource = _unitOfWork.DataSources.Get(d => d.Id == id).Result;
-            return Ok(rowCount == 0 ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName) : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
+            try
+            {
+                var dataSource = _unitOfWork.TempDataSources.Get(d => d.Id == id).Result; 
+                return Ok(rowCount == 0 ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName) : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                return BadRequest("error occurred.");
+            }
+            
         }
 
         [HttpGet]
