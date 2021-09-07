@@ -56,6 +56,7 @@ namespace Talent
             services.AddSingleton<ICsvParser, CsvParser>();
             services.AddSingleton<ISqlParser, SqlParser>();
             services.AddSingleton<ICsvDownloader, CsvDownloader>();
+            services.AddSingleton<ISqlToJson, SqlToJson>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
