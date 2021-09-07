@@ -113,13 +113,10 @@ namespace Talent.Controllers
         }
 
         [HttpGet]
-        [Route("sql")]
-        public async Task<OkObjectResult> GetSqlList()
+        [Route("datasource-list")]
+        public OkObjectResult GetSqlList()
         {
-            await _unitOfWork.DataSources.Insert(new DataSource("Scores", "blah blah"));
-            await _unitOfWork.Save();
             var dataSources = _unitOfWork.DataSources.GetAll().Result;
-            Console.WriteLine(dataSources.Count);
             return Ok(dataSources);
         }
 
