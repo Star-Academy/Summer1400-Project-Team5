@@ -87,5 +87,24 @@ namespace Talent.Models
             ExecuteNonQuery($"SELECT * INTO {destinationDatabaseName}.dbo.{destinationTableName} " +
                             $"FROM {sourceDatabaseName}.dbo.{sourceTableName}");
         }
+
+        public SqlDataAdapter CreateDataAdapter(string queryString)
+        {
+            CloseConnection();
+            try
+            {
+                Connection.Open();
+                return new SqlDataAdapter(queryString, Connection);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw new Exception("Cannot open sql connection.");
+            }
+            finally
+            {
+                CloseConnection();
+            }
+        }
     }
 }

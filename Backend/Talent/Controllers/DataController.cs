@@ -3,14 +3,12 @@ using System.Data;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Data.SqlClient;
 using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Models.DatabaseModels;
 using Talent.Services.Interfaces;
-using Talent.Services.Repositories;
 
 namespace Talent.Controllers
 {
@@ -19,18 +17,20 @@ namespace Talent.Controllers
     public class DataController : Controller
     {
         private readonly IUnitOfWork _unitOfWork;
-        private readonly SqlHandler _sqlHandler;
+        private readonly ISqlHandler _sqlHandler;
         private readonly ISqlParser _sqlParser;
         private readonly ICsvParser _csvParser;
         private readonly ICsvDownloader _csvDownloader;
+        private readonly ISqlToJson _sqlToJson;
 
-        public DataController(IUnitOfWork unitOfWork, SqlHandler sqlHandler, ISqlParser sqlParser, ICsvParser csvParser, ICsvDownloader csvDownloader)
+        public DataController(IUnitOfWork unitOfWork, ISqlHandler sqlHandler, ISqlParser sqlParser, ICsvParser csvParser, ICsvDownloader csvDownloader, ISqlToJson sqlToJson)
         {
             _unitOfWork = unitOfWork;
             _sqlHandler = sqlHandler;
             _sqlParser = sqlParser;
             _csvParser = csvParser;
             _csvDownloader = csvDownloader;
+            _sqlToJson = sqlToJson;
         }
 
         private void CloseConnection(SqlConnection connection)
@@ -121,9 +121,10 @@ namespace Talent.Controllers
         }
 
         [HttpGet]
-        [Route("sql/{id:int}")]
-        public IActionResult GetTablePreview(int id)
+        [Route("sql/dataSource/{id:int}")]
+        public IActionResult GetDataSourceTablePreview(int id)
         {
+            var dataSource = _unitOfWork.DataSources.Get(d => d.Id == id).Result;
             throw new NotImplementedException();
         }
 
