@@ -125,10 +125,11 @@ namespace Talent.Controllers
 
         [HttpGet]
         [Route("sql/dataSource/{id:int}")]
-        public IActionResult GetDataSourceTablePreview(int id)
+        public IActionResult GetDataSourceTablePreview(int id, [FromQuery] int rowCount)
         {
-            var dataSource = _unitOfWork.DataSources.Get(d => d.Id == id).Result;
-            throw new NotImplementedException();
+            // var dataSource = _unitOfWork.DataSources.Get(d => d.Id == id).Result;
+            Console.WriteLine(rowCount);
+            return Ok();
         }
 
         [HttpGet]
