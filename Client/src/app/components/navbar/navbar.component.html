@@ -1,12 +1,16 @@
-<nav class="nav">
+<nav class="nav" *ngIf="showNav">
   <div class="nav__content">
     <div class="nav__logo">
-       <p>لوگو</p>
+      <a routerLink="/">لوگو</a>
     </div>
     <div class="nav__text">
-        <a routerLink="">درباره ما</a>
-        <a routerLink="">ورود</a>
-        <a routerLink="">ثبت نام</a>
+      <a routerLink="/">خانه</a>
+      <a *ngIf="loginStatusService.isLoggedIn()" routerLink="data">داده‌ها</a>
+      <a *ngIf="loginStatusService.isLoggedIn()" routerLink="pipes">لوله‌ها</a>
+      <a routerLink="/" fragment="section-about" id="link-about">درباره‌ی ما</a>
+      <a *ngIf="!loginStatusService.isLoggedIn()" routerLink="login">ورود</a>
+      <a *ngIf="!loginStatusService.isLoggedIn()" routerLink="">ثبت‌نام</a>
+      <a *ngIf="loginStatusService.isLoggedIn()" routerLink="" (click)="loginStatusService.logout()">خروج</a>
     </div>
   </div>
 </nav>

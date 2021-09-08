@@ -1,0 +1,29 @@
+@use '../../styles/abstracts' as *;
+.not-found{
+    height:100vh;
+    background-color:$color-white;
+    display:flex;
+    justify-content:center;
+    align-items: center;
+
+    &__content{
+        transform: translateY(-10%);
+        h1,h2{
+            text-align:center;
+            color:$color-secondary;
+        }
+        h1{
+            font-size: 14rem;
+        }
+        h2{
+            font-size: 2.6rem;
+            margin-bottom: 2rem;
+        }
+    }
+    &__btn{
+        text-align:center;
+        button{
+            font-size: 2rem;
+        }
+    }
+}

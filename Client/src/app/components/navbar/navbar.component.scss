@@ -1,38 +1,55 @@
 @use '../../styles/abstracts' as *;
 @use '../../styles/utils' as *;
 
-.nav{
+.nav {
+  display: flex;
+  justify-content: center;
+  height: 7vh;
+  padding-top: 1rem;
+
+  &__content {
+    width: $content-width;
+    padding-top: 1.4rem;
     display: flex;
-    justify-content: center;
-    height: 7vh;
-    &__content{
-        width: $content-width;
-        padding-top: 1.4rem;
-        display: flex;
-        justify-content: space-between;
-    }
-    &__logo{
-        display: flex;
-        align-items: center;
-        font-size: 2.3rem;
-        color: $color-secondary;
-    }
-    &__text{
-        display: flex;
-        align-items: center;
-        gap: 3rem;
-        a{
-            font-size: 1.2rem;
-            color: $color-secondary;
-            padding:.3rem 1rem;
-            border-radius: 2rem;
-            transition: background-color .2s ease-in-out,
-            color .2s ease-in-out;
-            &:hover{
-                display: inline-block;
-                color: $color-white;
-                background-color: $color-primary;
-            }
+    justify-content: space-between;
+  }
+
+  &__logo {
+    display: flex;
+    align-items: center;
+    font-size: 2.3rem;
+    color: $color-secondary;
+  }
+
+  &__text {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+
+    a {
+      font-size: 1.2rem;
+      color: $color-secondary;
+      padding: .3rem 1rem;
+      border-radius: 2rem;
+      transition: background-color .2s ease-in-out,
+      color .2s ease-in-out;
+
+      @media only screen and (min-width: 48rem) {
+        &:hover {
+          display: inline-block;
+          color: $color-white;
+          background-color: $color-primary;
         }
+      }
+      
     }
+  }
+}
+
+@media only screen and (max-width: 74.99rem) {
+  .nav{
+    &__content{
+      padding-inline: .5rem;
+    }
+  }
 }

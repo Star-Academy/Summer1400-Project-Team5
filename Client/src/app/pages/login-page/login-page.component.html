@@ -1,0 +1,31 @@
+<section class="login-page">
+  <aside class="login-page__aside">
+    <div class="login-page__aside__header"><div class="logo">لوگو</div></div>
+    <div class="login-page__aside__text">در سریعترین زمان ممکن تغییرات لازم را روی داده های خود اعمال کنید</div>
+    <div class="login-page__aside__art">
+      <img src="../../../assets/images/login/login_final.svg" class="login-page__aside__art__image" />
+    </div>
+  </aside>
+  <main class="login-page__main">
+    <header class="login-page__main__header">
+      <span>عضو نیستید؟</span>
+      &nbsp;
+      <a class="link" routerLink="/signup">ثبت نام در سایت</a>
+    </header>
+    <section class="login-page__main__form-container">
+      <form class="login-form">
+        <label class="login-form__label">
+          <div class="login-form__label__title">ایمیل</div>
+          <input class="inp login-form__label__input" type="email" />
+        </label>
+        <label class="login-form__label">
+          <div class="login-form__label__title">رمز عبور</div>
+          <input class="inp login-form__label__input" type="password" />
+        </label>
+        <div class="login-form__submit">
+          <button class="btn btn--primary btn--capsole btn--wide" (click)="success('test-token')">ورود</button>
+        </div>
+      </form>
+    </section>
+  </main>
+</section>

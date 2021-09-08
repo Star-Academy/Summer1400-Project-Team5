@@ -1,3 +1,4 @@
+using System;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -14,6 +15,7 @@ using Talent.Models.DatabaseModels;
 using Talent.Services.Interfaces;
 using Talent.Services.Parsers;
 using Talent.Services.Repositories;
+using Talent.Logic;
 
 namespace Talent
 {
@@ -36,9 +38,14 @@ namespace Talent
             services.AddControllers();
             services.AddDbContext<AppDbContext>(options => 
             {
-                options.UseSqlServer(
-                    Configuration.GetConnectionString("testConnection")
+                string dbId = Environment.GetEnvironmentVariable("DB_ID");
+                string dbPs = Environment.GetEnvironmentVariable("DB_PS");
+                string connectionString = string.Format(
+                    Configuration.GetConnectionString("localConnection"),
+                    dbId, dbPs
                 );
+
+                options.UseSqlServer(connectionString);
             });
             services.AddIdentity<AppUser, IdentityRole>(options =>
             {
@@ -47,7 +54,7 @@ namespace Talent
             }).AddEntityFrameworkStores<AppDbContext>();
 
             var singletonSqlHandler =
-                new SqlHandler(new SqlConnection(Configuration.GetConnectionString("testConnection")));
+                new SqlHandler(new SqlConnection(Configuration.GetConnectionString("localConnection")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ISqlTable, SqlTable>();
             services.AddSingleton<ICsvToTable, CsvToTable>();
@@ -57,6 +64,8 @@ namespace Talent
             services.AddSingleton<ISqlParser, SqlParser>();
             services.AddSingleton<ICsvDownloader, CsvDownloader>();
             services.AddSingleton<ISqlToJson, SqlToJson>();
+            services.AddScoped<TokenGenerator, TokenGenerator>();
+
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -77,7 +86,7 @@ namespace Talent
 
             app.UseCors(options => 
             {
-                options.AllowAnyOrigin();
+                options.AllowAnyOrigin().AllowAnyHeader();
             });
             app.UseEndpoints(endpoints =>
             {

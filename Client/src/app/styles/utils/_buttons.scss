@@ -1,14 +1,39 @@
 @use '../../styles/abstracts' as *;
 .btn {
-    border-radius: 1.4rem;
-    padding: 1rem 1.2rem;
-    color: #fff;
-    transition: background-color 0.3s ease-in-out;
-    cursor: pointer;
+  border-radius: 1.4rem;
+  padding: 0.6rem 1.3rem;
+  cursor: pointer;
+  border: solid 1.5px $color-secondary;
+  font-size: 1rem;
+
+  &--capsole {
+    border-radius: 1000rem;
+    $pad: 2rem;
+    padding-left: $pad;
+    padding-right: $pad;
   }
-  .btn--primary {
+
+  &--wide {
+    width: 12rem;
+  }
+  &--wider {
+    width: 22rem;
+  }
+  &--widest {
+    width: 100%;
+  }
+
+  &--primary {
+    font-size: 1.2rem;
+    padding: 0.4rem 1.3rem;
+
+    transition: background-color 0.3s ease-in-out;
     background-color: $color-primary;
+    color: #fff;
+    border: none;
+
     &:hover {
       background-color: $color-primary-darker;
     }
   }
+}

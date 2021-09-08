@@ -1,0 +1,24 @@
+<section class="page">
+  <div class="page-header">
+    <h1>لوله‌ها</h1>
+    <button (click)="addPipeTapped()" class="btn btn--primary"> 
+      <fa-icon [styles]="{'vertical-align':'middle'}" [icon]="faPlus"></fa-icon>
+      <p>      افزودن لوله
+      </p>
+    </button>
+  </div>
+  <ul class="responsive-table">
+    <li class="table-header">
+      <div class="col col-1">شناسه</div>
+      <div class="col col-2">نام لوله</div>
+      <div class="col col-3">داده‌ی مبدا</div>
+      <div class="col col-4">داده‌ی مقصد</div>
+    </li>
+    <li class="table-row" *ngFor="let pipe of pipes" (click)="pipeTapped(pipe)">
+      <div class="col col-1" data-label="شناسه">{{pipe.id}}</div>
+      <div class="col col-2" data-label="نام لوله">{{pipe.name}}</div>
+      <div class="col col-3" data-label="داده‌ی مبدا">{{pipe.sourceData?.name ?? "-"}}</div>
+      <div class="col col-4" data-label="داده‌ی مقصد">{{pipe.destinationData?.name ?? "-"}}</div>
+    </li>
+  </ul>
+</section>

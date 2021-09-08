@@ -16,14 +16,5 @@ namespace Talent.Data
         {
             base.OnModelCreating(modelBuilder);
         }
-
-        public DbSet<Aggregate> Aggregates { get; set; }
-        public DbSet<Aggregation> Aggregations { get; set; }
-        public DbSet<DataSource> DataSources { get; set; }
-        public DbSet<Filter> Filters { get; set; }
-        public DbSet<Join> Joins { get; set; }
-        public DbSet<Pipeline> Pipelines { get; set; }
-        public DbSet<PipelineProcess> PipelineProcesses { get; set; }
-        public DbSet<TempDataSource> TempDataSources { get; set; }
     }
 }

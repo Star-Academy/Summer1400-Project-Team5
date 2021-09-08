@@ -1,0 +1,48 @@
+@use '../../styles/abstracts' as *;
+@use '../../styles/utils' as *;
+
+.page {
+  height: 93vh;
+  padding: 3.5% 7.5%;
+
+  .page-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: baseline;
+
+    button {
+      padding: 1rem;
+      font-size: 1.5rem;
+      // color: $color-primary;
+      color: $color-white;
+      border-radius: 999rem;
+      transition: all 0.2s;
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
+
+      // &:hover {
+      //   background-color: lightgrey;
+      // }
+
+      .add-pipe-icon svg{
+        vertical-align: middle;
+      }
+
+      p {
+        margin-right: 0.5rem;
+        display: inline;
+      }
+    }
+  }
+
+  h1 {
+    font-size: 3rem;
+    margin-bottom: 1.5rem;
+    color: $color-primary;
+    margin-right: 3%;
+  }
+}
+

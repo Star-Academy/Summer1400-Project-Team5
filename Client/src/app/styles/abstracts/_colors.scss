@@ -1,4 +1,12 @@
-$color-primary: hsl(213, 52%, 48%);
+$color-primary: #3b74ba;
 $color-primary-darker: hsl(213, 52%, 38%);
-$color-secondary: hsl(206, 5%, 28%);
+$color-secondary: #44484b;
 $color-white: hsl(0, 0%, 95%);
+$filter-primary: invert(37%) sepia(78%) saturate(811%) hue-rotate(182deg) brightness(90%) contrast(76%);
+$filter-secondary: invert(25%) sepia(12%) saturate(237%) hue-rotate(163deg) brightness(97%) contrast(88%);
+
+$color-input-bg: #e9e9e9;
+$color-input-fg: #333333;
+$color-input-pl: #a0a0a0;
+
+$color-title: #3e3e3e;

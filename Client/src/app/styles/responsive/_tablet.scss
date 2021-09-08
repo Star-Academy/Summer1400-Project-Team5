@@ -1,0 +1,58 @@
+@media only screen and (max-width: 48rem) {
+    // homepage
+    .landing{
+        margin-top: 6rem;
+        height:unset !important;
+        &__content{
+           flex-direction: column-reverse !important;
+           &>div{
+               width: 100%;
+           }
+        }
+        &__text{
+            h1{
+                text-align: center;
+                font-size: 3.5rem !important;
+            }
+            p{
+                text-align-last: center;
+            }
+        }
+        &__button{
+            text-align: center !important;
+        }
+    }
+    .how-works{
+        height:unset !important;
+        margin-top: 6rem;
+        h2{
+            font-size: 3.2rem !important;
+        }
+        &__items{
+            flex-direction: column !important;
+            gap: 4rem !important;
+        }
+        &__pic{
+            img{
+                height: 100% !important;
+            }
+        }
+    }
+    .about{
+        height: unset !important;
+        margin-top: 6rem;
+        &__content{
+            flex-direction: column !important;
+        }
+        &__pic{
+            margin-top: 2rem;
+        }
+        h2{
+            text-align: center !important;
+            font-size: 3.2rem !important;
+        }
+        p{
+            text-align-last: center;
+        }
+    }
+}
