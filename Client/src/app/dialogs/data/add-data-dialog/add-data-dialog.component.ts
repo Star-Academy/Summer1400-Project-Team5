@@ -8,7 +8,7 @@ import { faTable} from '@fortawesome/free-solid-svg-icons';
 export class AddDataDialogComponent implements OnInit {
 
   constructor() { }
-  faTable=faTable;
+  faTable = faTable;
   ngOnInit(): void {
   }
 

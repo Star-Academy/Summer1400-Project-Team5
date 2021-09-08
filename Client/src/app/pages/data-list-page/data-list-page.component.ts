@@ -27,6 +27,7 @@ export class DataListPageComponent {
   addDataTapped() {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
+    dialogConfig.data = (newData: Data) => this.allData.push(newData);
     this.dialog.open(AddDataDialogComponent, dialogConfig);
   }
 
