@@ -9,7 +9,7 @@ using Talent.Services.Interfaces;
 
 namespace Talent.Services.Repositories
 {
-    public class GenericRepository<T> : IGenericRepository<T> where T : class
+    public class GenericRepository<T> : IGenericRepository<T> where T : class 
     {
         private readonly AppDbContext _dbContext;
         public readonly DbSet<T> _dbSet;
@@ -19,7 +19,7 @@ namespace Talent.Services.Repositories
             _dbContext = dbContext;
             _dbSet = _dbContext.Set<T>();
         }
-        public async Task Delete(int id)
+        public async Task DeleteAsync(int id)
         {
             var entity = await _dbSet.FindAsync(id);
             _dbSet.Remove(entity);
@@ -30,7 +30,7 @@ namespace Talent.Services.Repositories
             _dbSet.RemoveRange(entities);
         }
 
-        public async Task<T> Get(Expression<Func<T, bool>> expression, List<string> includes = null)
+        public async Task<T> GetAsync(Expression<Func<T, bool>> expression, List<string> includes = null)
         {
             IQueryable<T> query = _dbSet;
             if(includes != null)
@@ -42,7 +42,7 @@ namespace Talent.Services.Repositories
             return await query.AsNoTracking().FirstOrDefaultAsync(expression);
         }
 
-        public async Task<IList<T>> GetAll(Expression<Func<T, bool>> expression = null,
+        public async Task<IList<T>> GetAllAsync(Expression<Func<T, bool>> expression = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderedBy = null,
             List<string> includes = null)
         {
@@ -68,12 +68,12 @@ namespace Talent.Services.Repositories
             return await query.AsNoTracking().ToListAsync();
         }
 
-        public async Task Insert(T entity)
+        public async Task InsertAsync(T entity)
         {
             await _dbSet.AddAsync(entity);
         }
 
-        public async Task InsertRange(IEnumerable<T> entities)
+        public async Task InsertRangeAsync(IEnumerable<T> entities)
         {
             await _dbSet.AddRangeAsync(entities);
         }

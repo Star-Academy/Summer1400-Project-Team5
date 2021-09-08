@@ -16,5 +16,11 @@ namespace Talent.Data
         {
             base.OnModelCreating(modelBuilder);
         }
+
+        public DbSet<DataSource> DataSources { get; set; }
+        public DbSet<Pipeline> Pipelines { get; set; }
+        public DbSet<Processor> Processes { get; set; }
+        public DbSet<PipelineProcess> PipelineProcesses { get; set; }
+        public DbSet<TempDataSource> TempDataSources { get; set; }
     }
 }

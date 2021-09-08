@@ -2,8 +2,11 @@ using System.ComponentModel.DataAnnotations;
 
 namespace Talent.Data.Entities
 {
-    public class Filter : Process
+    public class Filter : Processor
     {
-        [Key] public int Id { get; set; }
+        public override DataSource Process(DataSource source)
+        {
+            throw new System.NotImplementedException();
+        }
     }
 }

@@ -8,19 +8,19 @@ namespace Talent.Services.Interfaces
 {
     public interface IGenericRepository<T> where T : class 
     {
-        Task<IList<T>> GetAll(
+        Task<IList<T>> GetAllAsync(
             Expression<Func<T, bool>> expression = null,
             Func<IQueryable<T>, IOrderedQueryable<T>> orderedBy = null,
             List<string> includes = null
         );
 
-        Task<T> Get(Expression<Func<T, bool>> expression, List<string> includes = null);
+        Task<T> GetAsync(Expression<Func<T, bool>> expression, List<string> includes = null);
 
-        Task Insert(T entity);
+        Task InsertAsync(T entity);
 
-        Task InsertRange(IEnumerable<T> entities);
+        Task InsertRangeAsync(IEnumerable<T> entities);
 
-        Task Delete(int id);
+        Task DeleteAsync(int id);
 
         void DeleteRange(IEnumerable<T> entities);
 
