@@ -5,18 +5,42 @@
   </h1>
   <form class="login-form">
     <label class="login-form__label">
-      <div class="login-form__label__title">نام داده</div>
-      <input class="inp login-form__label__input" type="text" />
+      <div class="login-form__label__title">نام جدول مبدا</div>
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="sourceTable" />
     </label>
     <label class="login-form__label">
-      <div class="login-form__label__title">نوع</div>
-      <select>
-        <option value="CSV">CSV</option>
-        <option value="SQL Server">SQL Server</option>
-      </select>
+      <div class="login-form__label__title">نام جدول مقصد</div>
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="destinationTable" />
     </label>
+    <label class="login-form__label">
+      <div class="login-form__label__title">آدرس سرور</div>
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="serverName" />
+    </label>
+    <label class="login-form__label">
+      <div class="login-form__label__title">نام پایگاه داده</div>
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="databaseName" />
+    </label>
+    <label class="login-form__label">
+      <div class="login-form__label__title">نام کاربری اتصال</div>
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="username" />
+    </label>
+    <label class="login-form__label">
+      <div class="login-form__label__title">رمز عبور اتصال</div>
+      <input class="inp login-form__label__input" type="password" [(ngModel)]="password" />
+    </label>
+
+
+<!--    <label class="login-form__label">-->
+<!--      <div class="login-form__label__title">نوع</div>-->
+<!--      <select>-->
+<!--        <option value="CSV">CSV</option>-->
+<!--        <option value="SQL Server">SQL Server</option>-->
+<!--      </select>-->
+<!--    </label>-->
+
+
     <div class="login-form__submit">
-      <button class="btn btn--primary btn--capsole btn--wide">اضافه کن</button>
+      <button class="btn btn--primary btn--capsole btn--wide" (click)="addTapped()">اضافه کن</button>
     </div>
   </form>
 </section>
