@@ -77,7 +77,7 @@ namespace Talent
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "WebApplication2 v1"));
             }
 
-            app.UseHttpsRedirection();
+            // app.UseHttpsRedirection();
 
             app.UseRouting();
 
@@ -86,7 +86,7 @@ namespace Talent
 
             app.UseCors(options => 
             {
-                options.AllowAnyOrigin().AllowAnyHeader();
+                options.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod();
             });
             app.UseEndpoints(endpoints =>
             {
