@@ -150,6 +150,30 @@ namespace Talent.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
+            modelBuilder.Entity("Talent.Data.Entities.Aggregate", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Aggregates");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.Aggregation", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Aggregations");
+                });
+
             modelBuilder.Entity("Talent.Data.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -215,6 +239,100 @@ namespace Talent.Migrations
                     b.ToTable("AspNetUsers");
                 });
 
+            modelBuilder.Entity("Talent.Data.Entities.DataSource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("DatabaseName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TableName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("DataSources");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.Filter", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Filters");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.Join", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Joins");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.Pipeline", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("AppUserId")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("AppUserId");
+
+                    b.ToTable("Pipelines");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.PipelineProcess", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.HasKey("Id");
+
+                    b.ToTable("PipelineProcesses");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.TempDataSource", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("DatabaseName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("TableName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("TempDataSources");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -264,6 +382,27 @@ namespace Talent.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.DataSource", b =>
+                {
+                    b.HasOne("Talent.Data.Entities.AppUser", null)
+                        .WithMany("DataSources")
+                        .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.Pipeline", b =>
+                {
+                    b.HasOne("Talent.Data.Entities.AppUser", null)
+                        .WithMany("Pipelines")
+                        .HasForeignKey("AppUserId");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.AppUser", b =>
+                {
+                    b.Navigation("DataSources");
+
+                    b.Navigation("Pipelines");
                 });
 #pragma warning restore 612, 618
         }
