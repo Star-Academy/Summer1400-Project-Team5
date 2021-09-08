@@ -8,5 +8,9 @@ using System.Threading.Tasks;
 namespace Talent.Data.Entities
 {
     public class AppUser : IdentityUser
-    { }
+    {
+        [Key] public int Id { get; set; }
+        public List<DataSource> DataSources { get; set; }
+        public List<Pipeline> Pipelines { get; set; }
+    }
 }
