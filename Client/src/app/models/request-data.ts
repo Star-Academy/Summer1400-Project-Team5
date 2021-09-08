@@ -4,7 +4,7 @@ export enum RequestMethod {
 }
 
 export default class RequestData {
-  static server = "";
+  static server = "http://localhost:5000";
 
   endpoint: string;
   method: RequestMethod;
