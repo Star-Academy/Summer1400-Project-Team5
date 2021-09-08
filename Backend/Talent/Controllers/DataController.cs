@@ -49,7 +49,7 @@ namespace Talent.Controllers
                 connection.Open();
                 var newDataSource = _sqlParser.CloneTable(connection.Database,
                     _sqlHandler.Connection.Database, tableConnection.SourceTable, tableConnection.DestTable);
-                await _unitOfWork.DataSources.Insert(newDataSource);
+                await _unitOfWork.DataSources.InsertAsync(newDataSource);
                 await _unitOfWork.Save();
                 return Ok();
             }
@@ -78,7 +78,7 @@ namespace Talent.Controllers
                     HasHeader = hasHeader
                 };
                 var newDataSource = _csvParser.ConvertCsvToSql(tableName, csvFile);
-                await _unitOfWork.DataSources.Insert(newDataSource);
+                await _unitOfWork.DataSources.InsertAsync(newDataSource);
                 await _unitOfWork.Save();
                 return Ok("upload successful.");
             }
@@ -117,7 +117,7 @@ namespace Talent.Controllers
         [Route("dataSource-list")]
         public OkObjectResult GetListOfDataSources()
         {
-            var dataSources = _unitOfWork.DataSources.GetAll().Result;
+            var dataSources = _unitOfWork.DataSources.GetAllAsync().Result;
             return Ok(dataSources);
         }
 
@@ -125,7 +125,7 @@ namespace Talent.Controllers
         [Route("tempDatasource-list")]
         public OkObjectResult GetListOfTempDataSources()
         {
-            var dataSources = _unitOfWork.TempDataSources.GetAll().Result;
+            var dataSources = _unitOfWork.TempDataSources.GetAllAsync().Result;
             return Ok(dataSources);
         }
 
@@ -135,7 +135,7 @@ namespace Talent.Controllers
         {
             try
             {
-                var dataSource = _unitOfWork.DataSources.Get(d => d.Id == id).Result; 
+                var dataSource = _unitOfWork.DataSources.GetAsync(d => d.Id == id).Result; 
                 return Ok(rowCount == 0 ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName) : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
             }
             catch (Exception e)
@@ -151,7 +151,7 @@ namespace Talent.Controllers
         {
             try
             {
-                var dataSource = _unitOfWork.TempDataSources.Get(d => d.Id == id).Result; 
+                var dataSource = _unitOfWork.TempDataSources.GetAsync(d => d.Id == id).Result; 
                 return Ok(rowCount == 0 ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName) : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
             }
             catch (Exception e)
@@ -181,9 +181,9 @@ namespace Talent.Controllers
         [Route("sql/delete/{id:int}")]
         public async Task<IActionResult> DeleteSql(int id)
         {
-            var datasource = _unitOfWork.DataSources.Get(d => d.Id == id);
+            var datasource = _unitOfWork.DataSources.GetAsync(d => d.Id == id);
             _sqlHandler.DropTableIfExists(datasource.Result.TableName);
-            await _unitOfWork.DataSources.Delete(id);
+            await _unitOfWork.DataSources.DeleteAsync(id);
             await _unitOfWork.Save();
             return Ok();
         }
