@@ -22,7 +22,8 @@ namespace Talent.Controllers
         private readonly ICsvDownloader _csvDownloader;
         private readonly ISqlToJson _sqlToJson;
 
-        public DataController(IUnitOfWork unitOfWork, ISqlHandler sqlHandler, ISqlParser sqlParser, ICsvParser csvParser, ICsvDownloader csvDownloader, ISqlToJson sqlToJson)
+        public DataController(IUnitOfWork unitOfWork, ISqlHandler sqlHandler, ISqlParser sqlParser,
+            ICsvParser csvParser, ICsvDownloader csvDownloader, ISqlToJson sqlToJson)
         {
             _unitOfWork = unitOfWork;
             _sqlHandler = sqlHandler;
@@ -66,7 +67,8 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Route("uploadCsv")]
-        public async Task<IActionResult> CreateDatabaseFromCsv([FromQuery] string delimiter, [FromQuery] bool hasHeader, [FromQuery] string tableName)
+        public async Task<IActionResult> CreateDatabaseFromCsv([FromQuery] string delimiter, [FromQuery] bool hasHeader,
+            [FromQuery] string tableName)
         {
             try
             {
@@ -135,8 +137,10 @@ namespace Talent.Controllers
         {
             try
             {
-                var dataSource = _unitOfWork.DataSources.GetAsync(d => d.Id == id).Result; 
-                return Ok(rowCount == 0 ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName) : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
+                var dataSource = _unitOfWork.DataSources.GetAsync(d => d.Id == id).Result;
+                return Ok(rowCount == 0
+                    ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName)
+                    : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
             }
             catch (Exception e)
             {
@@ -151,15 +155,16 @@ namespace Talent.Controllers
         {
             try
             {
-                var dataSource = _unitOfWork.TempDataSources.GetAsync(d => d.Id == id).Result; 
-                return Ok(rowCount == 0 ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName) : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
+                var dataSource = _unitOfWork.TempDataSources.GetAsync(d => d.Id == id).Result;
+                return Ok(rowCount == 0
+                    ? _sqlToJson.ConvertSqlTableToJson(dataSource.TableName)
+                    : _sqlToJson.ConvertSqlTableToJson(dataSource.TableName, rowCount));
             }
             catch (Exception e)
             {
                 Console.WriteLine(e);
                 return BadRequest("error occurred.");
             }
-            
         }
 
         [HttpGet]

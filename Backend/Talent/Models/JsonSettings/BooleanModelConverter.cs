@@ -8,16 +8,56 @@ namespace Talent.Models.JsonSettings
 {
     public class BooleanModelConverter : JsonConverter
     {
-        public override bool CanWrite => false;
-
         public override bool CanConvert(Type objectType)
         {
             return objectType.IsSubclassOf(typeof(BooleanModel));
         }
         public override void WriteJson(JsonWriter writer, object? value, JsonSerializer serializer)
         {
-            throw new NotImplementedException("this function is never going to br called. (CanWrite field is false)");
+            if(!(value is BooleanModel)) return;
+            JToken token = JToken.FromObject(value);
+            if (token.Type != JTokenType.Object)
+            {
+                token.WriteTo(writer);
+            }
+            else
+            {
+                JObject jObject = (JObject) token;
+                AddBoolModelToJObject((BooleanModel)value, jObject);
+                jObject.WriteTo(writer);
+            }
+            
         }
+
+        private void AddBoolModelToJObject(BooleanModel boolModel, JObject jObject)
+        {
+            var type = GetBoolModelType(boolModel.GetType());
+            jObject.AddFirst(new JProperty("$type", type));
+            if (IsBoolPhrase(type))
+            {
+                AddChildrenToJObject(boolModel, jObject);
+            }
+        }
+
+        private void AddChildrenToJObject(BooleanModel boolModel, JObject jObject)
+        {
+            var children = ((BooleanPhraseModel) boolModel).Children;
+            var jArray = new JArray();
+            foreach (var child in children)
+            {
+                AddChildToJArray(child, jArray);
+            }
+            jObject.Remove("Children");
+            jObject.Add(new JProperty("Children", jArray));
+        }
+
+        private void AddChildToJArray(BooleanModel child, JArray jArray)
+        {
+            JObject childObject = JObject.FromObject(child);
+            AddBoolModelToJObject(child, childObject);
+            jArray.Add(childObject);
+        }
+        
 
         public override object? ReadJson(JsonReader reader, Type objectType, object? existingValue,
             JsonSerializer serializer)
@@ -70,13 +110,13 @@ namespace Talent.Models.JsonSettings
             var childrenList = new List<BooleanModel>();
             foreach (var child in childrenJsonArray)
             {
-                var childType = child["$type"].Value<string>();
+                var childType = child["$type"]?.Value<string>();
                 var childObject = GetBoolObject(childType, (JObject) child);
                 childrenList.Add(childObject);
             }
             return childrenList;
         }
-
+        
         private bool IsBoolExpression(string? type)
         {
             return type == GetBoolModelType<BooleanExpressionModel>();
