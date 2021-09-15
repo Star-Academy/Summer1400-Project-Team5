@@ -30,7 +30,7 @@ export class ActionItemComponent implements OnInit {
   openActionEditDialog(): void {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
-    // dialogConfig.data = action;
+    dialogConfig.data = this.action;
     this.dialog.open(EditActionDialogComponent, dialogConfig);
   }
 }

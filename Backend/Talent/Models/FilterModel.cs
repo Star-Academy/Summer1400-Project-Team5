@@ -1,9 +1,11 @@
-using Talent.Models.Boolean;
-
 namespace Talent.Models
 {
     public class FilterModel : ProcessModel
     {
-        public BooleanPhraseModel Filter { get; set; }
+        public object FilterObject { get; set; }
+        public string ToSql()
+        {
+            return "A=B AND (C>D OR E<F)";
+        }
     }
 }

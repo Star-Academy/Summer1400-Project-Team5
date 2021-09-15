@@ -1,6 +1,8 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Talent.Models;
+using Talent.Models.DatabaseModels;
 using Talent.Services.Interfaces;
+using Talent.Services.Parsers;
 
 namespace Talent.Data.Entities
 {
@@ -15,7 +17,11 @@ namespace Talent.Data.Entities
 
         public new TempDataSource Process(TempDataSource source, ISqlHandler sqlHandler)
         {
-            throw new System.NotImplementedException();
+            var result = sqlHandler.ExecuteReader(@$"SELECT * FROM {source.TableName}
+             {JoinMethod} {source.TableName} ON 
+             {source.TableName}.{SourceKey}={AddSource.TableName}.{AddSourceKey}");
+            var sqlReader = new SqlReaderToTempData(new SqlTable(), new DataReaderToDataTable());
+            return sqlReader.ConvertToTempDataSource(result, sqlHandler, source.FindNextName());
         }
 
         public Join()

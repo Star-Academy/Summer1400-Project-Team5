@@ -166,9 +166,9 @@ namespace Talent.Controllers
                {
                    Index = filterModel.Index,
                    ProcessType = filterModel.ProcessType,
-                   PipelineProcessId = pipelineProcess.PipelineProcessId
+                   PipelineProcessId = pipelineProcess.PipelineProcessId,
+                   FilterSQL = filterModel.ToSql()
                });
-               //TODO: add Tree
            }
 
            var pipeline = await _unitOfWork.Pipelines.GetAsync(p => p.PipelineId == pipelineId);
