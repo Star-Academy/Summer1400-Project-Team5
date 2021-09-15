@@ -6,13 +6,14 @@
   <form class="login-form">
     <label class="login-form__label">
       <div class="login-form__label__title">نوع</div>
-      <select>
-        <option value="افزودن">افزودن</option>
-        <option value="کاستن">کاستن</option>
+      <select name="selectedType" [(ngModel)]="selectedType">
+        <option>الحاق</option>
+        <option>جمع‌آوری</option>
+        <option>فیلتر</option>
       </select>
     </label>
     <div class="login-form__submit">
-      <button class="btn btn--primary btn--capsole btn--wide">ثبت تغییرات</button>
+      <button class="btn btn--primary btn--capsole btn--wide" (click)="submitTapped()">ثبت تغییرات</button>
     </div>
   </form>
 </section>
