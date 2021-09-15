@@ -65,7 +65,8 @@ namespace Talent
             services.AddSingleton<ICsvDownloader, CsvDownloader>();
             services.AddSingleton<ISqlToJson, SqlToJson>();
             services.AddScoped<TokenGenerator, TokenGenerator>();
-
+            services.AddSingleton<DataReaderToDataTable, DataReaderToDataTable>();
+            services.AddSingleton<SqlReaderToTempData, SqlReaderToTempData>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

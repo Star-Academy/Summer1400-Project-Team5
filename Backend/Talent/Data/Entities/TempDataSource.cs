@@ -58,5 +58,10 @@ namespace Talent.Data.Entities
                 return name + splitter;
             }
         }
+
+        public string FindNextName()
+        {
+            return FindNextName(TableName, ClonedTableSuffix);
+        }
     }
 }
