@@ -1,22 +1,13 @@
-using System.Threading;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Talent.Data.Entities;
 using Talent.Models;
-using Talent.Models.Convertors;
-using Talent.Services.Interfaces;
-using YamlDotNet.Core.Events;
-using YamlDotNet.RepresentationModel;
 
-namespace Talent.Controllers
+namespace Talent.Controllers.MockedControllers
 {
     [Authorize]
+    [Route("[controller]")]
     public class MockPipelineController : ControllerBase
     {
         public MockPipelineController()
@@ -40,7 +31,7 @@ namespace Talent.Controllers
             };
         }
 
-        [Route("[controller]")]
+        [Route("")]
         [HttpGet]
         public IActionResult Get()
         {
@@ -49,7 +40,7 @@ namespace Talent.Controllers
             return Ok(listPipelineModels);
         }
 
-        [Route("[controller]/{pipelineId:int}")]
+        [Route("{pipelineId:int}")]
         [HttpGet]
         public IActionResult GetPipeline(int pipelineId)
         {
@@ -57,14 +48,14 @@ namespace Talent.Controllers
         }
 
 
-        [Route("[controller]/kill/{pipelineId:int}")]
+        [Route("kill/{pipelineId:int}")]
         [HttpPost]
         public IActionResult KillPipeline(int pipelineId)
         {
             return Ok();
         }
         
-        [Route("[controller]/status/{pipelineId:int}")]
+        [Route("status/{pipelineId:int}")]
         [HttpPost]
         public IActionResult PipelineStatus(int pipelineId)
         {
@@ -74,7 +65,7 @@ namespace Talent.Controllers
             }));
         }
 
-        [Route("[controller]")]
+        [Route("")]
         [HttpPost]
         public IActionResult Post([FromBody] string name, [FromBody] int sourceId,
             [FromBody] int destinationId)
@@ -83,7 +74,7 @@ namespace Talent.Controllers
         }
 
         [HttpPost]
-        [Route("[controller]/actions/{pipelineId:int}")]
+        [Route("actions/{pipelineId:int}")]
         public IActionResult Processes(int pipelineId, [FromBody] List<AggregationModel> aggregations, 
             [FromBody] List<FilterModel> filters, [FromBody] List<JoinModel> joins)
         {

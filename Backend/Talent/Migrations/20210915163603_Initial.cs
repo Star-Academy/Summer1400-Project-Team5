@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 
 namespace Talent.Migrations
 {
-    public partial class Identity : Migration
+    public partial class Initial : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -44,6 +44,20 @@ namespace Talent.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "TempDataSources",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TableName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DatabaseName = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_TempDataSources", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -152,6 +166,101 @@ namespace Talent.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            migrationBuilder.CreateTable(
+                name: "DataSources",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    TableName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    DatabaseName = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    AppUserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_DataSources", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_DataSources_AspNetUsers_AppUserId",
+                        column: x => x.AppUserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Pipelines",
+                columns: table => new
+                {
+                    PipelineId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    SourceId = table.Column<int>(type: "int", nullable: true),
+                    DestinationId = table.Column<int>(type: "int", nullable: true),
+                    OwnerId = table.Column<string>(type: "nvarchar(450)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Pipelines", x => x.PipelineId);
+                    table.ForeignKey(
+                        name: "FK_Pipelines_AspNetUsers_OwnerId",
+                        column: x => x.OwnerId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pipelines_DataSources_DestinationId",
+                        column: x => x.DestinationId,
+                        principalTable: "DataSources",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                    table.ForeignKey(
+                        name: "FK_Pipelines_DataSources_SourceId",
+                        column: x => x.SourceId,
+                        principalTable: "DataSources",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "PipelineProcesses",
+                columns: table => new
+                {
+                    PipelineProcessId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    PipelineId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PipelineProcesses", x => x.PipelineProcessId);
+                    table.ForeignKey(
+                        name: "FK_PipelineProcesses_Pipelines_PipelineId",
+                        column: x => x.PipelineId,
+                        principalTable: "Pipelines",
+                        principalColumn: "PipelineId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Processes",
+                columns: table => new
+                {
+                    ProcessId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Index = table.Column<int>(type: "int", nullable: false),
+                    ProcessType = table.Column<int>(type: "int", nullable: false),
+                    PipelineProcessId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Processes", x => x.ProcessId);
+                    table.ForeignKey(
+                        name: "FK_Processes_PipelineProcesses_PipelineProcessId",
+                        column: x => x.PipelineProcessId,
+                        principalTable: "PipelineProcesses",
+                        principalColumn: "PipelineProcessId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_AspNetRoleClaims_RoleId",
                 table: "AspNetRoleClaims",
@@ -190,6 +299,37 @@ namespace Talent.Migrations
                 column: "NormalizedUserName",
                 unique: true,
                 filter: "[NormalizedUserName] IS NOT NULL");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_DataSources_AppUserId",
+                table: "DataSources",
+                column: "AppUserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_PipelineProcesses_PipelineId",
+                table: "PipelineProcesses",
+                column: "PipelineId",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pipelines_DestinationId",
+                table: "Pipelines",
+                column: "DestinationId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pipelines_OwnerId",
+                table: "Pipelines",
+                column: "OwnerId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Pipelines_SourceId",
+                table: "Pipelines",
+                column: "SourceId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Processes_PipelineProcessId",
+                table: "Processes",
+                column: "PipelineProcessId");
         }
 
         protected override void Down(MigrationBuilder migrationBuilder)
@@ -210,7 +350,22 @@ namespace Talent.Migrations
                 name: "AspNetUserTokens");
 
             migrationBuilder.DropTable(
+                name: "Processes");
+
+            migrationBuilder.DropTable(
+                name: "TempDataSources");
+
+            migrationBuilder.DropTable(
                 name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "PipelineProcesses");
+
+            migrationBuilder.DropTable(
+                name: "Pipelines");
+
+            migrationBuilder.DropTable(
+                name: "DataSources");
 
             migrationBuilder.DropTable(
                 name: "AspNetUsers");

@@ -8,21 +8,21 @@ namespace Talent.Models.Convertors
         {
             return new Pipeline()
             {
-                Name = pipelineModel.Name,
-                DestinationId = pipelineModel.DestinationId,
-                SourceId = pipelineModel.SourceId,
-                //OwnerId = //TODO
+                // Name = pipelineModel.Name,
+                // DestinationId = pipelineModel.DestinationId,
+                // SourceId = pipelineModel.SourceId,
+                // //OwnerId = //TODO
             };
         }
         public static PipelineModel ConvertPipelineModel(Pipeline pipelineModel)
         {
             return new PipelineModel()
             {
-                Name = pipelineModel.Name,
-                Processors = pipelineModel.Process.Processes,
-                DestinationId = pipelineModel.DestinationId,
-                SourceId = pipelineModel.SourceId,
-                NumberOfProcesses = pipelineModel.Process.Processes.Count
+                // Name = pipelineModel.Name,
+                // Processors = pipelineModel.Process.Processes,
+                // DestinationId = pipelineModel.DestinationId,
+                // SourceId = pipelineModel.SourceId,
+                // NumberOfProcesses = pipelineModel.Process.Processes.Count
             };
         }
     }

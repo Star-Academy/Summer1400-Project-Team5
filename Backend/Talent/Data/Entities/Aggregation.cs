@@ -13,13 +13,17 @@ namespace Talent.Data.Entities
         public AggregationMethod Method { get; set; }
         public List<GroupByColumn> Columns { get; set; }
         public string AggregationColumn { get; set; }
-        public override TempDataSource Process(TempDataSource source, ISqlHandler sqlHandler)
+        public new TempDataSource Process(TempDataSource source, ISqlHandler sqlHandler)
         {
             string columns = string.Join(" ", Columns);
             var result = sqlHandler.ExecuteReader(@$"SELECT {Method}({AggregationColumn}) 
                 FROM {source.TableName} GROUP BY {columns}");
             var sqlReader = new SqlReaderToTempData(new SqlTable(), new DataReaderToDataTable());
             return sqlReader.ConvertToTempDataSource(result, sqlHandler, source.FindNextName());
+        }
+
+        public Aggregation()
+        {
         }
     }
 }

@@ -12,11 +12,14 @@ namespace Talent.Data.Entities
         [ForeignKey("AddSource")]
         public int AddSourceId { get; set; }
         public DataSource AddSource { get; set; }
-        
-        public override TempDataSource Process(TempDataSource source, ISqlHandler sqlHandler)
+
+        public new TempDataSource Process(TempDataSource source, ISqlHandler sqlHandler)
         {
             throw new System.NotImplementedException();
         }
-        
+
+        public Join()
+        {
+        }
     }
 }
