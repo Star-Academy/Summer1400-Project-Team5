@@ -15,7 +15,9 @@ namespace Talent.Data.Entities
         
         public override TempDataSource Process(TempDataSource source, ISqlHandler sqlHandler)
         {
-            throw new System.NotImplementedException();
+            var result = sqlHandler.ExecuteReader(@$"SELECT * FROM {source.TableName}
+             {JoinMethod} {source.TableName} ON 
+             {source.TableName}.{SourceKey}={AddSource.TableName}.{AddSourceKey}");
         }
         
     }
