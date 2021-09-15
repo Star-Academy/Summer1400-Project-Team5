@@ -44,7 +44,7 @@ export class AddDataDialogComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
-    dialogConfig.data = new RequestData("data/connectsql", RequestMethod.POST, json, () => {
+    dialogConfig.data = new RequestData("mock/data/connectsql", RequestMethod.POST, json, () => {
 
     }); // TODO: This should be changed, obviously
     this.dialog.open(ServerRequestDialogComponent, dialogConfig);

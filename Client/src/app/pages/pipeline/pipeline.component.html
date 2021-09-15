@@ -21,10 +21,10 @@
                 </p>
             </div>
             <div class="pipeline-top__left">
-                <button class="pipeline-top__options">
+                <button class="pipeline-top__run" (click)="addActionTapped()">
                     <span></span>
                 </button>
-               <button class="pipeline-top__run" (click)="runPipeTapped()">
+                <button class="pipeline-top__run" (click)="runPipeTapped()">
                     <span></span>
                 </button>
             </div>
@@ -33,7 +33,7 @@
 
         </div>
         <div class="pipeline__actions-list">
-          <app-actions-list></app-actions-list>
+          <app-actions-list [actions]="pipe.actions"></app-actions-list>
         </div>
         <div class="pipeline__demo-table">
           <app-data-table></app-data-table>

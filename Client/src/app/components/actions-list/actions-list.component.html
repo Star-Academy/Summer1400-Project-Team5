@@ -1,6 +1,8 @@
 <div class="scrollable-list">
   <div class="action-item-root">
-    <app-action-item [shouldShowArrowAtTheEnd]="true"></app-action-item>
+    <!-- <app-action-item [shouldShowArrowAtTheEnd]="true"></app-action-item> -->
+    <app-action-item *ngFor="let action of actions" [action]="action"></app-action-item>
+    <!-- <app-action-item></app-action-item>
     <app-action-item></app-action-item>
     <app-action-item></app-action-item>
     <app-action-item></app-action-item>
@@ -11,7 +13,8 @@
     <app-action-item></app-action-item>
     <app-action-item></app-action-item>
     <app-action-item></app-action-item>
-    <app-action-item></app-action-item>
-    <app-action-item></app-action-item>
+    <app-action-item></app-action-item> -->
+
+
   </div>
 </div>

@@ -1,20 +1,16 @@
 <div class="action-item-root">
   <div class="action-item-placement">
     <div class="action-item-container" (click)="openActionEditDialog()">
-      <div class="action-item-icon">
-        <fa-icon [icon]="faDatabase"></fa-icon>
+      <div class="action-item-icon" [style]="'background-color: ' + action.getColor()">
+        <fa-icon [icon]="action.getIcon()"></fa-icon>
       </div>
       <div class="action-item-text">
-        افزودن
+        {{action.getPersianName()}}
       </div>
       <div class="action-item-more">
         <fa-icon [icon]="faAngleLeft"></fa-icon>
       </div>
     </div>
-
-<!--    <span *ngIf="shouldShowArrowAtTheEnd" class="left-arrow">-->
-<!--      &leftarrow;-->
-<!--    </span>-->
   </div>
 </div>
 

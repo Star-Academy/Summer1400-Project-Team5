@@ -51,7 +51,7 @@ export class DataListPageComponent implements OnInit {
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
-    dialogConfig.data = new RequestData("data/datasource-list", RequestMethod.GET, {}, (statusCode: number, result: string) => {
+    dialogConfig.data = new RequestData("mock/data/datasource-list", RequestMethod.GET, {}, (statusCode: number, result: string) => {
       let arr = JSON.parse(result);
       this.allData = [];
       for (const arrElement of arr) {

@@ -6,6 +6,7 @@ import Pipe from "../../models/pipe";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {ServerRequestDialogComponent} from "../../dialogs/server-request-dialog/server-request-dialog.component";
 import RequestData, {RequestMethod} from "../../models/request-data";
+import ActionItem, { ActionConfig, ActionType, JoinActionConfig } from 'src/app/models/action';
 
 @Component({
   selector: 'app-pipeline',
@@ -37,5 +38,9 @@ export class PipelineComponent implements OnInit {
       console.log("callback!")
     }); // TODO: This should be changed, obviously
     this.dialog.open(ServerRequestDialogComponent, dialogConfig);
+  }
+
+  addActionTapped(): void {
+    this.pipe.actions.push(new ActionItem(ActionType.join, new JoinActionConfig()));
   }
 }

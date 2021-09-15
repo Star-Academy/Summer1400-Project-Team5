@@ -18,12 +18,10 @@ export class SQLServerDataDetailsDialogComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    console.log(this.data);
-    console.log("j");
-    // const config = this.data.config as SQLServerDataConfig;
-    // this.server = config.server;
-    // this.username = config.username;
-    // this.password = config.password;
+    const config = this.data.config as SQLServerDataConfig;
+    this.server = config.server;
+    this.username = config.username;
+    this.password = config.password;
   }
 
 }

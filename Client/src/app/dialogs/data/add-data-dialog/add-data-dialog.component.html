@@ -6,27 +6,27 @@
   <form class="login-form">
     <label class="login-form__label">
       <div class="login-form__label__title">نام جدول مبدا</div>
-      <input class="inp login-form__label__input" type="text" [(ngModel)]="sourceTable" />
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="sourceTable" [ngModelOptions]="{standalone: true}"/>
     </label>
     <label class="login-form__label">
       <div class="login-form__label__title">نام جدول مقصد</div>
-      <input class="inp login-form__label__input" type="text" [(ngModel)]="destinationTable" />
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="destinationTable" [ngModelOptions]="{standalone: true}"/>
     </label>
     <label class="login-form__label">
       <div class="login-form__label__title">آدرس سرور</div>
-      <input class="inp login-form__label__input" type="text" [(ngModel)]="serverName" />
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="serverName" [ngModelOptions]="{standalone: true}"/>
     </label>
     <label class="login-form__label">
       <div class="login-form__label__title">نام پایگاه داده</div>
-      <input class="inp login-form__label__input" type="text" [(ngModel)]="databaseName" />
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="databaseName" [ngModelOptions]="{standalone: true}"/>
     </label>
     <label class="login-form__label">
       <div class="login-form__label__title">نام کاربری اتصال</div>
-      <input class="inp login-form__label__input" type="text" [(ngModel)]="username" />
+      <input class="inp login-form__label__input" type="text" [(ngModel)]="username" [ngModelOptions]="{standalone: true}"/>
     </label>
     <label class="login-form__label">
       <div class="login-form__label__title">رمز عبور اتصال</div>
-      <input class="inp login-form__label__input" type="password" [(ngModel)]="password" />
+      <input class="inp login-form__label__input" type="password" [(ngModel)]="password" [ngModelOptions]="{standalone: true}"/>
     </label>
 
 
