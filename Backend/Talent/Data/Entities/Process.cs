@@ -1,6 +1,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Talent.Models;
+using Talent.Services.Interfaces;
 
 namespace Talent.Data.Entities
 {
@@ -15,6 +16,6 @@ namespace Talent.Data.Entities
         public int PipelineProcessId { get; set; }
         public PipelineProcess PipelineProcess { get; set; }
 
-        public abstract void Process(TempDataSource source);
+        public abstract TempDataSource Process(TempDataSource source, ISqlHandler sqlHandler);
     }
 }

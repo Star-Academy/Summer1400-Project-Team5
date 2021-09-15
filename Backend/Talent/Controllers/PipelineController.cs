@@ -1,5 +1,3 @@
-using System.Threading;
-using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -11,7 +9,6 @@ using Talent.Data.Entities;
 using Talent.Models;
 using Talent.Models.Convertors;
 using Talent.Services.Interfaces;
-using YamlDotNet.Core.Events;
 using YamlDotNet.RepresentationModel;
 
 namespace Talent.Controllers
@@ -24,11 +21,11 @@ namespace Talent.Controllers
        private readonly ISqlHandler _sqlHandler;
 
        public PipelineController(IUnitOfWork unitOfWork, UserManager<AppUser> userManager,
-            ISqlHandler sqlHandler)
+           ISqlHandler sqlHandler)
        {
-           _unitOfWork = unitOfWork;
-           _userManager = userManager;
-           _sqlHandler = sqlHandler;
+            _unitOfWork = unitOfWork;
+            _userManager = userManager;
+            _sqlHandler = sqlHandler;
        }
 
        [Route("[controller]")]

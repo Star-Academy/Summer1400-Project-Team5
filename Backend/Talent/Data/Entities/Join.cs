@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using Talent.Models;
+using Talent.Services.Interfaces;
 
 namespace Talent.Data.Entities
 {
@@ -12,7 +13,7 @@ namespace Talent.Data.Entities
         public int AddSourceId { get; set; }
         public DataSource AddSource { get; set; }
         
-        public override void Process(TempDataSource source)
+        public override TempDataSource Process(TempDataSource source, ISqlHandler sqlHandler)
         {
             throw new System.NotImplementedException();
         }

@@ -24,7 +24,7 @@ namespace Talent.Data.Entities
                 var tempDataSource = source.CloneTable(sqlHandler);
                 foreach (var process in Processes)
                 {
-                    process.Process(tempDataSource);
+                    tempDataSource = process.Process(tempDataSource, sqlHandler);
                     processInfo.CurrentProcessIndex = process.Index + 1;
                 }
                 return tempDataSource;
@@ -36,7 +36,7 @@ namespace Talent.Data.Entities
             var tempDataSource = source.CloneTable(sqlHandler);
             foreach (var process in Processes)
             {
-                process.Process(tempDataSource);
+                tempDataSource = process.Process(tempDataSource, sqlHandler);
             }
             return tempDataSource;
         }
