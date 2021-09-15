@@ -1,12 +1,15 @@
-using System.ComponentModel.DataAnnotations;
+using Talent.Services.Interfaces;
 
 namespace Talent.Data.Entities
 {
     public class Filter : Processor
     {
-        public override DataSource Process(DataSource source)
+        public string FilterSQL { get; set; }
+        public override TempDataSource Process(TempDataSource source, ISqlHandler sqlHandler)
         {
-            throw new System.NotImplementedException();
+            var result = sqlHandler.ExecuteReader(@$"SELECT * FROM {source.TableName}
+             WHERE {FilterSQL}");
+             
         }
     }
 }

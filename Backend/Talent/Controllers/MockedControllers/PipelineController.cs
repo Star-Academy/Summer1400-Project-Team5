@@ -1,18 +1,8 @@
-using System.Threading;
-using System;
 using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Talent.Data.Entities;
 using Talent.Models;
-using Talent.Models.Convertors;
-using Talent.Services.Interfaces;
-using YamlDotNet.Core.Events;
-using YamlDotNet.RepresentationModel;
 
 namespace Talent.Controllers
 {

@@ -1,10 +1,11 @@
 using System.ComponentModel.DataAnnotations.Schema;
 using System.ComponentModel.DataAnnotations;
 using Talent.Models;
+using Talent.Services.Interfaces;
 
 namespace Talent.Data.Entities
 {
-    public abstract class Processor : IProcessor
+    public abstract class Processor
     {
         [Key]
         public int ProcessId { get; set; }
@@ -15,8 +16,6 @@ namespace Talent.Data.Entities
         public int PipelineProcessId { get; set; }
         public PipelineProcess PipelineProcess { get; set; }
 
-        public abstract DataSource Process(DataSource source);
-        
-
+        public abstract TempDataSource Process(TempDataSource source, ISqlHandler sqlHandler);
     }
 }
