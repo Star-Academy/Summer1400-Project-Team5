@@ -9,7 +9,7 @@ namespace Talent.Data.Entities
         {
             var result = sqlHandler.ExecuteReader(@$"SELECT * FROM {source.TableName}
              WHERE {FilterSQL}");
-            
+             
         }
     }
 }
