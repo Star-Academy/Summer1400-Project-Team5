@@ -4,7 +4,7 @@ namespace Talent.Data.Entities
 {
     public class Filter : Processor
     {
-        public override DataSource Process(DataSource source)
+        public override void Process(TempDataSource source)
         {
             throw new System.NotImplementedException();
         }

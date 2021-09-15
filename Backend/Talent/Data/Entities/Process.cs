@@ -4,7 +4,7 @@ using Talent.Models;
 
 namespace Talent.Data.Entities
 {
-    public abstract class Processor : IProcessor
+    public abstract class Processor
     {
         [Key]
         public int ProcessId { get; set; }
@@ -15,8 +15,6 @@ namespace Talent.Data.Entities
         public int PipelineProcessId { get; set; }
         public PipelineProcess PipelineProcess { get; set; }
 
-        public abstract DataSource Process(DataSource source);
-        
-
+        public abstract void Process(TempDataSource source);
     }
 }

@@ -12,7 +12,7 @@ namespace Talent.Data.Entities
         public int AddSourceId { get; set; }
         public DataSource AddSource { get; set; }
         
-        public override DataSource Process(DataSource source)
+        public override void Process(TempDataSource source)
         {
             throw new System.NotImplementedException();
         }
