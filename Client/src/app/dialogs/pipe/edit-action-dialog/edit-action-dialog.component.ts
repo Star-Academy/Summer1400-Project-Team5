@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { faCogs } from '@fortawesome/free-solid-svg-icons';
-import action, { AggregateActionConfig, FilterActionConfig } from 'src/app/models/action';
+import action, { AggregateActionConfig, CalculateActionConfig, CalculateType, FilterActionConfig } from 'src/app/models/action';
 import ActionItem, { ActionType, JoinActionConfig } from 'src/app/models/action';
 
 @Component({
@@ -15,7 +15,7 @@ export class EditActionDialogComponent implements OnInit {
 
 
   selectedType = "جمع‌آوری"; 
-  // جمع‌آوری - فیلتر - الحاق
+  // جمع‌آوری - فیلتر - الحاق - محاسبه
 
   filter_columnName = "";
   filter_columnEqual = "";
@@ -27,7 +27,31 @@ export class EditActionDialogComponent implements OnInit {
   aggregate_groupColumn = "";
   aggregate_addColumn = "";
 
+  calculate_firstOperand = "";
+  calculate_secondOperand = "";
+  calculate_type = "";
+
   constructor(@Inject(MAT_DIALOG_DATA) public action: ActionItem) { }
+
+  convertEnumToPersianOperator(type: CalculateType): string {
+    switch (type) {
+      case CalculateType.add: return "جمع";
+      case CalculateType.subtract: return "تفریق";
+      case CalculateType.multiply: return "ضرب";
+      case CalculateType.divide: return "تقسیم";
+      default: return "جمع";
+    }
+  }
+
+  convertPersianToEnumOperator(persian: string): CalculateType {
+    switch (persian) {
+      case "جمع": return CalculateType.add;
+      case "تفریق": return CalculateType.subtract;
+      case "ضرب": return CalculateType.multiply;
+      case "تقسیم": return CalculateType.divide;
+      default: return CalculateType.add;
+    }
+  }
 
   ngOnInit(): void {
     switch (this.action.type) {
@@ -37,7 +61,6 @@ export class EditActionDialogComponent implements OnInit {
       case ActionType.aggregate:
         this.selectedType = "جمع‌آوری";
         let aggregateConfig = this.action.config as AggregateActionConfig;
-        console.log(aggregateConfig);
         this.aggregate_groupColumn = aggregateConfig.groupColumn;
         this.aggregate_addColumn = aggregateConfig.addColumn;
         break;
@@ -48,6 +71,13 @@ export class EditActionDialogComponent implements OnInit {
         this.filter_columnEqual = filterConfig.columnEqual;
         this.filter_columnLess = filterConfig.columnLess;
         this.filter_columnMore = filterConfig.columnMore;
+        break;
+      case ActionType.calculate:
+        this.selectedType = "محاسبه";
+        let calculateConfig = this.action.config as CalculateActionConfig;
+        this.calculate_firstOperand = calculateConfig.firstOperand;
+        this.calculate_secondOperand = calculateConfig.secondOperand;
+        this.calculate_type = this.convertEnumToPersianOperator(calculateConfig.type);
         break;
       default:
         this.selectedType = "الحاق";
@@ -76,7 +106,14 @@ export class EditActionDialogComponent implements OnInit {
         f.columnLess = this.filter_columnLess;
         f.columnMore = this.filter_columnMore;
         this.action.config = f;
-
+        break;
+      case "محاسبه":
+        this.action.type = ActionType.calculate;
+        let c = new CalculateActionConfig();
+        c.firstOperand = this.calculate_firstOperand;
+        c.secondOperand = this.calculate_secondOperand;
+        c.type = this.convertPersianToEnumOperator(this.calculate_type)
+        this.action.config = c;
         break;
       
       default:
