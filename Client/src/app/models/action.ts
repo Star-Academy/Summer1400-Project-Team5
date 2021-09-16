@@ -10,13 +10,17 @@ export class ActionConfig {
 }
 
 export class JoinActionConfig extends ActionConfig {
-
+    
 }
 export class FilterActionConfig extends ActionConfig {
-    
+    columnName = "";
+    columnEqual = "";
+    columnMore = "";
+    columnLess = "";
 }
 export class AggregateActionConfig extends ActionConfig {
-    
+    groupColumn = "";
+    addColumn = "";
 }
 
 export default class ActionItem {

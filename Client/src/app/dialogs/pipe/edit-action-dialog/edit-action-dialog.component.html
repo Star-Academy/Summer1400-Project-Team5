@@ -12,6 +12,50 @@
         <option>فیلتر</option>
       </select>
     </label>
+
+    <div *ngIf="selectedType == 'فیلتر'">
+      <label class="login-form__label">
+        <div class="login-form__label__title">نام ستون</div>
+        <input class="inp login-form__label__input" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="filter_columnName"/>
+      </label>
+
+      <label class="login-form__label">
+        <div class="login-form__label__title">برابر با</div>
+        <input class="inp login-form__label__input" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="filter_columnEqual"/>
+      </label>
+
+      <label class="login-form__label">
+        <div class="login-form__label__title">بزرگ‌تر از</div>
+        <input class="inp login-form__label__input" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="filter_columnMore"/>
+      </label>
+
+      <label class="login-form__label">
+        <div class="login-form__label__title" >کوچک‌تر از</div>
+        <input class="inp login-form__label__input" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="filter_columnLess"/>
+      </label>
+    </div>
+
+    <div *ngIf="selectedType == 'الحاق'">
+      <label class="login-form__label">
+        <div class="login-form__label__title">داده‌ی دوم</div>
+        <select name="join_selectedData" [(ngModel)]="join_selectedData">
+          <option>ارزش برندها</option>
+        </select>
+      </label>
+    </div>
+
+    <div *ngIf="selectedType == 'جمع‌آوری'">
+      <label class="login-form__label">
+        <div class="login-form__label__title">ستون گروه‌بندی</div>
+        <input class="inp login-form__label__input" type="text" [ngModelOptions]="{standalone: true}"  [(ngModel)]="aggregate_groupColumn"/>
+      </label>
+
+      <label class="login-form__label">
+        <div class="login-form__label__title" >ستون جمع‌شونده</div>
+        <input class="inp login-form__label__input" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="aggregate_addColumn"/>
+      </label>
+    </div>
+
     <div class="login-form__submit">
       <button class="btn btn--primary btn--capsole btn--wide" (click)="submitTapped()">ثبت تغییرات</button>
     </div>

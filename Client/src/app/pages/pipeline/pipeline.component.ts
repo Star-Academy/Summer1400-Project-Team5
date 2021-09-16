@@ -21,7 +21,8 @@ export class PipelineComponent implements OnInit {
   constructor(private route: ActivatedRoute, private dialog: MatDialog) { }
 
   async loadPipe(id: number): Promise<Pipe> {
-    return Promise.resolve(new Pipe(2, "لوله‌ی دوم")); // TODO: Incomplete implementation
+    let pipe = new Pipe(2, "بررسی تولیدکنندگان");
+    return Promise.resolve(pipe); // TODO: Incomplete implementation
   }
 
   ngOnInit(): void {

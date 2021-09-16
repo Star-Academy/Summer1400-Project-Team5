@@ -11,12 +11,12 @@
                 <p>
                     <span>
                         <fa-icon [icon]="faDatabase" size="xs"></fa-icon>
-                        {{pipe.sourceData?.name ?? "مبدا مشخص نشده"}}
+                        {{pipe.sourceData?.name ?? "تولیدکنندگان موبایل"}}
                     </span>
                     <span class="pipeline-top__center__arrow">&larr;</span>
                     <span>
                         <fa-icon [icon]="faTable" size="xs"></fa-icon>
-                         {{pipe.destinationData?.name ?? "مقصد مشخص نشده"}}
+                         {{pipe.destinationData?.name ?? "پایگاه داده‌ی مقصد"}}
                     </span>
                 </p>
             </div>
@@ -36,7 +36,7 @@
           <app-actions-list [actions]="pipe.actions"></app-actions-list>
         </div>
         <div class="pipeline__demo-table">
-          <app-data-table></app-data-table>
+          <app-data-table [originalActions]="this.pipe.actions"></app-data-table>
         </div>
     </div>
 </div>
