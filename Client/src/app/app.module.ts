@@ -26,6 +26,7 @@ import { ServerRequestDialogComponent } from './dialogs/server-request-dialog/se
 import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from '@angular/common/http';
 import { NgxChartsModule } from '@swimlane/ngx-charts';
+import { DragDropModule } from '@angular/cdk/drag-drop';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,8 @@ import { NgxChartsModule } from '@swimlane/ngx-charts';
     FormsModule,
     MaterialModule,
     HttpClientModule,
-    NgxChartsModule
+    NgxChartsModule,
+    DragDropModule,
   ],
   providers: [],
   bootstrap: [AppComponent],

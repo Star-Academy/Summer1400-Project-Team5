@@ -43,7 +43,7 @@
   <br/>
   <br/>
 
-  <div style="display: flex; flex-direction: row; justify-content: center">
+  <div class="bar-chart-holder">
     <ngx-charts-bar-vertical 
       [view]="[1000,400]"
       [results]="chartDataSource"
@@ -64,13 +64,13 @@
   <br/>
   <br/>
 
-  <div style="display: flex; flex-direction: row; justify-content: center">
+  <div class="pie-chart-holder">
     <ngx-charts-pie-chart 
     [results]="chartDataSource"
     [legend]="false"
     [legendTitle]="'مقایسه'" 
     [view]="[1000,300]"
     >
-</ngx-charts-pie-chart>
+    </ngx-charts-pie-chart>
   </div>
 </div>

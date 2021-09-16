@@ -8,6 +8,7 @@
 .scrollable-list {
   overflow: auto;
   white-space: nowrap;
+  transition: all 0.5s;
 }
 
 pipeline-top__run {

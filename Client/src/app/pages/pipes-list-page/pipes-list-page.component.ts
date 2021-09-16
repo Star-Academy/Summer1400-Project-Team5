@@ -16,13 +16,13 @@ import Data, { DataType } from 'src/app/models/data';
 export class PipesListPageComponent implements OnInit {
   faPlus = faPlus;
 
-  pipes: Pipe[] = [
-    new Pipe(1, "لوله‌ی نخست"),
-    new Pipe(2, "لوله‌ی دوم"),
-    new Pipe(3, "لوله‌ی جدید"),
-  ]
+  pipes: Pipe[] = []
 
   constructor(private dialog: MatDialog, private router: Router) {
+    let pipe = new Pipe(1, "بررسی تولیدکنندگان");
+    pipe.sourceData = new Data(1, "تولیدکنندگان موبایل", DataType.sqlServer);
+    pipe.destinationData = new Data(2, "پایگاه داده‌ی مقصد", DataType.sqlServer);
+    this.pipes = [pipe];
   }
 
   addPipeTapped() {
@@ -36,6 +36,7 @@ export class PipesListPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    return;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;

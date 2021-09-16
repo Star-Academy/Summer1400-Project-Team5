@@ -21,9 +21,14 @@
                 </p>
             </div>
             <div class="pipeline-top__left">
+                <button class="pipeline-add-button" (click)="removeLastActionTapped()" *ngIf="pipe.actions.length > 0">
+                    <fa-icon [icon]="faMinus"></fa-icon>
+                </button>
+                
                 <button class="pipeline-add-button" (click)="addActionTapped()">
                     <fa-icon [icon]="faPlus"></fa-icon>
                 </button>
+                
                 <button class="pipeline-add-button" (click)="runPipeTapped()">
                     <fa-icon [icon]="faPlay"></fa-icon>
                 </button>
