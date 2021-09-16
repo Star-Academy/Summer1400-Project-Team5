@@ -8,10 +8,10 @@
       <div class="login-form__label__title">نام جدول مبدا</div>
       <input class="inp login-form__label__input" type="text" [(ngModel)]="sourceTable" [ngModelOptions]="{standalone: true}"/>
     </label>
-    <label class="login-form__label">
+    <!-- <label class="login-form__label">
       <div class="login-form__label__title">نام جدول مقصد</div>
       <input class="inp login-form__label__input" type="text" [(ngModel)]="destinationTable" [ngModelOptions]="{standalone: true}"/>
-    </label>
+    </label> -->
     <label class="login-form__label">
       <div class="login-form__label__title">آدرس سرور</div>
       <input class="inp login-form__label__input" type="text" [(ngModel)]="serverName" [ngModelOptions]="{standalone: true}"/>
@@ -41,6 +41,10 @@
 
     <div class="login-form__submit">
       <button class="btn btn--primary btn--capsole btn--wide" (click)="addTapped()">اضافه کن</button>
+    </div>
+
+    <div class="login-form__submit">
+      <button class="btn btn--secondary btn--capsole btn--wide">آپلود فایل CSV</button>
     </div>
   </form>
 </section>

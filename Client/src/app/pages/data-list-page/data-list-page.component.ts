@@ -17,9 +17,8 @@ export class DataListPageComponent implements OnInit {
   faPlus = faPlus;
 
   allData: Data[] = [
-    new Data(1, "داده‌ی نخست", DataType.csv),
-    new Data(2, "داده‌ی دوم", DataType.sqlServer),
-    new Data(3, "داده‌ای جدید", DataType.sqlServer),
+    new Data(1, "تولیدکنندگان موبایل", DataType.csv),
+    new Data(2, "پایگاه داده‌ی مقصد", DataType.sqlServer),
   ];
 
   constructor(private dialog: MatDialog) {
@@ -48,6 +47,7 @@ export class DataListPageComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    return;
     const dialogConfig = new MatDialogConfig();
     dialogConfig.autoFocus = true;
     dialogConfig.disableClose = true;
