@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {faChartPie, faTable} from '@fortawesome/free-solid-svg-icons';
+import {faChartPie, faTable, faPlay, faPlus} from '@fortawesome/free-solid-svg-icons';
 import {ActivatedRoute} from "@angular/router";
 import Pipe from "../../models/pipe";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
@@ -16,6 +16,8 @@ import ActionItem, { ActionConfig, ActionType, FilterActionConfig, JoinActionCon
 export class PipelineComponent implements OnInit {
   faDatabase = faChartPie;
   faTable = faTable;
+  faPlay = faPlay;
+  faPlus = faPlus;
   pipe = new Pipe(1, "لوله‌ی اول");
 
   constructor(private route: ActivatedRoute, private dialog: MatDialog) { }

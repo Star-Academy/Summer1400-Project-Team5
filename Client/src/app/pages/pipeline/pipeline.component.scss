@@ -38,6 +38,8 @@
       display: flex;
       gap: .6rem;
       align-items: center;
+      justify-content: center;
+      align-content: center;
     }
 
     &__center {
@@ -106,4 +108,48 @@
   }
 
 
+}
+
+.pipeline-run-button {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 4rem;
+  font-size: 1.5rem;
+  width: 4rem;
+  height: 4rem;
+  border-radius: 2rem;
+  background-color: $color-primary;
+  color: white;
+}
+
+.pipeline-add-button {
+  text-align: center;
+  vertical-align: middle;
+  line-height: 4rem;
+  font-size: 2rem;
+  width: 4rem;
+  height: 4rem;
+  color: $color-primary;
+}
+
+.pipeline-top__center, .pipeline-top__right {
+  display: none;
+}
+
+#top-right-pipename {
+  display: none;
+}
+
+@media (min-width: 956px) {
+  .pipeline-top__center {
+    display: inline;
+  }
+
+  .pipeline-top__right {
+    display: flex;
+  }
+
+  #top-right-pipename {
+    display: flex;
+  }
 }

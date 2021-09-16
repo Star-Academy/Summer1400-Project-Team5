@@ -1,7 +1,7 @@
 <div class="pipeline">
     <div class="pipeline__content">
         <div class="pipeline-top">
-            <div class="pipeline-top__right">
+            <div class="pipeline-top__right" id="top-right-pipename">
                 <h3>
                     <img src="assets/images/pipeline/pipe.svg" alt="pipeline">
                     {{pipe.name}}
@@ -21,12 +21,13 @@
                 </p>
             </div>
             <div class="pipeline-top__left">
-                <button class="pipeline-top__run" (click)="addActionTapped()">
-                    <span></span>
+                <button class="pipeline-add-button" (click)="addActionTapped()">
+                    <fa-icon [icon]="faPlus"></fa-icon>
                 </button>
-                <button class="pipeline-top__run" (click)="runPipeTapped()">
-                    <span></span>
+                <button class="pipeline-add-button" (click)="runPipeTapped()">
+                    <fa-icon [icon]="faPlay"></fa-icon>
                 </button>
+                
             </div>
         </div>
         <div class="pipeline__action-details">
