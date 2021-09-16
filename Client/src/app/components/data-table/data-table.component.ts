@@ -1,6 +1,6 @@
 import { literalMap } from '@angular/compiler';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import ActionItem, { ActionType, AggregateActionConfig, CalculateActionConfig, CalculateType, FilterActionConfig } from 'src/app/models/action';
+import ActionItem, { ActionType, AggregateActionConfig, AggregateType, CalculateActionConfig, CalculateType, FilterActionConfig } from 'src/app/models/action';
 
 @Component({
   selector: 'app-data-table',
@@ -113,17 +113,40 @@ export class DataTableComponent implements OnInit {
         .replace(/\d/g, (x: any) => farsiDigits[x]);
   }
 
-  findItemInDataSource(item: any, newDataSource: any, groupColumn: string, addColumn: string): boolean {
+  findItemInDataSource(item: any, newDataSource: any, groupColumn: string, addColumn: string, type: AggregateType): boolean {
     for (const newItem of newDataSource) {
       if (newItem[groupColumn] == item[groupColumn]) {
         for (const key in item) {
           if (item.hasOwnProperty(key) && key != groupColumn && key != addColumn) {
-            if (this.isNumber(item[key]) && this.isNumber(newItem[key])) {
-              let newInt = parseFloat(newItem[key]) + parseFloat(item[key]);
-              newItem[key] = newInt + "";
-            } else {
-              newItem[key] += item[key] + " ";
+            switch (type) {
+              case AggregateType.sum:
+                if (this.isNumber(item[key]) && this.isNumber(newItem[key])) {
+                  let newInt = parseFloat(newItem[key]) + parseFloat(item[key]);
+                  newItem[key] = newInt + "";
+                } else {
+                  newItem[key] += item[key] + " ";
+                }
+                break;
+              case AggregateType.min:
+                if (this.isNumber(item[key]) && this.isNumber(newItem[key])) {
+                  if (parseFloat(newItem[key]) > parseFloat(item[key])) newItem[key] = item[key]
+                }
+                break;
+              case AggregateType.max:
+                if (this.isNumber(item[key]) && this.isNumber(newItem[key])) {
+                  if (parseFloat(newItem[key]) < parseFloat(item[key])) newItem[key] = item[key]
+                }
+                break;
+              case AggregateType.count:
+                if (this.isNumber(item[key]) && this.isNumber(newItem[key])) {
+                  let newInt = parseFloat(newItem[key]) + 1;
+                  newItem[key] = newInt + "";
+                }
+                break;
             }
+            
+            
+
           }
         }
         return true;
@@ -151,12 +174,13 @@ export class DataTableComponent implements OnInit {
       this.displayedColumns.splice(index, 1);
     }
     for (const item of dataSource) {
-      if (!this.findItemInDataSource(item, newDataSource, groupColumn, addColumn)) {
+      if (!this.findItemInDataSource(item, newDataSource, groupColumn, addColumn, config.type)) {
         let newItem: any = {};
 
         for (const key in item) {
           if (item.hasOwnProperty(key) && key != addColumn) {
-            newItem[key] = item[key];
+            if (config.type == AggregateType.count && key != groupColumn) newItem[key] = 1;
+            else newItem[key] = item[key];
           }
         }
 

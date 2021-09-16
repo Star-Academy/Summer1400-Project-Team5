@@ -47,6 +47,16 @@
 
     <div *ngIf="selectedType == 'جمع‌آوری'">
       <label class="login-form__label">
+        <div class="login-form__label__title">عملیات</div>
+        <select name="aggregate_type" [(ngModel)]="aggregate_type">
+          <option>شمارش</option>
+          <option>جمع</option>
+          <option>حداقل</option>
+          <option>حداکثر</option>
+        </select>
+      </label>
+
+      <label class="login-form__label">
         <div class="login-form__label__title">ستون گروه‌بندی</div>
         <input class="inp login-form__label__input" type="text" [ngModelOptions]="{standalone: true}"  [(ngModel)]="aggregate_groupColumn"/>
       </label>

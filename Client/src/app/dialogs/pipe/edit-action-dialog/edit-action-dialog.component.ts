@@ -1,7 +1,7 @@
 import { Component, Inject, Input, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { faCogs } from '@fortawesome/free-solid-svg-icons';
-import action, { AggregateActionConfig, CalculateActionConfig, CalculateType, FilterActionConfig } from 'src/app/models/action';
+import action, { AggregateActionConfig, AggregateType, CalculateActionConfig, CalculateType, FilterActionConfig } from 'src/app/models/action';
 import ActionItem, { ActionType, JoinActionConfig } from 'src/app/models/action';
 
 @Component({
@@ -24,6 +24,7 @@ export class EditActionDialogComponent implements OnInit {
 
   join_selectedData = "محصول تولیدکنندگان"
 
+  aggregate_type = "";
   aggregate_groupColumn = "";
   aggregate_addColumn = "";
 
@@ -53,6 +54,28 @@ export class EditActionDialogComponent implements OnInit {
     }
   }
 
+  convertEnumToPersianAgg(type: AggregateType): string {
+    switch (type) {
+      case AggregateType.count: return "شمارش";
+      case AggregateType.sum: return "جمع";
+      case AggregateType.average: return "میانگین";
+      case AggregateType.min: return "حداقل";
+      case AggregateType.max: return "حداکثر";
+      default: return "جمع";
+    }
+  }
+
+  convertPersianToEnumAgg(persian: string): AggregateType {
+    switch (persian) {
+      case "شمارش": return AggregateType.count;
+      case "جمع": return AggregateType.sum;
+      case "میانگین": return AggregateType.average;
+      case "حداقل": return AggregateType.min;
+      case "حداکثر": return AggregateType.max;
+      default: return AggregateType.sum;
+    }
+  }
+
   ngOnInit(): void {
     switch (this.action.type) {
       case ActionType.join:
@@ -63,6 +86,7 @@ export class EditActionDialogComponent implements OnInit {
         let aggregateConfig = this.action.config as AggregateActionConfig;
         this.aggregate_groupColumn = aggregateConfig.groupColumn;
         this.aggregate_addColumn = aggregateConfig.addColumn;
+        this.aggregate_type = this.convertEnumToPersianAgg(aggregateConfig.type);
         break;
       case ActionType.filter:
         this.selectedType = "فیلتر";
@@ -96,6 +120,7 @@ export class EditActionDialogComponent implements OnInit {
         let a = new AggregateActionConfig();
         a.addColumn = this.aggregate_addColumn;
         a.groupColumn = this.aggregate_groupColumn;
+        a.type = this.convertPersianToEnumAgg(this.aggregate_type);
         this.action.config = a;
         break;
       case "فیلتر":

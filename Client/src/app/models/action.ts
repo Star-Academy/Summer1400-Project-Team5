@@ -6,6 +6,14 @@ export enum ActionType {
     aggregate = 2,
     calculate = 3,
 }
+
+export enum AggregateType {
+    sum = 0,
+    count = 1,
+    average = 2,
+    min = 3,
+    max = 4,
+}
   
 export class ActionConfig {
 }
@@ -20,6 +28,7 @@ export class FilterActionConfig extends ActionConfig {
     columnLess = "";
 }
 export class AggregateActionConfig extends ActionConfig {
+    type = AggregateType.sum;
     groupColumn = "";
     addColumn = "";
 }
