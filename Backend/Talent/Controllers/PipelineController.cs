@@ -13,7 +13,8 @@ using YamlDotNet.RepresentationModel;
 
 namespace Talent.Controllers
 {
-   [Authorize]
+   // [Authorize]
+   [Route("pipeline/")]
    public class PipelineController : ControllerBase
    {
        private readonly IUnitOfWork _unitOfWork;
@@ -28,17 +29,16 @@ namespace Talent.Controllers
             _sqlHandler = sqlHandler;
        }
 
-       [Route("[controller]")]
+       [Route("pipeline-list")]
        [HttpGet]
-       public async Task<IActionResult> Get()
+       public IActionResult GetPipelinesList()
        {
-           string userId = _userManager.GetUserId(User);
-           var listPipelines = await _unitOfWork.Pipelines.GetAllAsync(p => p.OwnerId == userId);
-           var listPipelineModels = listPipelines.Select(PipelineConvertor.ConvertPipelineModel).ToList();
-           return Ok(listPipelineModels);
+           var userId = _userManager.GetUserId(User);
+           var listPipelines = _unitOfWork.Pipelines.GetAllAsync(p => p.Owner.Id == userId).Result;
+           return Ok(listPipelines);
        }
 
-       [Route("[controller]/{pipelineId:int}")]
+       [Route("pipeline/{pipelineId:int}")]
        [HttpGet]
        public async Task<IActionResult> GetPipeline(int pipelineId)
        {
@@ -47,7 +47,7 @@ namespace Talent.Controllers
        }
 
 
-       [Route("[controller]/kill/{pipelineId:int}")]
+       [Route("kill/{pipelineId:int}")]
        [HttpPost]
        public void KillPipeline(int pipelineId)
        {
@@ -55,9 +55,9 @@ namespace Talent.Controllers
            DeleteProcessInfo(pipelineId);
        }
 
-       [Route("[controller]/status/{pipelineId:int}")]
+       [Route("status/{pipelineId:int}")]
        [HttpPost]
-       public IActionResult PipelineStatus(int pipelineId)
+       public IActionResult GetPipelineStatus(int pipelineId)
        {
            var stat = GetProcessInfoModel(pipelineId);
            return Ok(stat);
@@ -76,7 +76,7 @@ namespace Talent.Controllers
        }
 
 
-       [Route("[controller]")]
+       [Route("create-pipeline")]
        [HttpPost]
        public async Task<IActionResult> Post([FromBody] string name, [FromBody] int sourceId,
            [FromBody] int destinationId)
@@ -97,8 +97,8 @@ namespace Talent.Controllers
        {
            Pipeline pipeline = new Pipeline();
            pipeline.Name = name;
-           pipeline.DestinationId = destinationId;
-           pipeline.SourceId = sourceId;
+           pipeline.Destination = _unitOfWork.DataSources.GetAsync(d => d.Id == destinationId).Result;
+           pipeline.Source = _unitOfWork.DataSources.GetAsync(d => d.Id == sourceId).Result;
            pipeline.Process = new PipelineProcess();
            return pipeline;
        }
@@ -108,7 +108,7 @@ namespace Talent.Controllers
        {
            string userId = GetUserId();
            var pipeline = await _unitOfWork.Pipelines
-               .GetAsync(p => p.OwnerId == userId && p.PipelineId == pipelineId);
+               .GetAsync(p => p.Owner.Id == userId && p.PipelineId == pipelineId);
            PipelineModel pipelineModel = PipelineConvertor.ConvertPipelineModel(pipeline);
            return pipelineModel;
        }
@@ -119,8 +119,8 @@ namespace Talent.Controllers
        }
 
        [HttpPost]
-       [Route("[controller]/actions/{pipelineId:int}")]
-       public async Task<IActionResult> Processes(int pipelineId, [FromBody] List<AggregationModel> aggregations,
+       [Route("update-pipeline/{pipelineId:int}")]
+       public async Task<IActionResult> UpdatePipeline(int pipelineId, [FromBody] List<AggregationModel> aggregations,
            [FromBody] List<FilterModel> filters, [FromBody] List<JoinModel> joins)
        {
            var pipelineProcess = await _unitOfWork.PipelineProcesses.GetAsync(p => p.PipelineId == pipelineId);
@@ -211,7 +211,7 @@ namespace Talent.Controllers
        {
            var userId = GetUserId();
            var pipeline = await _unitOfWork.Pipelines
-               .GetAsync(p => p.OwnerId == userId && p.PipelineId == pipelineId);
+               .GetAsync(p => p.Owner.Id == userId && p.PipelineId == pipelineId);
 
            const string initialContent = "---\nversion: 1\n...";
 
@@ -222,10 +222,10 @@ namespace Talent.Controllers
            var rootMappingNode = (YamlMappingNode)stream.Documents[0].RootNode;
            var details = new YamlMappingNode();
            details.Add("Name", pipeline.Name);
-           details.Add("OwnerId", pipeline.OwnerId);
-           details.Add("Destination", pipeline.DestinationId.ToString());
+           details.Add("OwnerId", pipeline.Owner.Id);
+           details.Add("Destination", pipeline.Destination.Id.ToString());
            details.Add("PipelineId", pipeline.PipelineId.ToString());
-           details.Add("SourceId", pipeline.SourceId.ToString());
+           details.Add("SourceId", pipeline.Source.Id.ToString());
            var process = new YamlMappingNode();
            var allProcesses = new YamlMappingNode();
            var processes = pipeline.Process.Processes;

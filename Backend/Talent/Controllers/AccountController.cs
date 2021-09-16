@@ -9,6 +9,7 @@ using Talent.Models;
 
 namespace Talent.Controllers
 {
+    [Route("account/{action}")]
     public class AccountController : ControllerBase
     {
         private readonly UserManager<AppUser> _userManager;
@@ -24,7 +25,6 @@ namespace Talent.Controllers
         }
 
         [HttpPost]
-        [Route("{controller}/{action}")]
         public async Task<IActionResult> Register([FromBody] UserModel userModel)
         {
             if (ModelState.IsValid)
@@ -44,7 +44,6 @@ namespace Talent.Controllers
         }
 
         [HttpPost]
-        [Route("{controller}/{action}")]
         public async Task<IActionResult> Login([FromBody] UserModel userModel)
         {
             if (ModelState.IsValid)
@@ -65,7 +64,6 @@ namespace Talent.Controllers
 
         [HttpPost]
         [Authorize]
-        [Route("{controller}/{action}")]
         public async Task<IActionResult> Logout()
         {
             await _signInManager.SignOutAsync();

@@ -41,7 +41,7 @@ namespace Talent
                 string dbId = Environment.GetEnvironmentVariable("DB_ID");
                 string dbPs = Environment.GetEnvironmentVariable("DB_PS");
                 string connectionString = string.Format(
-                    Configuration.GetConnectionString("localConnection"),
+                    Configuration.GetConnectionString("testConnection"),
                     dbId, dbPs
                 );
 
@@ -54,7 +54,7 @@ namespace Talent
             }).AddEntityFrameworkStores<AppDbContext>();
 
             var singletonSqlHandler =
-                new SqlHandler(new SqlConnection(Configuration.GetConnectionString("localConnection")));
+                new SqlHandler(new SqlConnection(Configuration.GetConnectionString("testConnection")));
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddSingleton<ISqlTable, SqlTable>();
             services.AddSingleton<ICsvToTable, CsvToTable>();
@@ -65,7 +65,8 @@ namespace Talent
             services.AddSingleton<ICsvDownloader, CsvDownloader>();
             services.AddSingleton<ISqlToJson, SqlToJson>();
             services.AddScoped<TokenGenerator, TokenGenerator>();
-
+            services.AddSingleton<DataReaderToDataTable, DataReaderToDataTable>();
+            services.AddSingleton<SqlReaderToTempData, SqlReaderToTempData>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

@@ -150,30 +150,6 @@ namespace Talent.Migrations
                     b.ToTable("AspNetUserTokens");
                 });
 
-            modelBuilder.Entity("Talent.Data.Entities.Aggregate", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Aggregates");
-                });
-
-            modelBuilder.Entity("Talent.Data.Entities.Aggregation", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Aggregations");
-                });
-
             modelBuilder.Entity("Talent.Data.Entities.AppUser", b =>
                 {
                     b.Property<string>("Id")
@@ -262,57 +238,75 @@ namespace Talent.Migrations
                     b.ToTable("DataSources");
                 });
 
-            modelBuilder.Entity("Talent.Data.Entities.Filter", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Filters");
-                });
-
-            modelBuilder.Entity("Talent.Data.Entities.Join", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int")
-                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
-
-                    b.HasKey("Id");
-
-                    b.ToTable("Joins");
-                });
-
             modelBuilder.Entity("Talent.Data.Entities.Pipeline", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PipelineId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("AppUserId")
+                    b.Property<int?>("DestinationId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("OwnerId")
                         .HasColumnType("nvarchar(450)");
 
-                    b.HasKey("Id");
+                    b.Property<int?>("SourceId")
+                        .HasColumnType("int");
 
-                    b.HasIndex("AppUserId");
+                    b.HasKey("PipelineId");
+
+                    b.HasIndex("DestinationId");
+
+                    b.HasIndex("OwnerId");
+
+                    b.HasIndex("SourceId");
 
                     b.ToTable("Pipelines");
                 });
 
             modelBuilder.Entity("Talent.Data.Entities.PipelineProcess", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("PipelineProcessId")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.HasKey("Id");
+                    b.Property<int>("PipelineId")
+                        .HasColumnType("int");
+
+                    b.HasKey("PipelineProcessId");
+
+                    b.HasIndex("PipelineId")
+                        .IsUnique();
 
                     b.ToTable("PipelineProcesses");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.Processor", b =>
+                {
+                    b.Property<int>("ProcessId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("Index")
+                        .HasColumnType("int");
+
+                    b.Property<int>("PipelineProcessId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("ProcessType")
+                        .HasColumnType("int");
+
+                    b.HasKey("ProcessId");
+
+                    b.HasIndex("PipelineProcessId");
+
+                    b.ToTable("Processes");
                 });
 
             modelBuilder.Entity("Talent.Data.Entities.TempDataSource", b =>
@@ -393,9 +387,45 @@ namespace Talent.Migrations
 
             modelBuilder.Entity("Talent.Data.Entities.Pipeline", b =>
                 {
-                    b.HasOne("Talent.Data.Entities.AppUser", null)
+                    b.HasOne("Talent.Data.Entities.DataSource", "Destination")
+                        .WithMany()
+                        .HasForeignKey("DestinationId");
+
+                    b.HasOne("Talent.Data.Entities.AppUser", "Owner")
                         .WithMany("Pipelines")
-                        .HasForeignKey("AppUserId");
+                        .HasForeignKey("OwnerId");
+
+                    b.HasOne("Talent.Data.Entities.DataSource", "Source")
+                        .WithMany()
+                        .HasForeignKey("SourceId");
+
+                    b.Navigation("Destination");
+
+                    b.Navigation("Owner");
+
+                    b.Navigation("Source");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.PipelineProcess", b =>
+                {
+                    b.HasOne("Talent.Data.Entities.Pipeline", "Pipeline")
+                        .WithOne("Process")
+                        .HasForeignKey("Talent.Data.Entities.PipelineProcess", "PipelineId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Pipeline");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.Processor", b =>
+                {
+                    b.HasOne("Talent.Data.Entities.PipelineProcess", "PipelineProcess")
+                        .WithMany("Processes")
+                        .HasForeignKey("PipelineProcessId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("PipelineProcess");
                 });
 
             modelBuilder.Entity("Talent.Data.Entities.AppUser", b =>
@@ -403,6 +433,16 @@ namespace Talent.Migrations
                     b.Navigation("DataSources");
 
                     b.Navigation("Pipelines");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.Pipeline", b =>
+                {
+                    b.Navigation("Process");
+                });
+
+            modelBuilder.Entity("Talent.Data.Entities.PipelineProcess", b =>
+                {
+                    b.Navigation("Processes");
                 });
 #pragma warning restore 612, 618
         }
