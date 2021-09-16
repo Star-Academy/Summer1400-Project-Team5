@@ -1,6 +1,6 @@
 import { literalMap } from '@angular/compiler';
 import { Component, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
-import ActionItem, { ActionType, AggregateActionConfig, FilterActionConfig } from 'src/app/models/action';
+import ActionItem, { ActionType, AggregateActionConfig, CalculateActionConfig, CalculateType, FilterActionConfig } from 'src/app/models/action';
 
 @Component({
   selector: 'app-data-table',
@@ -85,7 +85,7 @@ export class DataTableComponent implements OnInit {
         for (const key in item) {
           if (item.hasOwnProperty(key) && key != groupColumn && key != addColumn) {
             if (this.isNumber(item[key]) && this.isNumber(newItem[key])) {
-              let newInt = parseInt(newItem[key]) + parseInt(item[key]);
+              let newInt = parseFloat(newItem[key]) + parseFloat(item[key]);
               newItem[key] = newInt + "";
             } else {
               newItem[key] += item[key] + " ";
@@ -104,11 +104,11 @@ export class DataTableComponent implements OnInit {
       case "سال": return "year";
       case "تعداد فروش": return "number";
       case "میزان درآمد": return "revenue";
-      default: return "";
+      default: return persian;
     }
   }
 
-  aggregate(action: ActionItem, config: AggregateActionConfig, dataSource: any): any { // returns newDataSource
+  aggregate(config: AggregateActionConfig, dataSource: any): any { // returns newDataSource
     let newDataSource: any[] = [];
     let groupColumn = this.findColumnNameInCode(config.groupColumn);
     let addColumn = this.findColumnNameInCode(config.addColumn);
@@ -132,6 +132,37 @@ export class DataTableComponent implements OnInit {
     return newDataSource;
   }
 
+  findCalculationResult(firstOperand: any, secondOperand: any, type: CalculateType): any {
+    switch (type) {
+      case CalculateType.add:
+        if (this.isNumber(firstOperand) && this.isNumber(secondOperand)) {
+          return (parseFloat(firstOperand) + parseFloat(secondOperand)) + "";
+        }
+        return firstOperand + " " + secondOperand;
+      case CalculateType.subtract: 
+        return (parseFloat(firstOperand) - parseFloat(secondOperand)) + "";
+      case CalculateType.multiply: 
+        return (parseFloat(firstOperand) * parseFloat(secondOperand)) + "";
+      case CalculateType.divide: 
+        return (parseFloat(firstOperand) / parseFloat(secondOperand)) + "";
+      default: return firstOperand + " " + secondOperand;
+    }
+  }
+
+  calculate(config: CalculateActionConfig, dataSource: any): any { // returns newDataSource
+    let newDataSource: any[] = [];
+    let firstOperand = this.findColumnNameInCode(config.firstOperand);
+    let secondOperand = this.findColumnNameInCode(config.secondOperand);
+    let type = config.type;
+    for (const item of dataSource) {
+      let newItem = JSON.parse(JSON.stringify(item));
+      newItem["calculation_result"] = this.findCalculationResult(newItem[firstOperand], newItem[secondOperand], type);
+      newDataSource.push(newItem);
+    }
+    this.displayedColumns.push("calculation_result");
+    return newDataSource;
+  }
+
   populateDataSource() {
     this.displayedColumns = ["vendor", "year", "number"];
     let dataSource = [];
@@ -141,10 +172,13 @@ export class DataTableComponent implements OnInit {
 
     for (const action of this.originalActions) {
       switch (action.type) {
-        case ActionType.calculate: return // TODO: OOOO
+        case ActionType.calculate:
+          let cConfig = action.config as CalculateActionConfig;
+          dataSource = this.calculate(cConfig, dataSource);
+          break;
         case ActionType.aggregate: 
           let aConfig = action.config as AggregateActionConfig;
-          dataSource = this.aggregate(action, aConfig, dataSource);
+          dataSource = this.aggregate(aConfig, dataSource);
           break;
         case ActionType.join: 
           // TODO: Important: JOIN!

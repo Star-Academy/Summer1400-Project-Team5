@@ -6,7 +6,7 @@ import Pipe from "../../models/pipe";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
 import {ServerRequestDialogComponent} from "../../dialogs/server-request-dialog/server-request-dialog.component";
 import RequestData, {RequestMethod} from "../../models/request-data";
-import ActionItem, { ActionConfig, ActionType, JoinActionConfig } from 'src/app/models/action';
+import ActionItem, { ActionConfig, ActionType, FilterActionConfig, JoinActionConfig } from 'src/app/models/action';
 
 @Component({
   selector: 'app-pipeline',
