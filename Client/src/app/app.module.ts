@@ -25,6 +25,7 @@ import { DataTableComponent } from './components/data-table/data-table.component
 import { ServerRequestDialogComponent } from './dialogs/server-request-dialog/server-request-dialog.component';
 import { MaterialModule } from './material/material.module';
 import { HttpClientModule } from '@angular/common/http';
+import { NgxChartsModule } from '@swimlane/ngx-charts';
 
 @NgModule({
   declarations: [
@@ -56,6 +57,7 @@ import { HttpClientModule } from '@angular/common/http';
     FormsModule,
     MaterialModule,
     HttpClientModule,
+    NgxChartsModule
   ],
   providers: [],
   bootstrap: [AppComponent],

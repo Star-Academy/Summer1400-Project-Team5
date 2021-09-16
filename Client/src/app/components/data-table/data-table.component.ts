@@ -65,6 +65,22 @@ export class DataTableComponent implements OnInit {
 
   dataSource = this.originalDataSource;
 
+  chartDataSource: any[] = [
+    { name: "", value: 0 }
+  ];
+
+  populateChartDataSource() {
+    let newDataSource: any[] = [];
+    const hasCalculationDone = this.displayedColumns.includes("calculation_result");
+    for (const item of this.dataSource) {
+      newDataSource.push({ name: item.vendor, value: !hasCalculationDone ? item.number : item.calculation_result });
+    }
+
+    if (newDataSource.length != 0) {
+      this.chartDataSource = newDataSource;
+    }
+  }
+
   @HostListener('document:keydown.escape', ['$event']) onKeydownHandler(event: KeyboardEvent) {
     this.reloadTapped();
   }
@@ -77,6 +93,24 @@ export class DataTableComponent implements OnInit {
     return ((value != null) &&
             (value !== '') &&
             !isNaN(Number(value.toString())));
+  }
+
+  formatNumber(value: any): string {
+    let originalValue = parseInt(value);
+    if (originalValue >= 1000000000) {
+      return this.toFarsiNumber((originalValue / 1000000000) + " میلیارد");
+    }
+    if (originalValue >= 1000000) {
+      return this.toFarsiNumber((originalValue / 1000000) + " میلیون");
+    }
+    return this.toFarsiNumber(originalValue + "");
+  }
+
+  toFarsiNumber(n: any) {
+    const farsiDigits = ['۰', '۱', '۲', '۳', '۴', '۵', '۶', '۷', '۸', '۹'];
+    return n
+        .toString()
+        .replace(/\d/g, (x: any) => farsiDigits[x]);
   }
 
   findItemInDataSource(item: any, newDataSource: any, groupColumn: string, addColumn: string): boolean {
@@ -212,6 +246,7 @@ export class DataTableComponent implements OnInit {
     }
 
     this.dataSource = dataSource;
+    this.populateChartDataSource();
   }
 
   displayedColumns = ["vendor", "year", "number"];
