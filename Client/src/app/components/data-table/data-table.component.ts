@@ -73,6 +73,66 @@ export class DataTableComponent implements OnInit {
     this.populateDataSource();
   }
 
+  isNumber(value: string | number): boolean {
+    return ((value != null) &&
+            (value !== '') &&
+            !isNaN(Number(value.toString())));
+  }
+
+  findItemInDataSource(item: any, newDataSource: any, groupColumn: string, addColumn: string): boolean {
+    for (const newItem of newDataSource) {
+      if (newItem[groupColumn] == item[groupColumn]) {
+        for (const key in item) {
+          if (item.hasOwnProperty(key) && key != groupColumn && key != addColumn) {
+            if (this.isNumber(item[key]) && this.isNumber(newItem[key])) {
+              console.log("here " + key);
+              let newInt = parseInt(newItem[key]) + parseInt(item[key]);
+              newItem[key] = newInt + "";
+            } else {
+              newItem[key] += item[key] + " ";
+            }
+          }
+        }
+        return true;
+      }
+    }
+    return false;
+  }
+
+  findColumnNameInCode(persian: string) {
+    switch (persian) {
+      case "سازنده": return "vendor";
+      case "سال": return "year";
+      case "تعداد فروش": return "number";
+      case "میزان درآمد": return "revenue";
+      default: return "";
+    }
+  }
+
+  aggregate(action: ActionItem, config: AggregateActionConfig, dataSource: any): any { // returns newDataSource
+    let newDataSource: any[] = [];
+    let groupColumn = this.findColumnNameInCode(config.groupColumn);
+    let addColumn = this.findColumnNameInCode(config.addColumn);
+    const index = this.displayedColumns.indexOf(addColumn);
+    if (index > -1) {
+      this.displayedColumns.splice(index, 1);
+    }
+    for (const item of dataSource) {
+      if (!this.findItemInDataSource(item, newDataSource, groupColumn, addColumn)) {
+        let newItem: any = {};
+
+        for (const key in item) {
+          if (item.hasOwnProperty(key) && key != addColumn) {
+            newItem[key] = item[key];
+          }
+        }
+
+        newDataSource.push(newItem);
+      }
+    }
+    return newDataSource;
+  }
+
   populateDataSource() {
     this.displayedColumns = ["vendor", "year", "number"];
     let dataSource = [];
@@ -84,13 +144,8 @@ export class DataTableComponent implements OnInit {
       switch (action.type) {
         case ActionType.aggregate: 
           let aConfig = action.config as AggregateActionConfig;
-          let newDataSource: any[] = [];
-          
-
-
+          dataSource = this.aggregate(action, aConfig, dataSource);
           break;
-
-
         case ActionType.join: 
           // TODO: Important: JOIN!
           for (let i = 0; i < dataSource.length; i++) {
