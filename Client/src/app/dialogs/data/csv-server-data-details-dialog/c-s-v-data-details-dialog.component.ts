@@ -11,6 +11,10 @@ import {MAT_DIALOG_DATA} from '@angular/material/dialog';
 export class CSVDataDetailsDialogComponent implements OnInit {
   fileAddress = "";
 
+  rowSeperator = "<br />"
+  columnSeperator = ",";
+  showColNames = "نمایش داده شود";
+
   originalDataSource: any[] = [
     { vendor: "اپل", year: "2021", number: "141000000" },
     { vendor: "سامسونگ", year: "2021", number: "188000000" },
@@ -32,10 +36,17 @@ export class CSVDataDetailsDialogComponent implements OnInit {
     const items = this.originalDataSource
     const replacer = (key: any, value: any) => value === null ? 'null' : value
     const header = Object.keys(items[0])
-    const csv = [
-      header.join(','),
-      ...items.map((row: any) => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
-    ].join('<br>')
+    let csv: string;
+    if (this.showColNames == "نمایش داده شود") {
+      csv = [
+        header.join(this.columnSeperator),
+        ...items.map((row: any) => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+      ].join(this.rowSeperator);
+    } else {
+      csv = [
+        ...items.map((row: any) => header.map(fieldName => JSON.stringify(row[fieldName], replacer)).join(','))
+      ].join(this.rowSeperator);
+    }
     let tab = window.open('about:blank', '_blank');
     tab?.document.write(csv);
     tab?.document.close();

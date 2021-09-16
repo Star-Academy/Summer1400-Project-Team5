@@ -3,11 +3,35 @@
     {{data.name}}
   </h1>
   <form class="login-form">
-    <div class="login-form__submit">
-      <button class="btn btn--secondary btn--capsole btn--wide">بارگذاری فایل CSV جدید</button>
-    </div>
+    <label class="login-form__label">
+      <div class="login-form__label__title">کاراکتر جداکننده‌ی سطرها</div>
+      <input style="width:100%" dir="ltr" class="inp login-form__label__input" type="text" [(ngModel)]="rowSeperator" [ngModelOptions]="{standalone: true}"/>
+    </label>
+
+    <label class="login-form__label">
+      <div class="login-form__label__title">کاراکتر جداکننده‌ی ستون‌ها</div>
+      <input style="width:100%" dir="ltr" class="inp login-form__label__input" type="text" [(ngModel)]="columnSeperator" [ngModelOptions]="{standalone: true}"/>
+    </label>
+
+    <label class="login-form__label">
+      <div class="login-form__label__title">نام ستون‌ها</div>
+      <select name="showColNames" [(ngModel)]="showColNames">
+        <option>نمایش داده شود</option>
+        <option>نمایش  داده نشود</option>
+      </select>
+    </label>
+  
+
     <div class="login-form__submit">
       <button class="btn btn--secondary btn--capsole btn--wide" (click)="downloadCSVTapped()">دانلود داده به صورت CSV</button>
+    </div>
+
+    <br/>
+    <br/>
+    <br/>
+
+    <div class="login-form__submit">
+      <button class="btn btn--secondary btn--capsole btn--wide">بارگذاری فایل CSV جدید</button>
     </div>
   </form>
 </section>
