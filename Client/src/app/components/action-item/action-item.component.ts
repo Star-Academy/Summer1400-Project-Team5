@@ -6,7 +6,7 @@ import {CSVDataDetailsDialogComponent} from "../../dialogs/data/csv-server-data-
 import {SQLServerDataDetailsDialogComponent} from "../../dialogs/data/sql-data-details-dialog/s-q-l-server-data-details-dialog.component";
 import {EditActionDialogComponent} from "../../dialogs/pipe/edit-action-dialog/edit-action-dialog.component";
 import { Action } from 'rxjs/internal/scheduler/Action';
-import ActionItem, { ActionConfig, ActionType, JoinActionConfig } from 'src/app/models/action';
+import ActionItem, { ActionConfig, ActionType, FilterActionConfig, JoinActionConfig } from 'src/app/models/action';
 
 @Component({
   selector: 'app-action-item',
@@ -19,12 +19,11 @@ export class ActionItemComponent implements OnInit {
   faDatabase = faDatabase;
   faAngleLeft = faAngleLeft;
 
-  @Input() action: ActionItem = new ActionItem(ActionType.join, new JoinActionConfig());
+  @Input() action: ActionItem = new ActionItem(ActionType.filter, new FilterActionConfig());
 
   constructor(private dialog: MatDialog) { }
 
   ngOnInit(): void {
-    console.log(this.action);
   }
 
   openActionEditDialog(): void {

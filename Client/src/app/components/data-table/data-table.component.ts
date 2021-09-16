@@ -85,7 +85,6 @@ export class DataTableComponent implements OnInit {
         for (const key in item) {
           if (item.hasOwnProperty(key) && key != groupColumn && key != addColumn) {
             if (this.isNumber(item[key]) && this.isNumber(newItem[key])) {
-              console.log("here " + key);
               let newInt = parseInt(newItem[key]) + parseInt(item[key]);
               newItem[key] = newInt + "";
             } else {
@@ -142,6 +141,7 @@ export class DataTableComponent implements OnInit {
 
     for (const action of this.originalActions) {
       switch (action.type) {
+        case ActionType.calculate: return // TODO: OOOO
         case ActionType.aggregate: 
           let aConfig = action.config as AggregateActionConfig;
           dataSource = this.aggregate(action, aConfig, dataSource);

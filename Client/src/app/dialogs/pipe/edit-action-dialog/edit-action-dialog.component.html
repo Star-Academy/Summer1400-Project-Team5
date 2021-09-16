@@ -10,6 +10,7 @@
         <option>الحاق</option>
         <option>جمع‌آوری</option>
         <option>فیلتر</option>
+        <option>محاسبه</option>
       </select>
     </label>
 
@@ -53,6 +54,28 @@
       <label class="login-form__label">
         <div class="login-form__label__title" >ستون جمع‌شونده</div>
         <input class="inp login-form__label__input" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="aggregate_addColumn"/>
+      </label>
+    </div>
+
+    <div *ngIf="selectedType == 'محاسبه'">
+      <label class="login-form__label">
+        <div class="login-form__label__title">عملوند اول</div>
+        <input class="inp login-form__label__input" type="text" [ngModelOptions]="{standalone: true}"  [(ngModel)]="calculate_firstOperand"/>
+      </label>
+
+      <label class="login-form__label">
+        <div class="login-form__label__title" >عملوند دوم</div>
+        <input class="inp login-form__label__input" type="text" [ngModelOptions]="{standalone: true}" [(ngModel)]="calculate_secondOperand"/>
+      </label>
+
+      <label class="login-form__label">
+        <div class="login-form__label__title">عملیات</div>
+        <select name="calculate_type" [(ngModel)]="calculate_type">
+          <option>جمع</option>
+          <option>تفریق</option>
+          <option>ضرب</option>
+          <option>تقسیم</option>
+        </select>
       </label>
     </div>
 

@@ -42,6 +42,6 @@ export class PipelineComponent implements OnInit {
   }
 
   addActionTapped(): void {
-    this.pipe.actions.push(new ActionItem(ActionType.join, new JoinActionConfig()));
+    this.pipe.actions.push(new ActionItem(ActionType.filter, new FilterActionConfig()));
   }
 }
