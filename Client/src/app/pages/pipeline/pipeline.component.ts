@@ -1,6 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 
-import {faChartPie, faTable, faPlay, faPlus} from '@fortawesome/free-solid-svg-icons';
+import {faChartPie, faTable, faPlay, faPlus, faCross, faBackspace} from '@fortawesome/free-solid-svg-icons';
 import {ActivatedRoute} from "@angular/router";
 import Pipe from "../../models/pipe";
 import {MatDialog, MatDialogConfig} from "@angular/material/dialog";
@@ -18,7 +18,8 @@ export class PipelineComponent implements OnInit {
   faTable = faTable;
   faPlay = faPlay;
   faPlus = faPlus;
-  pipe = new Pipe(1, "لوله‌ی اول");
+  faMinus = faBackspace;
+  pipe = new Pipe(1, "تبدیل اول");
 
   constructor(private route: ActivatedRoute, private dialog: MatDialog) { }
 
@@ -45,5 +46,9 @@ export class PipelineComponent implements OnInit {
 
   addActionTapped(): void {
     this.pipe.actions.push(new ActionItem(ActionType.filter, new FilterActionConfig()));
+  }
+
+  removeLastActionTapped(): void {
+    this.pipe.actions.pop();
   }
 }

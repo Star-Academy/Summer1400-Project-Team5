@@ -6,7 +6,7 @@
     <div class="nav__text">
       <a routerLink="/">خانه</a>
       <a *ngIf="loginStatusService.isLoggedIn()" routerLink="data">داده‌ها</a>
-      <a *ngIf="loginStatusService.isLoggedIn()" routerLink="pipes">لوله‌ها</a>
+      <a *ngIf="loginStatusService.isLoggedIn()" routerLink="pipes">تبدیل‌ها</a>
       <a routerLink="/" fragment="section-about" id="link-about">درباره‌ی ما</a>
       <a *ngIf="!loginStatusService.isLoggedIn()" routerLink="login">ورود</a>
       <a *ngIf="!loginStatusService.isLoggedIn()" routerLink="">ثبت‌نام</a>
